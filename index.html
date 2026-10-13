@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portail EPS — Y. Dartois</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f6fb; --surface:#fff; --text:#141a2b; --muted:#5f6b85;
+  --line:#e2e7f0; --accent:#2457ff; --accent-soft:#e8eeff;
+  --c-coordo:#2457ff; --c-terrain:#0f9d6b; --c-autres:#8a6bff;
+  --shadow:0 1px 2px rgba(20,26,43,.05),0 6px 20px rgba(20,26,43,.06);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#0e1220; --surface:#171c2e; --text:#eef1f8; --muted:#9aa5bf;
+    --line:#262d44; --accent:#6d8dff; --accent-soft:#1f2848;
+    --c-coordo:#6d8dff; --c-terrain:#3ccf98; --c-autres:#a993ff;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25);
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.5}
+a{color:inherit}
+.wrap{max-width:1150px;margin:0 auto;padding:0 16px}
+
+header{background:linear-gradient(135deg,#1b3fd6,#2457ff 55%,#3fa0ff);color:#fff;padding:28px 0 64px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.18);
+  display:grid;place-items:center;font-size:22px}
+.brand b{display:block;font-size:18px}
+.brand span{opacity:.85;font-size:13px}
+.gh{font-size:13px;text-decoration:none;background:rgba(255,255,255,.16);
+  padding:8px 14px;border-radius:999px;white-space:nowrap}
+.gh:hover{background:rgba(255,255,255,.26)}
+h1{font-size:clamp(26px,5vw,40px);line-height:1.15;margin:34px 0 8px;font-weight:800;letter-spacing:-.02em}
+.lead{opacity:.9;margin:0;max-width:620px}
+.stats{display:flex;gap:28px;margin-top:22px;flex-wrap:wrap}
+.stats div b{display:block;font-size:26px;font-weight:800}
+.stats div span{font-size:13px;opacity:.85}
+
+.panel{margin-top:-36px;background:var(--surface);border-radius:16px;box-shadow:var(--shadow);
+  padding:16px;display:flex;flex-direction:column;gap:12px;position:relative;z-index:1}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.search{flex:1 1 240px;display:flex;align-items:center;gap:8px;border:1px solid var(--line);
+  border-radius:10px;padding:0 12px;background:var(--bg)}
+.search input{border:0;outline:0;background:transparent;color:var(--text);font:inherit;padding:10px 0;width:100%}
+select,.toggle{font:inherit;font-size:14px;color:var(--text);background:var(--bg);
+  border:1px solid var(--line);border-radius:10px;padding:9px 10px}
+.toggle{display:flex;gap:6px;align-items:center;cursor:pointer;user-select:none}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:transparent;color:var(--muted);font:inherit;font-size:13px;
+  font-weight:600;padding:7px 14px;border-radius:999px;cursor:pointer}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+
+.section{margin:34px 0 0}
+.section-head{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:10px;
+  border-bottom:2px solid var(--sec)}
+.section-ico{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:19px;
+  background:color-mix(in srgb,var(--sec) 14%,transparent)}
+.section-head h2{margin:0;font-size:21px;letter-spacing:-.01em}
+.section-head p{margin:0;font-size:13px;color:var(--muted)}
+.count{margin-left:auto;font-size:13px;font-weight:700;color:var(--sec);
+  background:color-mix(in srgb,var(--sec) 12%,transparent);padding:3px 10px;border-radius:999px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--sec);border-radius:14px;padding:18px;
+  display:flex;flex-direction:column;gap:10px;transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.card .head{display:flex;gap:12px;align-items:flex-start}
+.ico{flex:none;width:40px;height:40px;border-radius:10px;
+  background:color-mix(in srgb,var(--sec) 12%,transparent);display:grid;place-items:center;font-size:20px}
+.card h3{margin:0;font-size:16px;line-height:1.3;word-break:break-word}
+.sub{font-size:12px;color:var(--muted)}
+.desc{color:var(--muted);font-size:14px;margin:0;flex:1}
+.desc.empty{font-style:italic;opacity:.7}
+.meta{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.tag{background:var(--bg);border:1px solid var(--line);padding:1px 8px;border-radius:999px}
+.actions{display:flex;gap:8px}
+.btn{flex:1;text-align:center;text-decoration:none;font-size:14px;font-weight:600;
+  padding:9px 10px;border-radius:9px;border:1px solid var(--line)}
+.btn.primary{background:var(--sec);border-color:var(--sec);color:#fff}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn:not(.primary):hover{border-color:var(--sec);color:var(--sec)}
+.btn.off{opacity:.45;pointer-events:none}
+
+.msg{text-align:center;color:var(--muted);padding:50px 10px}
+.empty-sec{color:var(--muted);font-size:14px;font-style:italic;padding:6px 2px}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 30px}
+@media (max-width:520px){.stats{gap:18px}.gh span{display:none}.section-head p{display:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <div class="logo">🏃</div>
+        <div><b>Portail EPS</b><span>Y. Dartois — Lycée Georges Pompidou</span></div>
+      </div>
+      <a class="gh" id="ghlink" target="_blank" rel="noopener">⌥ <span>Voir sur </span>GitHub</a>
+    </div>
+    <h1>Tous mes outils EPS au même endroit</h1>
+    <p class="lead">Coordination, terrain et ressources : mis à jour automatiquement depuis GitHub.</p>
+    <div class="stats" id="stats"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="panel">
+    <div class="row">
+      <label class="search">🔍<input id="q" type="search" placeholder="Rechercher un outil…" autocomplete="off"></label>
+      <select id="sort" aria-label="Trier">
+        <option value="name">A → Z</option>
+        <option value="updated">Plus récents</option>
+      </select>
+      <label class="toggle"><input type="checkbox" id="onlyApps"> Seulement les apps en ligne</label>
+    </div>
+    <div class="chips" id="chips"></div>
+  </div>
+  <div id="content"><div class="msg">Chargement des dépôts…</div></div>
+</main>
+
+<footer id="foot"></footer>
+
+<script>
+/* =========================================================
+   CONFIGURATION — la seule partie à modifier
+   ========================================================= */
+const CONFIG = {
+  user: "yannickdartois-hue",
+
+  // Dépôts à ne jamais afficher (nom exact)
+  exclude: ["yannickdartois-hue.github.io"],
+
+  /* Les trois parties de la page, dans l'ordre d'affichage.
+     Un dépôt est rangé selon la PREMIÈRE règle qui marche :
+       1. son nom figure dans "repos"            (le plus fiable)
+       2. il porte le topic GitHub indiqué dans "topic"
+       3. son nom contient un des groupes de "keywords"
+          (un groupe = tous les mots doivent être présents)
+       4. sinon → "Autres"                                         */
+  sections: [
+    {
+      id: "coordo", title: "Coordo & outils", emoji: "🗂️", color: "var(--c-coordo)",
+      subtitle: "Évaluation, convocations, gestion de l'équipe",
+      topic: "coordo",
+      repos: [
+        // Noms exacts de tes dépôts, ex. : "marche30", "800m-ponctuel", "convocations-ccf"
+      ],
+      keywords: [["marche"], ["800"], ["convoc"], ["demi", "prof"], ["demifond", "prof"]],
+    },
+    {
+      id: "terrain", title: "Terrain", emoji: "🏟️", color: "var(--c-terrain)",
+      subtitle: "Cours, cycles et outils utilisés avec les élèves",
+      topic: "terrain",
+      repos: [
+        // ex. : "volley-pompidou", "cycle-badminton", "tennis-de-table"
+      ],
+      keywords: [["cycle"], ["volley"], ["badminton"], ["tennis"], ["ping"], ["step"],
+                 ["training"], ["carnet"], ["tournoi"], ["demi"], ["demifond"], ["course"],
+                 ["hand"], ["basket"], ["foot"], ["rugby"], ["acro"], ["danse"],
+                 ["escalade"], ["natation"], ["muscu"], ["seance"], ["eleve"]],
+    },
+    {
+      id: "autres", title: "Autres", emoji: "🧰", color: "var(--c-autres)",
+      subtitle: "Tout le reste",
+      topic: "autres", repos: [], keywords: [],
+    },
+  ],
+
+  // Emoji de carte deviné d'après le nom (purement décoratif)
+  icons: [
+    [["volley"], "🏐"], [["badminton"], "🏸"], [["tennis"], "🏓"], [["ping"], "🏓"],
+    [["800"], "🏃"], [["demi"], "🏃"], [["marche"], "🚶"], [["course"], "🏃"],
+    [["step"], "🎵"], [["training"], "💪"], [["muscu"], "💪"], [["convoc"], "📨"],
+    [["tournoi"], "🏆"], [["sst"], "⛑️"], [["pse"], "⛑️"], [["carnet"], "📓"],
+  ],
+
+  // Surcharges facultatives par dépôt : titre, description, emoji, partie
+  overrides: {
+    // "volley-pompidou": { title: "Cycle Volley — Terminale", emoji: "🏐" },
+    // "mon-depot": { section: "coordo" },
+  },
+
+  cacheMinutes: 30
+};
+/* ========================================================= */
+
+const $ = id => document.getElementById(id);
+const state = { repos: [], sec: "all", q: "", sort: "name", onlyApps: false };
+const FALLBACK = CONFIG.sections[CONFIG.sections.length - 1].id;
+
+$("ghlink").href = `https://github.com/${CONFIG.user}?tab=repositories`;
+
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const norm = s => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+const matches = (name, groups) => groups.some(g => g.every(w => name.includes(norm(w))));
+
+function prettify(name){
+  return name.replace(/[-_.]+/g," ").replace(/\s+/g," ").trim().replace(/^./, c => c.toUpperCase());
+}
+function sectionOf(r){
+  const o = CONFIG.overrides[r.name];
+  if (o && o.section) return o.section;
+  const n = norm(r.name);
+  for (const s of CONFIG.sections) if (s.repos.some(x => norm(x) === n)) return s.id;
+  for (const s of CONFIG.sections) if ((r.topics || []).includes(s.topic)) return s.id;
+  for (const s of CONFIG.sections) if (matches(n, s.keywords)) return s.id;
+  return FALLBACK;
+}
+function iconOf(r, sec){
+  const n = norm(r.name);
+  const hit = CONFIG.icons.find(([g]) => matches(n, [g]));
+  return hit ? hit[1] : sec.emoji;
+}
+function pagesUrl(r){
+  if (r.homepage) return r.homepage;
+  if (!r.has_pages) return null;
+  if (norm(r.name) === norm(`${CONFIG.user}.github.io`)) return `https://${CONFIG.user}.github.io/`;
+  return `https://${CONFIG.user}.github.io/${r.name}/`;
+}
+function rel(d){
+  const days = Math.floor((Date.now() - new Date(d)) / 864e5);
+  if (days < 1) return "aujourd'hui";
+  if (days === 1) return "hier";
+  if (days < 30) return `il y a ${days} j`;
+  if (days < 365) return `il y a ${Math.floor(days/30)} mois`;
+  return `il y a ${Math.floor(days/365)} an${days >= 730 ? "s" : ""}`;
+}
+
+async function fetchRepos(){
+  // 1) repos.json généré par la GitHub Action
+  try {
+    const res = await fetch("repos.json?v=" + Date.now(), { cache: "no-store" });
+    if (res.ok) {
+      const data = await res.json();
+      return { list: data.repos, from: "json", generated: data.generated_at };
+    }
+  } catch(e){}
+
+  // 2) Repli : API GitHub en direct (test en local, ou Action pas encore lancée)
+  const key = "portail-repos-" + CONFIG.user;
+  let cached = null;
+  try { cached = JSON.parse(localStorage.getItem(key)); } catch(e){}
+  if (cached && Date.now() - cached.t < CONFIG.cacheMinutes * 6e4) return { list: cached.list, from: "cache" };
+  try {
+    let all = [], page = 1;
+    while (true) {
+      const res = await fetch(`https://api.github.com/users/${CONFIG.user}/repos?per_page=100&page=${page}`,
+                              { headers: { Accept: "application/vnd.github+json" } });
+      if (!res.ok) throw new Error(res.status === 403 ? "limite de l'API GitHub atteinte" : "erreur " + res.status);
+      const batch = await res.json();
+      all = all.concat(batch);
+      if (batch.length < 100) break;
+      page++;
+    }
+    const list = all.map(r => ({
+      name: r.name, description: r.description, html_url: r.html_url, homepage: r.homepage,
+      has_pages: r.has_pages, language: r.language, updated_at: r.pushed_at || r.updated_at,
+      fork: r.fork, archived: r.archived, topics: r.topics || []
+    }));
+    try { localStorage.setItem(key, JSON.stringify({ t: Date.now(), list })); } catch(e){}
+    return { list, from: "api" };
+  } catch (err) {
+    if (cached) return { list: cached.list, from: "stale", err };
+    throw err;
+  }
+}
+
+function prepare(list){
+  return list
+    .filter(r => !r.fork && !CONFIG.exclude.includes(r.name))
+    .map(r => {
+      const o = CONFIG.overrides[r.name] || {};
+      const secId = sectionOf(r);
+      const sec = CONFIG.sections.find(s => s.id === secId) || CONFIG.sections.at(-1);
+      return { ...r, sec: sec.id,
+        title: o.title || prettify(r.name),
+        desc: o.description || r.description || "",
+        emoji: o.emoji || iconOf(r, sec),
+        app: pagesUrl(r) };
+    });
+}
+
+function filtered(){
+  const q = norm(state.q);
+  const items = state.repos.filter(r =>
+    (!state.onlyApps || r.app) &&
+    (!q || norm(r.title + " " + r.name + " " + r.desc + " " + (r.topics||[]).join(" ")).includes(q)));
+  items.sort(state.sort === "name"
+    ? (a,b) => a.title.localeCompare(b.title, "fr")
+    : (a,b) => String(b.updated_at).localeCompare(String(a.updated_at)));
+  return items;
+}
+
+function card(r, sec){
+  return `
+    <article class="card" style="--sec:${sec.color}">
+      <div class="head">
+        <div class="ico">${r.emoji}</div>
+        <div><h3>${esc(r.title)}</h3><div class="sub">${esc(r.name)}${r.archived ? " · archivé" : ""}</div></div>
+      </div>
+      <p class="desc ${r.desc ? "" : "empty"}">${r.desc ? esc(r.desc) : "Pas de description."}</p>
+      <div class="meta">
+        ${r.language ? `<span class="tag">${esc(r.language)}</span>` : ""}
+        <span>Mis à jour ${rel(r.updated_at)}</span>
+      </div>
+      <div class="actions">
+        <a class="btn primary ${r.app ? "" : "off"}" href="${r.app ? esc(r.app) : "#"}" target="_blank" rel="noopener">${r.app ? "Ouvrir l'app" : "Pas de site"}</a>
+        <a class="btn" href="${esc(r.html_url)}" target="_blank" rel="noopener">Code</a>
+      </div>
+    </article>`;
+}
+
+function render(){
+  const items = filtered();
+  const by = Object.fromEntries(CONFIG.sections.map(s => [s.id, []]));
+  items.forEach(r => (by[r.sec] || by[FALLBACK]).push(r));
+
+  $("chips").innerHTML =
+    `<button class="chip ${state.sec==="all"?"on":""}" data-s="all">Tout (${items.length})</button>` +
+    CONFIG.sections.map(s =>
+      `<button class="chip ${state.sec===s.id?"on":""}" data-s="${s.id}">${s.emoji} ${esc(s.title)} (${by[s.id].length})</button>`).join("");
+
+  const all = state.repos.filter(r => !state.onlyApps || r.app);
+  $("stats").innerHTML = CONFIG.sections.map(s =>
+      `<div><b>${all.filter(r => r.sec === s.id).length}</b><span>${esc(s.title)}</span></div>`).join("") +
+    `<div><b>${all.filter(r => r.app).length}</b><span>Apps en ligne</span></div>`;
+
+  if (state.q && !items.length) { $("content").innerHTML = `<div class="msg">Aucun outil ne correspond.</div>`; return; }
+
+  $("content").innerHTML = CONFIG.sections
+    .filter(s => state.sec === "all" || state.sec === s.id)
+    .filter(s => !state.q || by[s.id].length)
+    .map(s => `
+      <section class="section" style="--sec:${s.color}">
+        <div class="section-head">
+          <div class="section-ico">${s.emoji}</div>
+          <div><h2>${esc(s.title)}</h2><p>${esc(s.subtitle)}</p></div>
+          <span class="count">${by[s.id].length}</span>
+        </div>
+        ${by[s.id].length
+          ? `<div class="grid">${by[s.id].map(r => card(r, s)).join("")}</div>`
+          : `<div class="empty-sec">Rien ici pour l'instant.</div>`}
+      </section>`).join("");
+}
+
+$("chips").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  state.sec = b.dataset.s; render();
+});
+$("q").addEventListener("input", e => { state.q = e.target.value; render(); });
+$("sort").addEventListener("change", e => { state.sort = e.target.value; render(); });
+$("onlyApps").addEventListener("change", e => { state.onlyApps = e.target.checked; render(); });
+
+fetchRepos().then(({ list, from, err, generated }) => {
+  state.repos = prepare(list);
+  render();
+  $("foot").textContent =
+    from === "stale" ? `GitHub indisponible (${err.message}) — liste affichée depuis le cache local.`
+    : from === "json" ? `Portail EPS — ${CONFIG.user} · liste actualisée ${rel(generated)}`
+    : `Portail EPS — ${CONFIG.user} · liste chargée en direct depuis GitHub`;
+}).catch(err => {
+  $("content").innerHTML = `<div class="msg">Impossible de charger les dépôts : ${esc(err.message)}.<br>Réessaie dans quelques minutes.</div>`;
+});
+</script>
+</body>
+</html>
