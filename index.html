@@ -89,6 +89,10 @@ select,.toggle{font:inherit;font-size:14px;color:var(--text);background:var(--bg
 .btn:not(.primary):hover{border-color:var(--sec);color:var(--sec)}
 .btn.off{opacity:.45;pointer-events:none}
 
+.subhead{display:flex;align-items:center;gap:8px;margin:22px 0 12px;font-size:15px;font-weight:700;color:var(--muted)}
+.subhead:first-child{margin-top:0}
+.subhead span{font-size:12px;background:var(--bg);border:1px solid var(--line);padding:1px 8px;border-radius:999px}
+.subhead::after{content:"";flex:1;height:1px;background:var(--line)}
 .msg{text-align:center;color:var(--muted);padding:50px 10px}
 .empty-sec{color:var(--muted);font-size:14px;font-style:italic;padding:6px 2px}
 footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 30px}
@@ -175,6 +179,10 @@ const CONFIG = {
     },
   ],
 
+  // Tout dépôt dont le nom contient ce mot (majuscules ou non) part dans "Autres",
+  // regroupé dans un bloc à part. Mettre "" pour désactiver.
+  testWord: "test",
+
   // Emoji de carte deviné d'après le nom (purement décoratif)
   icons: [
     [["volley"], "🏐"], [["badminton"], "🏸"], [["tennis"], "🏓"], [["ping"], "🏓"],
@@ -206,10 +214,12 @@ const matches = (name, groups) => groups.some(g => g.every(w => name.includes(no
 function prettify(name){
   return name.replace(/[-_.]+/g," ").replace(/\s+/g," ").trim().replace(/^./, c => c.toUpperCase());
 }
+const isTest = r => !!CONFIG.testWord && norm(r.name).includes(norm(CONFIG.testWord));
 function sectionOf(r){
   const o = CONFIG.overrides[r.name];
   if (o && o.section) return o.section;
   const n = norm(r.name);
+  if (isTest(r)) return FALLBACK;
   for (const s of CONFIG.sections) if (s.repos.some(x => norm(x) === n)) return s.id;
   for (const s of CONFIG.sections) if ((r.topics || []).includes(s.topic)) return s.id;
   for (const s of CONFIG.sections) if (matches(n, s.keywords)) return s.id;
@@ -281,7 +291,7 @@ function prepare(list){
       const o = CONFIG.overrides[r.name] || {};
       const secId = sectionOf(r);
       const sec = CONFIG.sections.find(s => s.id === secId) || CONFIG.sections.at(-1);
-      return { ...r, sec: sec.id,
+      return { ...r, sec: sec.id, test: sec.id === FALLBACK && isTest(r),
         title: o.title || prettify(r.name),
         desc: o.description || r.description || "",
         emoji: o.emoji || iconOf(r, sec),
@@ -319,6 +329,16 @@ function card(r, sec){
     </article>`;
 }
 
+function sectionBody(list, s){
+  if (!list.length) return `<div class="empty-sec">Rien ici pour l'instant.</div>`;
+  const normal = list.filter(r => !r.test), tests = list.filter(r => r.test);
+  let html = normal.length ? `<div class="grid">${normal.map(r => card(r, s)).join("")}</div>` : "";
+  if (tests.length) html += `
+    <div class="subhead">🧪 Pages de test <span>${tests.length}</span></div>
+    <div class="grid">${tests.map(r => card(r, s)).join("")}</div>`;
+  return html;
+}
+
 function render(){
   const items = filtered();
   const by = Object.fromEntries(CONFIG.sections.map(s => [s.id, []]));
@@ -346,9 +366,7 @@ function render(){
           <div><h2>${esc(s.title)}</h2><p>${esc(s.subtitle)}</p></div>
           <span class="count">${by[s.id].length}</span>
         </div>
-        ${by[s.id].length
-          ? `<div class="grid">${by[s.id].map(r => card(r, s)).join("")}</div>`
-          : `<div class="empty-sec">Rien ici pour l'instant.</div>`}
+        ${sectionBody(by[s.id], s)}
       </section>`).join("");
 }
 
