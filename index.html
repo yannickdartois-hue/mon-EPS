@@ -251,11 +251,15 @@ const CONFIG = {
 };
 /* ========================================================= */
 
+/* Icône partagée selon des mots du nom du dépôt : [mots requis, fichier dans icons/ sans .png] */
+const ICONRULES = [ [["tournoi", "volley"], "tournoi-volley"] ];
 /* Icônes d'applis présentes dans le dossier icons/ (nom du dépôt en minuscules) */
 const APPICONS = ["tennis-de-table","cycle-volley","volley-eleves","cycle-badminton","badminton-test","cycle-demi-fond","ccf-demi-fond-prof","carnet-numerique-demi-fond","800m-ponctuel","demi-fond-test","demi-fond-test-pro","demi-fond-test-prof","marche-30min","cycle-step","carnet-step-","cross-training-pompidou","crosstraingtest","convocations-ccf-eps","convocations-as-pompidou","brevet2026"];
 
 const $ = id => document.getElementById(id);
 const state = { repos: [], act: "all", q: "" };
+const OVR = Object.fromEntries(Object.entries(CONFIG.overrides).map(([k,v]) => [k.toLowerCase(), v]));
+const ovr = r => OVR[r.name.toLowerCase()] || {};
 const PART = Object.fromEntries(CONFIG.parts.map(p => [p.id, p]));
 const ACT = Object.fromEntries(CONFIG.activities.concat(CONFIG.otherActivity).map(a => [a.id, a]));
 const FALLBACK = "autres";
@@ -285,8 +289,8 @@ function prettify(name){
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 function partOf(r){
-  const o = CONFIG.overrides[r.name];
-  if (o && o.part) return o.part;
+  const o = ovr(r);
+  if (o.part) return o.part;
   const n = norm(r.name);
   const ordered = CONFIG.matchOrder.map(id => PART[id]);
   for (const p of ordered) if (p.repos.some(x => norm(x) === n)) return p.id;
@@ -295,8 +299,8 @@ function partOf(r){
   return FALLBACK;
 }
 function activityOf(r){
-  const o = CONFIG.overrides[r.name];
-  if (o && o.activity) return o.activity;
+  const o = ovr(r);
+  if (o.activity) return o.activity;
   const n = norm(r.name);
   const hit = CONFIG.activities.find(a => matches(n, a.keywords));
   return hit ? hit.id : CONFIG.otherActivity.id;
@@ -351,7 +355,7 @@ function prepare(list){
   return list
     .filter(r => !r.fork && !r.archived && !ex.includes(norm(r.name)))
     .map(r => {
-      const o = CONFIG.overrides[r.name] || {};
+      const o = ovr(r);
       const test = isTest(r) && !o.part;
       return { ...r, test,
         part: test ? "tests" : partOf(r),
@@ -373,8 +377,9 @@ function visible(){
 
 function tool(r, i, showAct){
   const a = ACT[r.act];
-  const iconName = r.name.toLowerCase();
-  const ico = APPICONS.includes(iconName)
+  const rule = ICONRULES.find(([g]) => matches(norm(r.name), [g]));
+  const iconName = rule ? rule[1] : r.name.toLowerCase();
+  const ico = (rule || APPICONS.includes(iconName))
     ? `<img src="icons/${esc(iconName)}.png" alt="" width="52" height="52" loading="lazy">`
     : `<i class="fa-solid ${esc(r.icon || a.icon)}"></i>`;
   const sub = (showAct ? `<em class="tag">${esc(a.label)}</em>` : "") +
