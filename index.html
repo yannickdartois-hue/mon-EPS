@@ -9,8 +9,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Mon EPS">
-<meta name="theme-color" content="#2563eb">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0d1117">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mon EPS — Y. Dartois</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,176 +20,155 @@
 <script>try{const t=localStorage.getItem("portail-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 <style>
 :root{
-  --bg:#0d1117; --surface:#161b22; --surface2:#21262d; --border:#30363d;
+  --bg:#0d1117; --surface:#161b22; --surface2:#1f252e; --border:#2a313b;
   --text:#e6edf3; --text-muted:#8b949e;
-  --accent-1:#f97316; --accent-2:#22d3ee; --accent-3:#4ade80; --accent-4:#a78bfa;
-  --radius:16px; --shadow:0 8px 32px rgba(0,0,0,.55); --transition:.25s cubic-bezier(.4,0,.2,1);
+  --accent:#f97316; --accent-2:#22d3ee;
+  --radius:16px; --t:.2s cubic-bezier(.4,0,.2,1);
 }
 [data-theme="light"]{
-  --bg:#f0f4f8; --surface:#fff; --surface2:#e8edf3; --border:#d0d7de;
-  --text:#1c2128; --text-muted:#57606a; --shadow:0 8px 32px rgba(0,0,0,.12);
+  --bg:#f3f5f8; --surface:#fff; --surface2:#eef1f5; --border:#dde2e8;
+  --text:#1c2128; --text-muted:#5b6470;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:Nunito,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;
-  transition:background var(--transition),color var(--transition);overflow-x:hidden}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:Nunito,system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;
+  overflow-x:hidden;-webkit-tap-highlight-color:transparent}
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:radial-gradient(80% 60% at 20% 10%,rgba(249,115,22,.07) 0%,transparent 60%),
-             radial-gradient(60% 50% at 80% 90%,rgba(34,211,238,.06) 0%,transparent 60%)}
+  background:radial-gradient(70% 40% at 15% 0%,rgba(249,115,22,.08),transparent 60%),
+             radial-gradient(50% 40% at 90% 100%,rgba(34,211,238,.05),transparent 60%)}
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 1.25rem}
 
-/* ---------- Header ---------- */
-header{position:relative;z-index:10;padding:2rem 2rem 0;max-width:1300px;margin:0 auto}
-.header-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
-.logo{display:flex;align-items:center;gap:.85rem}
-.logo-icon{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-size:1.5rem;color:#fff;
-  background:linear-gradient(135deg,var(--accent-1),var(--accent-2));box-shadow:0 0 20px rgba(249,115,22,.4)}
-.logo-text h1{font-family:"Bebas Neue",sans-serif;font-size:2rem;letter-spacing:.08em;line-height:1;
-  background:linear-gradient(90deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.logo-text p{font-size:.78rem;color:var(--text-muted);font-weight:600;letter-spacing:.1em;text-transform:uppercase}
-.header-actions{display:flex;align-items:center;gap:.75rem}
-.btn-icon{width:42px;height:42px;border-radius:10px;border:1px solid var(--border);background:var(--surface);
-  color:var(--text);cursor:pointer;display:grid;place-items:center;font-size:1rem;
-  transition:background var(--transition),transform var(--transition)}
-.btn-icon:hover{background:var(--surface2);transform:scale(1.08)}
-.btn-add{display:flex;align-items:center;gap:.5rem;padding:.55rem 1.2rem;color:#fff;border:none;border-radius:10px;
-  background:linear-gradient(135deg,var(--accent-1),#e05c00);font-family:Nunito,sans-serif;font-weight:800;font-size:.88rem;
-  text-decoration:none;box-shadow:0 4px 15px rgba(249,115,22,.35);transition:transform var(--transition),box-shadow var(--transition)}
-.btn-add:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(249,115,22,.55)}
+/* ---------- En-tête compact ---------- */
+header{padding:calc(1.1rem + env(safe-area-inset-top)) 0 .6rem}
+.head{display:flex;align-items:center;gap:.8rem}
+.head img{width:44px;height:44px;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.3);flex:none}
+.head-txt{flex:1;min-width:0}
+.head h1{font-family:"Bebas Neue",sans-serif;font-size:1.9rem;letter-spacing:.06em;line-height:1}
+.head h1 span{color:var(--accent)}
+.head p{font-size:.74rem;color:var(--text-muted);font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn-icon{width:40px;height:40px;border-radius:11px;border:1px solid var(--border);background:var(--surface);
+  color:var(--text-muted);display:grid;place-items:center;font-size:.95rem;cursor:pointer;text-decoration:none;flex:none;
+  transition:color var(--t),background var(--t)}
+.btn-icon:hover{color:var(--text);background:var(--surface2)}
 
-/* ---------- Hero ---------- */
-.hero{position:relative;z-index:5;max-width:1300px;margin:2.5rem auto 0;padding:0 2rem;text-align:center}
-.hero h2{font-family:"Bebas Neue",sans-serif;font-size:clamp(2.8rem,7vw,5.5rem);letter-spacing:.06em;line-height:.95}
-.hero h2 span{background:linear-gradient(90deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{margin:.85rem auto 0;color:var(--text-muted);font-size:1rem;font-weight:600;max-width:480px}
-.stats{display:flex;justify-content:center;gap:2.5rem;margin-top:1.5rem;flex-wrap:wrap}
-.stat{text-align:center}
-.stat-num{font-family:"Bebas Neue",sans-serif;font-size:2rem;letter-spacing:.04em;color:var(--c,var(--accent-1))}
-.stat-label{font-size:.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em}
+/* ---------- Barre collante : recherche + activités ---------- */
+.bar{position:sticky;top:0;z-index:20;padding:.6rem 0 .5rem;margin-bottom:.2rem;
+  background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid transparent;transition:border-color var(--t)}
+.bar.stuck{border-bottom-color:var(--border)}
+.search{position:relative}
+.search i{position:absolute;left:.95rem;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:.85rem}
+#q{width:100%;padding:.7rem .9rem .7rem 2.5rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  color:var(--text);font:600 16px/1.2 Nunito,sans-serif;outline:none;transition:border-color var(--t),box-shadow var(--t)}
+#q:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(249,115,22,.15)}
+#q::placeholder{color:var(--text-muted)}
+.chips{display:flex;gap:.45rem;margin-top:.55rem;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;
+  mask-image:linear-gradient(90deg,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 92%,transparent)}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;display:inline-flex;align-items:center;gap:.4rem;padding:.4rem .8rem;border-radius:999px;
+  border:1px solid var(--border);background:var(--surface);color:var(--text-muted);cursor:pointer;
+  font:700 .8rem Nunito,sans-serif;white-space:nowrap;transition:all var(--t)}
+.chip i{color:var(--c,var(--text-muted));font-size:.78rem}
+.chip:hover{color:var(--text)}
+.chip.on{background:var(--c,var(--accent));border-color:var(--c,var(--accent));color:#fff}
+.chip.on i{color:#fff}
 
-/* ---------- Recherche & filtres ---------- */
-.controls{position:relative;z-index:5;max-width:1300px;margin:2.5rem auto 0;padding:0 2rem;
-  display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
-.search-wrapper{position:relative;flex:1 1 0%;min-width:200px}
-.search-icon{position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:.9rem}
-#searchInput{width:100%;padding:.75rem 1rem .75rem 2.7rem;background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--radius);color:var(--text);font-family:Nunito,sans-serif;font-size:.95rem;font-weight:600;outline:none;
-  transition:border-color var(--transition),box-shadow var(--transition)}
-#searchInput:focus{border-color:var(--accent-1);box-shadow:0 0 0 3px rgba(249,115,22,.15)}
-#searchInput::placeholder{color:var(--text-muted)}
-.filters{display:flex;gap:.5rem;flex-wrap:wrap}
-.pill{padding:.45rem 1rem;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text-muted);
-  font-family:Nunito,sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;transition:all var(--transition);white-space:nowrap}
-.pill:hover{transform:translateY(-1px);color:var(--text)}
-.pill.active{background:var(--pc,var(--accent-1));border-color:var(--pc,var(--accent-1));color:#fff;
-  box-shadow:0 2px 12px color-mix(in srgb,var(--pc,var(--accent-1)) 35%,transparent)}
-.pill.opt{display:flex;align-items:center;gap:.45rem}
-.pill.opt input{accent-color:var(--accent-1)}
+/* ---------- Grandes parties ---------- */
+main{padding-bottom:3rem}
+.part{margin-top:1.6rem}
+.part-head{display:flex;align-items:baseline;gap:.6rem;padding-bottom:.45rem;border-bottom:2px solid var(--pc)}
+.part-head h2{font-family:"Bebas Neue",sans-serif;font-size:1.75rem;letter-spacing:.07em;line-height:1}
+.part-head h2 i{color:var(--pc);font-size:1.15rem;margin-right:.35rem;vertical-align:.12em}
+.part-head small{margin-left:auto;font-size:.75rem;font-weight:700;color:var(--text-muted)}
 
-/* ---------- Grille ---------- */
-.grid-section{position:relative;z-index:5;max-width:1300px;margin:1rem auto 0;padding:0 2rem 4rem}
-.category-label{display:flex;align-items:center;gap:.7rem;font-family:"Bebas Neue",sans-serif;font-size:1.6rem;
-  letter-spacing:.1em;color:var(--text);margin:2.4rem 0 .2rem}
-.category-label::after{content:"";flex:1;height:1px;background:var(--border)}
-.category-label .n{font-family:Nunito,sans-serif;font-size:.75rem;font-weight:800;letter-spacing:0;padding:.15rem .6rem;border-radius:999px;
-  color:var(--sc);background:color-mix(in srgb,var(--sc) 14%,transparent);border:1px solid color-mix(in srgb,var(--sc) 45%,transparent)}
-.category-sub{font-size:.82rem;color:var(--text-muted);font-weight:600;margin-bottom:1.2rem}
-.sub-label{display:flex;align-items:center;gap:.6rem;font-family:"Bebas Neue",sans-serif;font-size:1.15rem;letter-spacing:.1em;
-  color:var(--text-muted);margin:2rem 0 1rem}
-.sub-label::after{content:"";flex:1;height:1px;background:var(--border);opacity:.6}
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:1.4rem;align-items:stretch}
+/* ---------- Activités ---------- */
+.act{margin-top:1rem}
+.act-head{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem;
+  font-size:.74rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted)}
+.act-head .dot{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;font-size:.68rem;
+  color:var(--ac);background:color-mix(in srgb,var(--ac) 16%,transparent)}
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:.55rem}
 
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;
-  display:flex;flex-direction:column;position:relative;animation:fadeUp .5s ease both;
-  transition:transform var(--transition),box-shadow var(--transition),border-color var(--transition)}
-.card:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:var(--card-accent-color)}
-.card-appicon{width:96px;height:96px;border-radius:22px;box-shadow:0 4px 14px rgba(0,0,0,.25);display:block}
-.card-img-top{display:flex;justify-content:center;align-items:center;padding:18px 0 14px}
-.card-img-circle{width:96px;height:96px;border-radius:50%;display:grid;place-items:center;font-size:2.4rem;
-  color:var(--card-accent-color);background:color-mix(in srgb,var(--card-accent-color) 10%,transparent);
-  border:2px solid color-mix(in srgb,var(--card-accent-color) 30%,transparent);
-  filter:drop-shadow(0 2px 10px color-mix(in srgb,var(--card-accent-color) 35%,transparent))}
-.card-body{padding:1.3rem;display:flex;flex-direction:column;gap:.8rem;flex:1;border-top:3px solid var(--card-accent-color)}
-.card-badge{display:inline-flex;align-items:center;gap:.35rem;padding:.25rem .65rem;width:fit-content;border-radius:999px;
-  font-size:.65rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--card-accent-color);
-  background:color-mix(in srgb,var(--card-accent-color) 12%,transparent);border:1px solid var(--card-accent-color)}
-.card h3{font-family:"Bebas Neue",sans-serif;font-size:1.45rem;letter-spacing:.06em;line-height:1.15;word-break:break-word}
-.card p{font-size:.87rem;color:var(--text-muted);line-height:1.65;flex:1}
-.card p.empty{font-style:italic;opacity:.7}
-.card-meta{font-size:.74rem;color:var(--text-muted);font-weight:600;display:flex;gap:.8rem;flex-wrap:wrap}
-.card-footer{display:flex;align-items:center;gap:.6rem;padding:0 1.3rem 1.3rem;flex-wrap:wrap}
-.card-link{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.1rem;border-radius:9px;text-decoration:none;
-  border:1.5px solid var(--card-accent-color);color:var(--card-accent-color);background:transparent;
-  font-family:Nunito,sans-serif;font-weight:800;font-size:.83rem;
-  transition:background var(--transition),color var(--transition),transform var(--transition)}
-.card-link:hover{background:var(--card-accent-color);color:#fff;transform:translateX(3px)}
-.card-link.ghost{border-color:var(--border);color:var(--text-muted)}
-.card-link.ghost:hover{background:var(--surface2);color:var(--text)}
-.card-link.off{opacity:.4;pointer-events:none}
+/* ---------- Ligne outil ---------- */
+.tool{display:flex;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:14px;
+  transition:border-color var(--t),transform var(--t),background var(--t);animation:in .35s ease both}
+.tool:hover{border-color:color-mix(in srgb,var(--ac) 60%,var(--border))}
+.tool:active{transform:scale(.985)}
+.tool .main{flex:1;min-width:0;display:flex;align-items:center;gap:.8rem;padding:.6rem .4rem .6rem .6rem;
+  color:inherit;text-decoration:none}
+.ico{width:52px;height:52px;border-radius:13px;flex:none;overflow:hidden;display:grid;place-items:center;
+  font-size:1.3rem;color:var(--ac);background:color-mix(in srgb,var(--ac) 14%,transparent);
+  box-shadow:0 2px 8px rgba(0,0,0,.22)}
+.ico img{width:100%;height:100%;object-fit:cover;display:block}
+.txt{min-width:0;flex:1}
+.txt strong{display:block;font-size:.98rem;font-weight:800;line-height:1.25;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.txt span{display:block;font-size:.78rem;color:var(--text-muted);font-weight:600;margin-top:.12rem;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.go{color:var(--text-muted);font-size:.8rem;padding:0 .2rem;flex:none}
+.tool .main:hover .go{color:var(--ac)}
+.tool.nosite .main{cursor:default}
+.tool.nosite .ico{filter:grayscale(1);opacity:.55}
+.tag{display:inline-block;font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  padding:.05rem .4rem;border-radius:5px;margin-right:.35rem;vertical-align:.08em;
+  color:var(--ac);background:color-mix(in srgb,var(--ac) 14%,transparent)}
+.code{flex:none;align-self:stretch;width:44px;display:grid;place-items:center;border-left:1px solid var(--border);
+  color:var(--text-muted);text-decoration:none;font-size:1rem;opacity:.55;transition:opacity var(--t),color var(--t)}
+.code:hover{opacity:1;color:var(--text)}
 
-.no-results{text-align:center;padding:3rem 1rem;color:var(--text-muted);font-size:.95rem;font-weight:600}
-.no-results i{font-size:2.5rem;opacity:.3;display:block;margin-bottom:.75rem}
-.empty-sec{color:var(--text-muted);font-size:.88rem;font-weight:600;font-style:italic}
-footer{position:relative;z-index:5;text-align:center;padding:1.5rem 2rem;color:var(--text-muted);font-size:.78rem;
-  font-weight:600;letter-spacing:.05em;border-top:1px solid var(--border)}
+/* ---------- Tests (repliés) ---------- */
+details.part{border:1px dashed var(--border);border-radius:var(--radius);padding:.2rem .9rem .9rem;margin-top:2.2rem}
+details.part > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:.6rem;padding:.7rem 0 .2rem;
+  font-family:"Bebas Neue",sans-serif;font-size:1.4rem;letter-spacing:.07em;color:var(--text-muted)}
+details.part > summary::-webkit-details-marker{display:none}
+details.part > summary small{margin-left:auto;font-family:Nunito,sans-serif;font-size:.75rem;font-weight:700}
+details.part > summary .chev{transition:transform var(--t);font-size:.8rem}
+details[open].part > summary .chev{transform:rotate(90deg)}
+details.part .tool{opacity:.85}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
-@media (max-width:600px){
-  header,.hero,.controls,.grid-section{padding-left:1rem;padding-right:1rem}
-  .controls{flex-direction:column;align-items:stretch}
-  .search-wrapper{min-width:unset}
-  .stats{gap:1.5rem}
-  .btn-add span{display:none}
+.msg{text-align:center;padding:3rem 1rem;color:var(--text-muted);font-weight:600}
+.msg i{font-size:2.2rem;opacity:.35;display:block;margin-bottom:.7rem}
+footer{position:relative;z-index:1;text-align:center;padding:1.2rem 1rem calc(1.2rem + env(safe-area-inset-bottom));
+  color:var(--text-muted);font-size:.74rem;font-weight:600;border-top:1px solid var(--border)}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (min-width:700px){
+  .wrap{padding:0 2rem}
+  .head h1{font-size:2.3rem}
+  .chips{flex-wrap:wrap;mask-image:none;-webkit-mask-image:none}
 }
+@media (prefers-reduced-motion:reduce){.tool{animation:none}}
 </style>
-
-<style id="appicon-css">.appicon{width:40px;height:40px;border-radius:9px;vertical-align:middle;margin:0 10px 0 0;box-shadow:0 1px 3px rgba(0,0,0,.25);flex:none;display:inline-block;object-fit:cover}
-.appicon.big{width:72px;height:72px;border-radius:16px;margin:0 auto 10px;display:block}
-.appicon.fill{width:100%;height:100%;margin:0;border-radius:inherit;box-shadow:none;display:block}
-.appicon.logoimg{width:46px;height:46px;margin:0;border-radius:12px}
-.test-banner{background:#facc15;color:#111;font:700 15px/1.3 system-ui,sans-serif;text-align:center;padding:8px 12px;position:relative;z-index:99999}
-@media print{.appicon,.test-banner{display:none!important}}</style>
 </head>
 <body>
 
-<header>
-  <div class="header-inner">
-    <div class="logo">
-      <img class="appicon logoimg" src="icon-192.png" alt="" width="46" height="46">
-      <div class="logo-text">
-        <h1>Mon EPS</h1>
-        <p>Y. Dartois — Lycée Georges Pompidou</p>
-      </div>
+<header class="wrap">
+  <div class="head">
+    <img src="icon-192.png" alt="" width="44" height="44">
+    <div class="head-txt">
+      <h1>Mon <span>EPS</span></h1>
+      <p>Y. Dartois · Lycée Georges Pompidou</p>
     </div>
-    <div class="header-actions">
-      <button class="btn-icon" id="themeToggle" title="Changer de thème" aria-label="Changer de thème"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
-      <a class="btn-add" id="ghlink" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> <span>Mes dépôts</span></a>
-    </div>
+    <button class="btn-icon" id="themeToggle" aria-label="Changer de thème"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+    <a class="btn-icon" id="ghlink" target="_blank" rel="noopener" aria-label="Mes dépôts GitHub"><i class="fa-brands fa-github"></i></a>
   </div>
 </header>
 
-<section class="hero">
-  <h2>Tous mes<br><span>outils EPS</span><br>au même endroit</h2>
-  <p>Coordination, terrain et ressources — mis à jour automatiquement depuis GitHub.</p>
-  <div class="stats" id="stats"></div>
-</section>
-
-<div class="controls">
-  <div class="search-wrapper">
-    <i class="fa-solid fa-magnifying-glass search-icon"></i>
-    <input type="search" id="searchInput" placeholder="Rechercher un outil…" autocomplete="off">
-  </div>
-  <div class="filters" id="filterPills"></div>
-  <div class="filters">
-    <button class="pill" id="sortBtn"><i class="fa-solid fa-arrow-down-a-z"></i> A → Z</button>
-    <label class="pill opt"><input type="checkbox" id="onlyApps"> Apps en ligne</label>
+<div class="bar" id="bar">
+  <div class="wrap">
+    <div class="search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="search" id="q" placeholder="Rechercher un outil…" autocomplete="off">
+    </div>
+    <div class="chips" id="chips"></div>
   </div>
 </div>
 
-<main class="grid-section" id="content">
-  <div class="no-results"><i class="fa-solid fa-spinner fa-spin"></i>Chargement des dépôts…</div>
+<main class="wrap" id="content">
+  <div class="msg"><i class="fa-solid fa-spinner fa-spin"></i>Chargement des outils…</div>
 </main>
 
-<footer id="foot">Portail EPS</footer>
+<footer id="foot">Mon EPS</footer>
 
 <script>
 /* =========================================================
@@ -197,90 +177,100 @@ footer{position:relative;z-index:5;text-align:center;padding:1.5rem 2rem;color:v
 const CONFIG = {
   user: "yannickdartois-hue",
 
-  // Dépôts à ne jamais afficher (nom exact)
-  exclude: ["yannickdartois-hue.github.io"],
+  // Dépôts jamais affichés (le portail lui-même, etc.)
+  exclude: ["yannickdartois-hue.github.io", "mon-eps"],
 
-  /* Les trois parties, dans l'ordre d'affichage.
-     Un dépôt est rangé selon la PREMIÈRE règle qui marche :
-       0. son nom contient "test"  → Autres, bloc « Pages de test »
-       1. son nom figure dans "repos"          (le plus fiable)
-       2. il porte le topic GitHub indiqué dans "topic"
-       3. son nom contient un des groupes de "keywords"
-          (un groupe = tous les mots doivent être présents)
-       4. sinon → Autres                                           */
-  sections: [
-    {
-      id: "coordo", title: "Coordo & outils", icon: "fa-folder-open", color: "#f97316",
-      subtitle: "Évaluation, convocations, gestion de l'équipe",
-      topic: "coordo",
-      repos: [ /* ex. "marche30", "800m-ponctuel", "convocations-ccf" */ ],
-      keywords: [["marche"], ["800"], ["convoc"], ["demi", "prof"], ["demifond", "prof"]],
-    },
-    {
-      id: "terrain", title: "Terrain", icon: "fa-person-running", color: "#4ade80",
-      subtitle: "Cours, cycles et outils utilisés avec les élèves",
+  /* Grandes parties, dans l'ORDRE D'AFFICHAGE.
+     Un dépôt va dans la première partie dont une règle marche :
+       0. son nom contient "test" → partie « Tests » (toujours en dernier, repliée)
+       1. son nom figure dans "repos"   (le plus fiable : à remplir)
+       2. il porte le topic GitHub "topic"
+       3. son nom contient un des groupes de "keywords" (tous les mots du groupe)
+       4. sinon → Autres
+     Les parties sont testées dans l'ordre de "matchOrder" (coordo avant terrain,
+     pour que « ccf-demi-fond-prof » ne parte pas en Terrain).                    */
+  parts: [
+    { id: "terrain", title: "Sur le terrain", icon: "fa-person-running", color: "#4ade80",
       topic: "terrain",
-      repos: [ /* ex. "volley-pompidou", "cycle-badminton" */ ],
-      keywords: [["cycle"], ["volley"], ["badminton"], ["tennis"], ["ping"], ["step"],
-                 ["training"], ["carnet"], ["tournoi"], ["demi"], ["demifond"], ["course"],
-                 ["hand"], ["basket"], ["foot"], ["rugby"], ["acro"], ["danse"],
-                 ["escalade"], ["natation"], ["muscu"], ["seance"], ["eleve"]],
-    },
-    {
-      id: "autres", title: "Autres", icon: "fa-toolbox", color: "#a78bfa",
-      subtitle: "Tout le reste",
-      topic: "autres", repos: [], keywords: [],
-    },
+      repos: ["cycle-volley", "volley-eleves", "volley-pompidou", "cycle-badminton", "tennis-de-table",
+              "cycle-demi-fond", "carnet-numerique-demi-fond", "cycle-step", "carnet-step-",
+              "cross-training-pompidou"],
+      keywords: [["cycle"], ["volley"], ["badminton"], ["tennis"], ["ping"], ["step"], ["training"],
+                 ["carnet"], ["tournoi"], ["demi"], ["course"], ["hand"], ["basket"], ["foot"], ["rugby"],
+                 ["acro"], ["danse"], ["escalade"], ["natation"], ["muscu"], ["seance"], ["eleve"]] },
+    { id: "coordo", title: "Coordo & évaluation", icon: "fa-clipboard-check", color: "#f97316",
+      topic: "coordo",
+      repos: ["ccf-demi-fond-prof", "800m-ponctuel", "marche-30min", "convocations-ccf-eps", "convocations-as-pompidou"],
+      keywords: [["marche"], ["800"], ["convoc"], ["ccf"], ["demi", "prof"], ["pronote"], ["service"], ["sst"], ["pv"]] },
+    { id: "autres", title: "Autres", icon: "fa-toolbox", color: "#a78bfa",
+      topic: "autres", repos: [], keywords: [] },
   ],
-
-  // Tout dépôt dont le nom contient ce mot part dans "Autres", bloc à part. "" = désactivé.
+  matchOrder: ["coordo", "terrain", "autres"],
   testWord: "test",
 
-  // Icône de carte (Font Awesome) devinée d'après le nom — purement décoratif
-  icons: [
-    [["test"], "fa-flask"],
-    [["volley"], "fa-volleyball"], [["badminton"], "fa-table-tennis-paddle-ball"],
-    [["tennis"], "fa-table-tennis-paddle-ball"], [["ping"], "fa-table-tennis-paddle-ball"],
-    [["basket"], "fa-basketball"], [["foot"], "fa-futbol"], [["hand"], "fa-hand"],
-    [["800"], "fa-stopwatch"], [["demi"], "fa-stopwatch"], [["chrono"], "fa-stopwatch"],
-    [["marche"], "fa-person-walking"], [["course"], "fa-person-running"],
-    [["step"], "fa-music"], [["danse"], "fa-music"], [["training"], "fa-dumbbell"], [["muscu"], "fa-dumbbell"],
-    [["convoc"], "fa-envelope-open-text"], [["tournoi"], "fa-trophy"],
-    [["sst"], "fa-kit-medical"], [["pse"], "fa-kit-medical"], [["secour"], "fa-kit-medical"],
-    [["carnet"], "fa-book-open"], [["brevet"], "fa-graduation-cap"], [["bac"], "fa-graduation-cap"],
-    [["pronote"], "fa-user-shield"], [["service"], "fa-calendar-days"],
+  /* Activités : sous-groupes à l'intérieur de chaque partie, dans cet ordre.
+     Premier groupe de mots qui correspond au nom du dépôt.                     */
+  activities: [
+    { id: "volley",    label: "Volley-ball",      icon: "fa-volleyball",              color: "#facc15", keywords: [["volley"]] },
+    { id: "badminton", label: "Badminton",        icon: "fa-feather-pointed",             color: "#22d3ee", keywords: [["badminton"]] },
+    { id: "tt",        label: "Tennis de table",  icon: "fa-table-tennis-paddle-ball", color: "#f472b6", keywords: [["tennis"], ["ping"]] },
+    { id: "demifond",  label: "Demi-fond",        icon: "fa-stopwatch",               color: "#fb923c", keywords: [["demi"], ["800"], ["course"]] },
+    { id: "step",      label: "Step",             icon: "fa-music",                   color: "#c084fc", keywords: [["step"]] },
+    { id: "cross",     label: "Cross training",   icon: "fa-dumbbell",                color: "#4ade80", keywords: [["cross"], ["training"], ["muscu"]] },
+    { id: "marche",    label: "Marche",           icon: "fa-person-walking",          color: "#a3e635", keywords: [["marche"]] },
+    { id: "basket",    label: "Basket-ball",      icon: "fa-basketball",              color: "#fb7185", keywords: [["basket"]] },
+    { id: "hand",      label: "Handball",         icon: "fa-hand",                    color: "#60a5fa", keywords: [["hand"]] },
+    { id: "foot",      label: "Football",         icon: "fa-futbol",                  color: "#34d399", keywords: [["foot"]] },
+    { id: "danse",     label: "Danse / Acrosport",icon: "fa-person-rays",             color: "#e879f9", keywords: [["danse"], ["acro"]] },
+    { id: "secours",   label: "Secourisme",       icon: "fa-kit-medical",             color: "#f87171", keywords: [["sst"], ["pse"], ["secour"]] },
+    { id: "examens",   label: "Examens & convocations", icon: "fa-envelope-open-text", color: "#f97316", keywords: [["convoc"], ["ccf"], ["brevet"], ["bac"]] },
   ],
+  otherActivity: { id: "divers", label: "Divers", icon: "fa-shapes", color: "#94a3b8" },
 
-  // Surcharges facultatives par dépôt : title, description, icon, section
+  // Surcharges facultatives : title, description, part, activity, icon
   overrides: {
-    // "volley-pompidou": { title: "Cycle Volley — Terminale", icon: "fa-volleyball" },
-    // "mon-depot": { section: "coordo" },
+    "ccf-demi-fond-prof":         { title: "CCF demi-fond — prof", activity: "demifond" },
+    "800m-ponctuel":              { title: "800 m ponctuel" },
+    "carnet-numerique-demi-fond": { title: "Carnet numérique demi-fond" },
+    "cycle-demi-fond":            { title: "Cycle demi-fond" },
+    "carnet-step-":               { title: "Carnet step" },
+    "cycle-step":                 { title: "Cycle step" },
+    "marche-30min":               { title: "Marche 30 min" },
+    "convocations-ccf-eps":       { title: "Convocations CCF EPS", activity: "examens" },
+    "convocations-as-pompidou":   { title: "Convocations AS / UNSS", activity: "examens" },
+    "cross-training-pompidou":    { title: "Cross training Pompidou" },
+    "tennis-de-table":            { title: "Tennis de table" },
+    "volley-eleves":              { title: "Volley — app élèves" },
+    "cycle-volley":               { title: "Cycle volley-ball" },
+    "brevet2026":                 { title: "Brevet 2026" },
   },
 
+  // Sigles remis en majuscules dans les titres automatiques
+  acronyms: ["ccf", "eps", "as", "unss", "sst", "pse", "cap", "bac", "pv", "qr"],
   cacheMinutes: 30
 };
 /* ========================================================= */
 
-/* Icônes des applis (dossier icons/, nom du dépôt en minuscules) */
-const APPICONS = ["tennis-de-table","cycle-volley","volley-eleves","cycle-badminton","badminton-test","cycle-demi-fond","ccf-demi-fond-prof","carnet-numerique-demi-fond","800m-ponctuel","demi-fond-test","demi-fond-test-pro","demi-fond-test-prof","marche-30min","cycle-step","carnet-step-","cross-training-pompidou","crosstraingtest","mon-eps","convocations-ccf-eps","convocations-as-pompidou","brevet2026"];
+/* Icônes d'applis présentes dans le dossier icons/ (nom du dépôt en minuscules) */
+const APPICONS = ["tennis-de-table","cycle-volley","volley-eleves","cycle-badminton","badminton-test","cycle-demi-fond","ccf-demi-fond-prof","carnet-numerique-demi-fond","800m-ponctuel","demi-fond-test","demi-fond-test-pro","demi-fond-test-prof","marche-30min","cycle-step","carnet-step-","cross-training-pompidou","crosstraingtest","convocations-ccf-eps","convocations-as-pompidou","brevet2026"];
+
 const $ = id => document.getElementById(id);
-const state = { repos: [], sec: "all", q: "", sort: "name", onlyApps: false };
-const FALLBACK = CONFIG.sections.at(-1).id;
-const SEC = Object.fromEntries(CONFIG.sections.map(s => [s.id, s]));
+const state = { repos: [], act: "all", q: "" };
+const PART = Object.fromEntries(CONFIG.parts.map(p => [p.id, p]));
+const ACT = Object.fromEntries(CONFIG.activities.concat(CONFIG.otherActivity).map(a => [a.id, a]));
+const FALLBACK = "autres";
 
 $("ghlink").href = `https://github.com/${CONFIG.user}?tab=repositories`;
 
 /* ---------- Thème ---------- */
-function applyThemeIcon(){
-  $("themeIcon").className = "fa-solid " + (document.documentElement.dataset.theme === "light" ? "fa-sun" : "fa-moon");
-}
+function themeIcon(){ $("themeIcon").className = "fa-solid " + (document.documentElement.dataset.theme === "light" ? "fa-sun" : "fa-moon"); }
 $("themeToggle").addEventListener("click", () => {
   const t = document.documentElement.dataset.theme === "light" ? "dark" : "light";
   document.documentElement.dataset.theme = t;
   try { localStorage.setItem("portail-theme", t); } catch(e){}
-  applyThemeIcon();
+  themeIcon();
 });
-applyThemeIcon();
+themeIcon();
 
 /* ---------- Utilitaires ---------- */
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -289,26 +279,31 @@ const matches = (name, groups) => groups.some(g => g.every(w => name.includes(no
 const isTest = r => !!CONFIG.testWord && norm(r.name).includes(norm(CONFIG.testWord));
 
 function prettify(name){
-  return name.replace(/[-_.]+/g," ").replace(/\s+/g," ").trim().replace(/^./, c => c.toUpperCase());
+  const words = name.replace(/[-_.]+/g," ").trim().split(/\s+/)
+    .map(w => CONFIG.acronyms.includes(w.toLowerCase()) ? w.toUpperCase() : w.toLowerCase());
+  const s = words.join(" ");
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
-function sectionOf(r){
+function partOf(r){
   const o = CONFIG.overrides[r.name];
-  if (o && o.section) return o.section;
+  if (o && o.part) return o.part;
   const n = norm(r.name);
-  if (isTest(r)) return FALLBACK;
-  for (const s of CONFIG.sections) if (s.repos.some(x => norm(x) === n)) return s.id;
-  for (const s of CONFIG.sections) if ((r.topics || []).includes(s.topic)) return s.id;
-  for (const s of CONFIG.sections) if (matches(n, s.keywords)) return s.id;
+  const ordered = CONFIG.matchOrder.map(id => PART[id]);
+  for (const p of ordered) if (p.repos.some(x => norm(x) === n)) return p.id;
+  for (const p of ordered) if ((r.topics || []).includes(p.topic)) return p.id;
+  for (const p of ordered) if (matches(n, p.keywords)) return p.id;
   return FALLBACK;
 }
-function iconOf(r, sec){
-  const hit = CONFIG.icons.find(([g]) => matches(norm(r.name), [g]));
-  return hit ? hit[1] : sec.icon;
+function activityOf(r){
+  const o = CONFIG.overrides[r.name];
+  if (o && o.activity) return o.activity;
+  const n = norm(r.name);
+  const hit = CONFIG.activities.find(a => matches(n, a.keywords));
+  return hit ? hit.id : CONFIG.otherActivity.id;
 }
 function pagesUrl(r){
   if (r.homepage) return r.homepage;
   if (!r.has_pages) return null;
-  if (norm(r.name) === norm(`${CONFIG.user}.github.io`)) return `https://${CONFIG.user}.github.io/`;
   return `https://${CONFIG.user}.github.io/${r.name}/`;
 }
 function rel(d){
@@ -322,15 +317,10 @@ function rel(d){
 
 /* ---------- Chargement ---------- */
 async function fetchRepos(){
-  // 1) repos.json généré par la GitHub Action
   try {
     const res = await fetch("repos.json?v=" + Date.now(), { cache: "no-store" });
-    if (res.ok) {
-      const data = await res.json();
-      return { list: data.repos, from: "json", generated: data.generated_at };
-    }
+    if (res.ok) { const d = await res.json(); return { list: d.repos, from: "json", generated: d.generated_at }; }
   } catch(e){}
-  // 2) Repli : API GitHub en direct (test en local, ou Action pas encore lancée)
   const key = "portail-repos-" + CONFIG.user;
   let cached = null;
   try { cached = JSON.parse(localStorage.getItem(key)); } catch(e){}
@@ -346,11 +336,8 @@ async function fetchRepos(){
       if (batch.length < 100) break;
       page++;
     }
-    const list = all.map(r => ({
-      name: r.name, description: r.description, html_url: r.html_url, homepage: r.homepage,
-      has_pages: r.has_pages, language: r.language, updated_at: r.pushed_at || r.updated_at,
-      fork: r.fork, archived: r.archived, topics: r.topics || []
-    }));
+    const list = all.map(r => ({ name: r.name, description: r.description, html_url: r.html_url, homepage: r.homepage,
+      has_pages: r.has_pages, updated_at: r.pushed_at || r.updated_at, fork: r.fork, archived: r.archived, topics: r.topics || [] }));
     try { localStorage.setItem(key, JSON.stringify({ t: Date.now(), list })); } catch(e){}
     return { list, from: "api" };
   } catch (err) {
@@ -360,112 +347,124 @@ async function fetchRepos(){
 }
 
 function prepare(list){
+  const ex = CONFIG.exclude.map(norm);
   return list
-    .filter(r => !r.fork && !CONFIG.exclude.includes(r.name))
+    .filter(r => !r.fork && !r.archived && !ex.includes(norm(r.name)))
     .map(r => {
       const o = CONFIG.overrides[r.name] || {};
-      const sec = SEC[sectionOf(r)] || SEC[FALLBACK];
-      return { ...r, sec: sec.id, test: sec.id === FALLBACK && isTest(r),
+      const test = isTest(r) && !o.part;
+      return { ...r, test,
+        part: test ? "tests" : partOf(r),
+        act: activityOf(r),
         title: o.title || prettify(r.name),
         desc: o.description || r.description || "",
-        icon: o.icon || iconOf(r, sec),
+        icon: o.icon || null,
         app: pagesUrl(r) };
     });
 }
 
 /* ---------- Affichage ---------- */
-function filtered(){
+function visible(){
   const q = norm(state.q);
-  const items = state.repos.filter(r =>
-    (!state.onlyApps || r.app) &&
-    (!q || norm(r.title + " " + r.name + " " + r.desc + " " + (r.topics||[]).join(" ")).includes(q)));
-  items.sort(state.sort === "name"
-    ? (a,b) => a.title.localeCompare(b.title, "fr")
-    : (a,b) => String(b.updated_at).localeCompare(String(a.updated_at)));
-  return items;
+  return state.repos.filter(r =>
+    (state.act === "all" || r.act === state.act) &&
+    (!q || norm(`${r.title} ${r.name} ${r.desc} ${ACT[r.act].label} ${(r.topics||[]).join(" ")}`).includes(q)));
 }
 
-function card(r, s, i){
-  return `
-  <article class="card" style="--card-accent-color:${s.color};animation-delay:${Math.min(i,8)*.05}s">
-    <div class="card-img-top">${APPICONS.includes(r.name.toLowerCase()) ? `<img class="card-appicon" src="icons/${esc(r.name.toLowerCase())}.png" alt="" width="96" height="96" loading="lazy">` : `<div class="card-img-circle"><i class="fa-solid ${esc(r.icon)}"></i></div>`}</div>
-    <div class="card-body">
-      <span class="card-badge"><i class="fa-solid ${r.test ? "fa-flask" : s.icon}"></i> ${r.test ? "Test" : esc(s.title)}</span>
-      <h3>${esc(r.title)}</h3>
-      <p class="${r.desc ? "" : "empty"}">${r.desc ? esc(r.desc) : "Pas de description."}</p>
-      <div class="card-meta"><span><i class="fa-regular fa-clock"></i> ${rel(r.updated_at)}</span>${r.archived ? `<span><i class="fa-solid fa-box-archive"></i> archivé</span>` : ""}</div>
-    </div>
-    <div class="card-footer">
-      <a class="card-link ${r.app ? "" : "off"}" href="${r.app ? esc(r.app) : "#"}" target="_blank" rel="noopener noreferrer">
-        <i class="fa-solid fa-arrow-up-right-from-square"></i> ${r.app ? "Ouvrir le site" : "Pas de site"}</a>
-      <a class="card-link ghost" href="${esc(r.html_url)}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github"></i> Code</a>
-    </div>
-  </article>`;
+function tool(r, i, showAct){
+  const a = ACT[r.act];
+  const iconName = r.name.toLowerCase();
+  const ico = APPICONS.includes(iconName)
+    ? `<img src="icons/${esc(iconName)}.png" alt="" width="52" height="52" loading="lazy">`
+    : `<i class="fa-solid ${esc(r.icon || a.icon)}"></i>`;
+  const sub = (showAct ? `<em class="tag">${esc(a.label)}</em>` : "") +
+              esc(r.desc || (r.app ? "" : "Pas encore en ligne"));
+  const inner = `<div class="ico">${ico}</div>
+      <div class="txt"><strong>${esc(r.title)}</strong>${sub ? `<span>${sub}</span>` : ""}</div>
+      ${r.app ? `<i class="fa-solid fa-chevron-right go"></i>` : ""}`;
+  return `<div class="tool ${r.app ? "" : "nosite"}" style="--ac:${a.color};animation-delay:${Math.min(i,10)*.03}s">
+    ${r.app ? `<a class="main" href="${esc(r.app)}" target="_blank" rel="noopener">${inner}</a>`
+            : `<div class="main">${inner}</div>`}
+    <a class="code" href="${esc(r.html_url)}" target="_blank" rel="noopener" title="Voir le code" aria-label="Code de ${esc(r.title)}"><i class="fa-brands fa-github"></i></a>
+  </div>`;
 }
 
-function sectionBody(list, s){
-  if (!list.length) return `<div class="empty-sec">Rien ici pour l'instant.</div>`;
-  const normal = list.filter(r => !r.test), tests = list.filter(r => r.test);
-  let html = normal.length ? `<div class="cards-grid">${normal.map((r,i) => card(r, s, i)).join("")}</div>` : "";
-  if (tests.length) html += `
-    <div class="sub-label"><i class="fa-solid fa-flask"></i> Pages de test (${tests.length})</div>
-    <div class="cards-grid">${tests.map((r,i) => card(r, s, i)).join("")}</div>`;
-  return html;
+function byActivity(items){
+  const order = CONFIG.activities.map(a => a.id).concat(CONFIG.otherActivity.id);
+  return order.map(id => [ACT[id], items.filter(r => r.act === id)
+      .sort((x,y) => x.title.localeCompare(y.title, "fr"))])
+    .filter(([, l]) => l.length);
+}
+
+function partBlock(p, items){
+  const groups = byActivity(items);
+  const flat = groups.length === 1 || state.act !== "all";
+  const body = flat
+    ? `<div class="list">${groups.flatMap(([, l]) => l).map((r,i) => tool(r, i, false)).join("")}</div>`
+    : groups.map(([a, l]) => `
+        <div class="act" style="--ac:${a.color}">
+          <div class="act-head"><span class="dot"><i class="fa-solid ${a.icon}"></i></span>${esc(a.label)}</div>
+          <div class="list">${l.map((r,i) => tool(r, i, false)).join("")}</div>
+        </div>`).join("");
+  return `<section class="part" style="--pc:${p.color}">
+    <div class="part-head"><h2><i class="fa-solid ${p.icon}"></i>${esc(p.title)}</h2><small>${items.length} outil${items.length>1?"s":""}</small></div>
+    ${body}
+  </section>`;
+}
+
+function testsBlock(items){
+  const open = !!state.q || state.act !== "all";
+  const list = items.sort((x,y) => x.title.localeCompare(y.title, "fr"));
+  return `<details class="part" ${open ? "open" : ""}>
+    <summary><i class="fa-solid fa-chevron-right chev"></i><i class="fa-solid fa-flask"></i> Pages de test<small>${items.length}</small></summary>
+    <div class="list" style="margin-top:.6rem">${list.map((r,i) => tool(r, i, true)).join("")}</div>
+  </details>`;
+}
+
+function renderChips(){
+  const used = new Set(state.repos.filter(r => !r.test).map(r => r.act));
+  const acts = CONFIG.activities.concat(CONFIG.otherActivity).filter(a => used.has(a.id));
+  $("chips").innerHTML =
+    `<button class="chip ${state.act==="all"?"on":""}" data-a="all">Tout</button>` +
+    acts.map(a => `<button class="chip ${state.act===a.id?"on":""}" data-a="${a.id}" style="--c:${a.color}"><i class="fa-solid ${a.icon}"></i>${esc(a.label)}</button>`).join("");
 }
 
 function render(){
-  const items = filtered();
-  const by = Object.fromEntries(CONFIG.sections.map(s => [s.id, []]));
-  items.forEach(r => (by[r.sec] || by[FALLBACK]).push(r));
-
-  $("filterPills").innerHTML =
-    `<button class="pill ${state.sec==="all"?"active":""}" data-s="all">Tout (${items.length})</button>` +
-    CONFIG.sections.map(s =>
-      `<button class="pill ${state.sec===s.id?"active":""}" data-s="${s.id}" style="--pc:${s.color}"><i class="fa-solid ${s.icon}"></i> ${esc(s.title)} (${by[s.id].length})</button>`).join("");
-
-  const pool = state.repos.filter(r => !state.onlyApps || r.app);
-  $("stats").innerHTML = CONFIG.sections.map(s =>
-      `<div class="stat" style="--c:${s.color}"><div class="stat-num">${pool.filter(r => r.sec === s.id).length}</div><div class="stat-label">${esc(s.title)}</div></div>`).join("") +
-    `<div class="stat" style="--c:var(--accent-2)"><div class="stat-num">${pool.filter(r => r.app).length}</div><div class="stat-label">Apps en ligne</div></div>`;
-
-  if (state.q && !items.length) {
-    $("content").innerHTML = `<div class="no-results"><i class="fa-solid fa-magnifying-glass"></i>Aucun outil ne correspond à « ${esc(state.q)} ».</div>`;
+  renderChips();
+  const items = visible();
+  if (!items.length) {
+    $("content").innerHTML = `<div class="msg"><i class="fa-solid fa-magnifying-glass"></i>Aucun outil ne correspond${state.q ? ` à « ${esc(state.q)} »` : ""}.</div>`;
     return;
   }
-  $("content").innerHTML = CONFIG.sections
-    .filter(s => state.sec === "all" || state.sec === s.id)
-    .filter(s => !state.q || by[s.id].length)
-    .map(s => `
-      <section style="--sc:${s.color}">
-        <div class="category-label"><i class="fa-solid ${s.icon}" style="color:${s.color}"></i> ${esc(s.title)} <span class="n">${by[s.id].length}</span></div>
-        <div class="category-sub">${esc(s.subtitle)}</div>
-        ${sectionBody(by[s.id], s)}
-      </section>`).join("");
+  let html = CONFIG.parts
+    .map(p => [p, items.filter(r => r.part === p.id)])
+    .filter(([, l]) => l.length)
+    .map(([p, l]) => partBlock(p, l)).join("");
+  const tests = items.filter(r => r.part === "tests");
+  if (tests.length) html += testsBlock(tests);
+  $("content").innerHTML = html;
 }
 
-$("filterPills").addEventListener("click", e => {
-  const b = e.target.closest(".pill"); if (!b) return;
-  state.sec = b.dataset.s; render();
+$("chips").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  state.act = b.dataset.a; render();
+  b.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
 });
-$("searchInput").addEventListener("input", e => { state.q = e.target.value; render(); });
-$("sortBtn").addEventListener("click", () => {
-  state.sort = state.sort === "name" ? "updated" : "name";
-  $("sortBtn").innerHTML = state.sort === "name"
-    ? `<i class="fa-solid fa-arrow-down-a-z"></i> A → Z`
-    : `<i class="fa-regular fa-clock"></i> Plus récents`;
-  render();
-});
-$("onlyApps").addEventListener("change", e => { state.onlyApps = e.target.checked; render(); });
+$("q").addEventListener("input", e => { state.q = e.target.value; render(); });
+
+/* Ombre de la barre collante */
+new IntersectionObserver(([e]) => $("bar").classList.toggle("stuck", !e.isIntersecting))
+  .observe(document.querySelector("header"));
 
 fetchRepos().then(({ list, from, err, generated }) => {
   state.repos = prepare(list);
   render();
   $("foot").textContent =
-    from === "stale" ? `GitHub indisponible (${err.message}) — liste affichée depuis le cache local.`
-    : from === "json" ? `Portail EPS — Y. Dartois · liste actualisée ${rel(generated)}`
-    : `Portail EPS — Y. Dartois · liste chargée en direct depuis GitHub`;
+    from === "stale" ? `GitHub indisponible (${err.message}) — liste affichée depuis l'appareil.`
+    : from === "json" ? `Mon EPS — Y. Dartois · liste actualisée ${rel(generated)}`
+    : `Mon EPS — Y. Dartois · liste à jour depuis GitHub`;
 }).catch(err => {
-  $("content").innerHTML = `<div class="no-results"><i class="fa-solid fa-triangle-exclamation"></i>Impossible de charger les dépôts : ${esc(err.message)}.<br>Réessaie dans quelques minutes.</div>`;
+  $("content").innerHTML = `<div class="msg"><i class="fa-solid fa-triangle-exclamation"></i>Impossible de charger les outils : ${esc(err.message)}.<br>Réessaie dans quelques minutes.</div>`;
 });
 </script>
 <script>if('serviceWorker' in navigator&&location.protocol==='https:'){addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}</script>
