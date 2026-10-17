@@ -241,7 +241,7 @@ const CONFIG = {
     "cross-training-pompidou":    { title: "Cross training Pompidou" },
     "tennis-de-table":            { title: "Tennis de table" },
     "volley-eleves":              { title: "Volley — app élèves" },
-    "cycle-volley":               { title: "Cycle volley-ball" },
+    "cycle-volley":               { title: "Cycle volley-ball", app: "https://yannickdartois-hue.github.io/cycle-volley/terrain.html" },
     "brevet2026":                 { title: "Brevet 2026" },
   },
 
@@ -363,7 +363,7 @@ function prepare(list){
         title: o.title || prettify(r.name),
         desc: o.description || r.description || "",
         icon: o.icon || null,
-        app: pagesUrl(r) };
+        app: o.app || pagesUrl(r) };
     });
 }
 
