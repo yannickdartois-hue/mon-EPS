@@ -2,8 +2,16 @@
 <html lang="fr" data-theme="dark">
 <head>
 <meta charset="utf-8">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mon EPS">
+<meta name="theme-color" content="#2563eb">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Portail EPS — Y. Dartois</title>
+<title>Mon EPS — Y. Dartois</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -93,6 +101,7 @@ header{position:relative;z-index:10;padding:2rem 2rem 0;max-width:1300px;margin:
   display:flex;flex-direction:column;position:relative;animation:fadeUp .5s ease both;
   transition:transform var(--transition),box-shadow var(--transition),border-color var(--transition)}
 .card:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:var(--card-accent-color)}
+.card-appicon{width:96px;height:96px;border-radius:22px;box-shadow:0 4px 14px rgba(0,0,0,.25);display:block}
 .card-img-top{display:flex;justify-content:center;align-items:center;padding:18px 0 14px}
 .card-img-circle{width:96px;height:96px;border-radius:50%;display:grid;place-items:center;font-size:2.4rem;
   color:var(--card-accent-color);background:color-mix(in srgb,var(--card-accent-color) 10%,transparent);
@@ -131,15 +140,22 @@ footer{position:relative;z-index:5;text-align:center;padding:1.5rem 2rem;color:v
   .btn-add span{display:none}
 }
 </style>
+
+<style id="appicon-css">.appicon{width:40px;height:40px;border-radius:9px;vertical-align:middle;margin:0 10px 0 0;box-shadow:0 1px 3px rgba(0,0,0,.25);flex:none;display:inline-block;object-fit:cover}
+.appicon.big{width:72px;height:72px;border-radius:16px;margin:0 auto 10px;display:block}
+.appicon.fill{width:100%;height:100%;margin:0;border-radius:inherit;box-shadow:none;display:block}
+.appicon.logoimg{width:46px;height:46px;margin:0;border-radius:12px}
+.test-banner{background:#facc15;color:#111;font:700 15px/1.3 system-ui,sans-serif;text-align:center;padding:8px 12px;position:relative;z-index:99999}
+@media print{.appicon,.test-banner{display:none!important}}</style>
 </head>
 <body>
 
 <header>
   <div class="header-inner">
     <div class="logo">
-      <div class="logo-icon"><i class="fa-solid fa-bolt"></i></div>
+      <img class="appicon logoimg" src="icon-192.png" alt="" width="46" height="46">
       <div class="logo-text">
-        <h1>Portail EPS</h1>
+        <h1>Mon EPS</h1>
         <p>Y. Dartois — Lycée Georges Pompidou</p>
       </div>
     </div>
@@ -245,6 +261,8 @@ const CONFIG = {
 };
 /* ========================================================= */
 
+/* Icônes des applis (dossier icons/, nom du dépôt en minuscules) */
+const APPICONS = ["tennis-de-table","cycle-volley","volley-eleves","cycle-badminton","badminton-test","cycle-demi-fond","ccf-demi-fond-prof","carnet-numerique-demi-fond","800m-ponctuel","demi-fond-test","demi-fond-test-pro","demi-fond-test-prof","marche-30min","cycle-step","carnet-step-","cross-training-pompidou","crosstraingtest","mon-eps","convocations-ccf-eps","convocations-as-pompidou","brevet2026"];
 const $ = id => document.getElementById(id);
 const state = { repos: [], sec: "all", q: "", sort: "name", onlyApps: false };
 const FALLBACK = CONFIG.sections.at(-1).id;
@@ -370,7 +388,7 @@ function filtered(){
 function card(r, s, i){
   return `
   <article class="card" style="--card-accent-color:${s.color};animation-delay:${Math.min(i,8)*.05}s">
-    <div class="card-img-top"><div class="card-img-circle"><i class="fa-solid ${esc(r.icon)}"></i></div></div>
+    <div class="card-img-top">${APPICONS.includes(r.name.toLowerCase()) ? `<img class="card-appicon" src="icons/${esc(r.name.toLowerCase())}.png" alt="" width="96" height="96" loading="lazy">` : `<div class="card-img-circle"><i class="fa-solid ${esc(r.icon)}"></i></div>`}</div>
     <div class="card-body">
       <span class="card-badge"><i class="fa-solid ${r.test ? "fa-flask" : s.icon}"></i> ${r.test ? "Test" : esc(s.title)}</span>
       <h3>${esc(r.title)}</h3>
@@ -450,5 +468,6 @@ fetchRepos().then(({ list, from, err, generated }) => {
   $("content").innerHTML = `<div class="no-results"><i class="fa-solid fa-triangle-exclamation"></i>Impossible de charger les dépôts : ${esc(err.message)}.<br>Réessaie dans quelques minutes.</div>`;
 });
 </script>
+<script>if('serviceWorker' in navigator&&location.protocol==='https:'){addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}</script>
 </body>
 </html>
