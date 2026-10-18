@@ -1,0 +1,124 @@
+/* =====================================================================
+   eps-design.css — socle visuel commun des outils de cycle EPS
+   Lycée Georges Pompidou · Yannick Dartois
+   ---------------------------------------------------------------------
+   Même fichier dans chaque dépôt (copie identique, pour le hors ligne).
+   Chargé APRÈS le <style> de la page : il harmonise sans rien casser.
+   Seule chose propre à chaque appli : la couleur --sport, déclarée dans
+   la page (volley, badminton, demi-fond, tennis de table, step).
+   ===================================================================== */
+
+/* ---------- 1. Couleurs et polices ---------- */
+:root{
+  --sport:#1f4fa8;
+  --bg:#f2f4f7; --surface:#ffffff; --surface-2:#e8edf3; --fg:#14202e; --muted:#566476; --line:#ccd5df;
+  --ok:#1f7a4d; --ok-bg:#dff3e8; --warn:#9a5b00; --warn-bg:#fdf0d5;
+  --font-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --font-body:"Source Sans 3","Segoe UI",Roboto,Arial,sans-serif;
+
+  /* Échelle typographique : 5 tailles, pas une de plus. */
+  --t-s:14px;   /* légendes, étiquettes, sous-titres de boutons */
+  --t-m:16px;   /* texte courant */
+  --t-l:20px;   /* titres de fiche, numéros de séance */
+  --t-xl:28px;  /* titre de séance */
+  --t-xxl:40px; /* minuteurs, chiffres à lire de loin */
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1620; --surface:#17212d; --surface-2:#1f2b3a; --fg:#e6edf5; --muted:#9aa8ba; --line:#2d3b4d;
+  --ok:#6fd39f; --ok-bg:#163327; --warn:#f2c46b; --warn-bg:#3a2d12; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1620; --surface:#17212d; --surface-2:#1f2b3a; --fg:#e6edf5; --muted:#9aa8ba; --line:#2d3b4d;
+  --ok:#6fd39f; --ok-bg:#163327; --warn:#f2c46b; --warn-bg:#3a2d12; color-scheme:dark}
+
+body{font-family:var(--font-body);font-size:var(--t-m);-webkit-text-size-adjust:100%}
+
+/* Liseré de l'activité en haut de l'écran : on sait d'un coup d'œil dans quelle appli on est. */
+body::before{content:"";display:block;height:6px;background:var(--sport)}
+@media print{body::before{display:none}}
+
+/* ---------- 2. En-tête compact (une ligne) ---------- */
+header h1{font-family:var(--font-display);font-weight:700;font-size:clamp(26px,3.4vw,34px)!important;
+  line-height:1.1;letter-spacing:.01em;display:flex;align-items:center;gap:10px;margin:0}
+header h1 .appicon{width:40px;height:40px;margin:0;flex:none}
+.epstop{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.epstop h1{flex:1 1 0;min-width:min(100%,280px)}
+.epstop #gymbtn{flex:none}
+details.about>summary,header details>summary{font-size:var(--t-s);color:var(--muted);cursor:pointer;min-height:32px;display:flex;align-items:center}
+
+/* ---------- 3. Navigation : étiquettes à gauche, boutons à droite ---------- */
+nav:has(>.navlabel){display:grid;grid-template-columns:max-content minmax(0,1fr);align-items:start;gap:8px 14px;margin-top:14px}
+nav:has(>.navlabel)>details{grid-column:1/-1}
+nav:has(>.navlabel)>.navlabel{margin:0;padding-top:15px}
+@media (max-width:640px){nav:has(>.navlabel)>.navlabel{padding-top:6px}}
+@media (max-width:640px){nav:has(>.navlabel){grid-template-columns:minmax(0,1fr)}}
+.navlabel{font-family:var(--font-display);font-size:var(--t-s)!important;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.navrow{gap:8px}
+
+nav .navrow:not(.tools) button.tab{min-width:0;min-height:48px;padding:7px 12px;border-radius:10px}
+nav .tools button.tab b{font-size:15px}
+button.tab b{font-family:var(--font-display);font-size:var(--t-l);line-height:1}
+button.tab span{font-size:var(--t-s);line-height:1.2}
+nav button.tab.cycle{min-width:0;padding:8px 16px}
+nav button.tab.cycle b{font-size:22px}
+button.tab:focus-visible,.tb:focus-visible{outline:3px solid var(--sport);outline-offset:2px}
+
+/* Boutons d'action : une seule taille, cible tactile de 44 px. */
+.tb{font:inherit;font-weight:600;cursor:pointer;border:1.5px solid var(--line);background:var(--surface);color:var(--fg);padding:8px 14px;display:inline-flex;align-items:center;gap:6px}
+.tb{font-size:var(--t-m);min-height:44px;border-radius:10px}
+.tb.mini{min-height:36px;font-size:var(--t-s)}
+
+/* Barre d'impression : présente mais discrète (c'est de la préparation, pas du terrain). */
+.printbar{gap:6px;margin-bottom:10px}
+.printbar .tb{min-height:36px;padding:4px 12px;font-size:var(--t-s)}
+
+/* ---------- 4. Séance ---------- */
+.panel h2{font-family:var(--font-display);font-size:clamp(28px,3.6vw,36px)!important;line-height:1.05}
+.lead{font-size:17px;max-width:72ch}
+.status{font-size:13px!important}
+
+/* Minutage : la durée en gros, le contenu dessous, largeur proportionnelle au temps. */
+.timeline,.tlbar{display:flex!important;flex-wrap:wrap;gap:6px!important;margin-top:14px}
+.timeline>span,.timeline>.tl-b,.tlbar>div{
+  flex:1 1 0;min-width:110px;display:flex!important;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:2px;
+  font:inherit;font-size:var(--t-s)!important;line-height:1.25;text-align:left;color:var(--fg);
+  background:var(--surface-2);border:1.5px solid transparent;border-radius:10px;padding:8px 12px!important;position:relative}
+.timeline>span b,.timeline>.tl-b b,.tlbar>div b{order:-1;white-space:nowrap;font-family:var(--font-display);font-size:26px!important;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.tlbar>div span{font-size:var(--t-s)!important;color:var(--fg)}
+.timeline>.tl-b{cursor:pointer}
+.timeline>.tl-b:hover,.timeline>.tl-b:focus-visible{border-color:var(--accent)}
+.timeline>.tl-b i{position:absolute;top:8px;right:10px;font-style:normal;font-size:14px;color:var(--accent)}
+
+/* Fiches d'exercice : mêmes rubriques, même lecture. */
+.ex h3{font-family:var(--font-display);font-size:26px!important;line-height:1.1}
+.dur{font-size:var(--t-s)!important}
+.kind{font-size:13px!important}
+dl.card dt{font-size:13px!important;letter-spacing:.06em}
+dl.card dd{font-size:17px;line-height:1.45}
+figcaption,.legend,.small,.tag,.chip,th,.tm-lab{font-size:var(--t-s)!important}
+.foot{font-size:var(--t-s)}
+
+/* ---------- 5. Mode gymnase ----------
+   Activé par le bouton « Mode gymnase », et par défaut quand l'appli est
+   ouverte depuis l'écran d'accueil de l'iPad. Tout grossit, la préparation
+   et l'impression disparaissent. */
+body.gym{font-size:18px}
+body.gym header details,body.gym header p,body.gym header .meta,
+body.gym .printbar,body.gym .foot,body.gym .legend,
+body.gym nav details.prep{display:none!important}
+body.gym header h1{font-size:28px!important}
+body.gym .panel h2{font-size:clamp(34px,5vw,44px)!important}
+body.gym .lead{font-size:19px}
+body.gym .ex h3{font-size:30px!important}
+body.gym dl.card dd{font-size:19px}
+body.gym dl.card dt{font-size:var(--t-s)!important}
+body.gym button.tab{min-height:56px}
+body.gym .timeline>span,body.gym .timeline>.tl-b,body.gym .tlbar>div{font-size:16px!important;min-width:150px}
+body.gym .timeline>span b,body.gym .timeline>.tl-b b,body.gym .tlbar>div b{font-size:34px!important}
+body.gym .ex-body{grid-template-columns:minmax(0,1fr)!important}
+body.gym .ex-body>figure{grid-column:1!important;grid-row:2!important;max-width:640px}
+#gymbtn.on{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+
+@media print{
+  body.gym{font-size:inherit}
+  #gymbtn{display:none!important}
+}

@@ -1,0 +1,7 @@
+{
+ "badminton":       {"depot":"cycle-badminton", "nom":"Badminton", "nom_ecran":"Badminton", "nom_long":"badminton", "titre":"Cycle badminton", "couleur":"#65A30D", "pastille":"Tle", "old":"cycle-badminton-old.html", "donnees":"badminton-donnees.js", "liens":[]},
+ "tennis-de-table": {"depot":"tennis-de-table", "nom":"Tennis de table", "nom_ecran":"Tennis de table", "nom_long":"tennis de table", "titre":"Cycle tennis de table", "couleur":"#EA580C", "pastille":"Tle", "old":"tennis-de-table-old.html", "donnees":"tennis-de-table-donnees.js", "liens":[]},
+ "demi-fond":       {"depot":"cycle-demi-fond", "nom":"Demi-fond", "nom_ecran":"Demi-fond", "nom_long":"demi-fond", "titre":"Cycle demi-fond", "couleur":"#C8402A", "pastille":"2de", "old":"cycle-demi-fond-old.html", "donnees":"demi-fond-donnees.js", "liens":[]},
+ "volley":          {"depot":"cycle-volley", "nom":"Volley-ball", "nom_ecran":"Volley terrain", "nom_long":"volley-ball", "titre":"Cycle volley-ball", "couleur":"#F2A900", "pastille":"Tle", "old":"cycle-volley-old.html", "donnees":"volley-donnees.js", "liens":[]},
+ "step":            {"depot":"cycle-step", "nom":"Step", "nom_ecran":"Step", "nom_long":"step", "titre":"Cycle step", "couleur":"#7C3AED", "pastille":"2de", "old":"cycle-step-old.html", "donnees":"step-donnees.js", "liens":[["Carnet élève","https://yannickdartois-hue.github.io/Carnet-Step-/"]]}
+}

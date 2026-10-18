@@ -1,0 +1,96 @@
+/* =====================================================================
+   eps-outil.css — habillage « écran de cours » des outils complets
+   ---------------------------------------------------------------------
+   Même fichier dans chaque dépôt (copie identique, pour le hors ligne).
+   Ne s'applique QUE quand l'outil est ouvert depuis le bouton « Outils »
+   de l'écran de cours (classe .outil sur <html>). Ouvert par « Préparer »,
+   l'outil garde son ancien style : c'est la version de secours.
+   Le contenu et le fonctionnement des outils ne changent pas : seules les
+   couleurs, les polices et la forme des éléments sont reprises.
+   ===================================================================== */
+
+@font-face{font-family:"Archivo";src:url(polices/archivo.woff2) format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap}
+@font-face{font-family:"Atkinson";src:url(polices/atkinson-400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Atkinson";src:url(polices/atkinson-700.woff2) format("woff2");font-weight:700;font-display:swap}
+
+/* ---------- 1. Couleurs et polices de l'écran de cours ---------- */
+:root.outil:not(.x){
+  --bg:#ECEFEE; --surface:#FFFFFF; --surface-2:#F1F3F2; --fg:#172033; --muted:#5A6475; --line:#D5DBDD;
+  --ok:#1D6B3A; --ok-bg:#E6F3EA; --warn:#8A5A00; --warn-bg:#FCF1D6; --done:#9AA3AE; --done-bg:#E4E8EA;
+  --font-display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --font-body:"Atkinson","Segoe UI",Roboto,Arial,sans-serif;
+  --accent-fg:#FFFFFF;
+  /* step : ses propres noms de couleurs */
+  --ink:var(--fg); --chip:var(--surface-2);
+}
+@media (prefers-color-scheme:dark){:root.outil:not([data-theme="light"]):not(.x){
+  --bg:#11161D; --surface:#1B222C; --surface-2:#232C38; --fg:#E9EEF3; --muted:#9AA5B3; --line:#323C49;
+  --ok:#6FD39F; --ok-bg:#15301F; --warn:#F2C46B; --warn-bg:#3A2D12; --done:#5B6573; --done-bg:#1F2833;
+  --accent-fg:#11161D; color-scheme:dark}}
+
+/* ---------- 2. Page ---------- */
+html.outil body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.45;-webkit-font-smoothing:antialiased}
+html.outil body::before{display:none}
+html.outil .wrap,html.outil body>main{max-width:1120px;padding-inline:18px}
+html.outil main{margin-top:6px}
+
+/* Titres : la police d'affichage de l'écran de cours, serrée et grasse */
+html.outil h1,html.outil h2,html.outil h3,html.outil .panel h2,html.outil .panel h3.sec,html.outil .ex h3,
+html.outil .tzround,html.outil .cc-h,html.outil .kpis b,html.outil .tm,html.outil .cc-s,html.outil .teq-num,
+html.outil .teq-grid h3,html.outil .teq-axis h3,html.outil .teq-axes h3,html.outil .teq-tl b,
+html.outil button.tab b,html.outil .sbtn b{
+  font-family:var(--font-display);font-weight:800;font-stretch:74%;letter-spacing:0}
+html.outil .panel h2,html.outil main>h2{font-size:clamp(30px,3.6vw,38px)!important;line-height:1.04}
+html.outil .panel h3.sec,html.outil main h3{font-size:24px;line-height:1.1}
+html.outil .ex h3{font-size:28px!important}
+html.outil .lead{font-size:18px;color:var(--muted)}
+
+/* ---------- 3. Cartes ---------- */
+html.outil .panel,html.outil .seance{background:var(--surface);border:0;border-radius:22px;box-shadow:none;padding:22px clamp(16px,3vw,30px) 28px}
+html.outil main .panel{border-top:0;border-left:8px solid var(--accent);border-top-left-radius:22px}
+html.outil .cyband{border-radius:8px;margin:0 0 10px;padding:4px 12px;font-family:var(--font-display);font-weight:800;font-stretch:74%;font-size:15px}
+html.outil .status{border-radius:6px}
+html.outil .ex{border-top:2px solid var(--line)}
+html.outil .court-card,html.outil .kpis div,html.outil .teq-grid section,html.outil .teq-ex,html.outil .fiche{border:0;background:var(--surface-2);border-radius:16px}
+html.outil .tgform{background:var(--surface-2);border-radius:16px;padding:16px}
+html.outil .schema{background:var(--surface-2);border-radius:14px}
+html.outil .note{border-radius:0 14px 14px 0}
+html.outil .evalbox,html.outil .tzbox,html.outil .prep{border-radius:14px}
+html.outil .timer{background:var(--surface-2);border-radius:20px}
+html.outil .tm{font-size:clamp(72px,16vw,140px)}
+html.outil dl.card dt{font-weight:700}
+html.outil dl.card dd{font-size:18px}
+
+/* ---------- 4. Boutons : mêmes formes que l'écran de cours ---------- */
+html.outil .tb,html.outil .btn,html.outil .cbtn{font-family:var(--font-body);font-weight:700;font-size:16px;min-height:46px;padding:0 16px;border-radius:12px;
+  border:2px solid var(--fg);background:transparent;color:var(--fg);display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none}
+html.outil .tb.pri,html.outil .btn:not(.ghost){background:var(--fg);border-color:var(--fg);color:var(--bg)}
+html.outil .tb.danger{background:#B42318;border-color:#B42318;color:#fff}
+html.outil .tb.mini{min-height:36px;padding:0 12px;font-size:14px;border-width:1.5px}
+html.outil .tb.big{min-height:56px;font-size:19px;padding:0 22px}
+html.outil .tb:disabled{opacity:.35}
+html.outil button.tab{border:2px solid var(--line);background:var(--surface);border-radius:12px;min-height:50px}
+html.outil button.tab[aria-selected="true"]{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+html.outil button.tab[aria-selected="true"] span{color:var(--bg)}
+html.outil .sb{border-radius:12px;border:2px solid var(--line);width:52px;height:52px}
+html.outil .sb.plus{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+html.outil .sbtn{border:2px solid var(--line);border-radius:12px}
+html.outil .sbtn.on{outline:0;border-color:var(--fg);background:var(--surface)}
+
+/* Grands chiffres (chronos, calculettes) : la police d'affichage, plus lisible de loin */
+html.outil .chf b,html.outil .ch-tot,html.outil .calc-out b,html.outil .ch-fc{font-family:var(--font-display);font-weight:800;font-stretch:80%}
+html.outil .chrono{border:0;border-radius:20px}
+
+/* ---------- 5. Champs et tableaux ---------- */
+html.outil input[type=text],html.outil input[type=number],html.outil input:not([type]),html.outil select,html.outil textarea{
+  font-family:var(--font-body);border:2px solid var(--line);border-radius:10px;background:var(--surface);color:var(--fg);min-height:46px}
+html.outil input:focus,html.outil select:focus,html.outil textarea:focus{outline:3px solid var(--accent);outline-offset:1px}
+html.outil table{font-size:16px}
+html.outil th{font-family:var(--font-display);font-weight:800;font-stretch:80%;font-size:15px;letter-spacing:.02em;color:var(--muted)}
+html.outil th,html.outil td{border-bottom:1px solid var(--line);padding:10px 12px}
+html.outil .tag,html.outil .pill,html.outil .chip{border-radius:8px}
+
+/* ---------- 6. Liens ---------- */
+html.outil a{color:var(--fg);text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:3px}
+html.outil a.tb,html.outil a.btn,html.outil a.cbtn{text-decoration:none}
+
