@@ -192,7 +192,7 @@ const CONFIG = {
   parts: [
     { id: "terrain", title: "Sur le terrain", icon: "fa-person-running", color: "#4ade80",
       topic: "terrain",
-      repos: ["cycle-volley", "volley-eleves", "volley-pompidou", "cycle-badminton", "tennis-de-table",
+      repos: ["cycle-volley", "volley-eleves", "volley-pompidou", "cycle-badminton", "tennis-de-table", "tennis-de-table-eleves",
               "cycle-demi-fond", "carnet-numerique-demi-fond", "cycle-step", "carnet-step-",
               "cross-training-pompidou"],
       keywords: [["cycle"], ["volley"], ["badminton"], ["tennis"], ["ping"], ["step"], ["training"],
@@ -241,6 +241,7 @@ const CONFIG = {
     "cross-training-pompidou":    { title: "Cross training Pompidou" },
     "tennis-de-table":            { title: "Tennis de table" },
     "volley-eleves":              { title: "Volley — app élèves" },
+    "tennis-de-table-eleves":     { title: "Tennis de table — app élèves" },
     "cycle-volley":               { title: "Cycle volley-ball" },
     "brevet2026":                 { title: "Brevet 2026" },
   },
@@ -254,7 +255,7 @@ const CONFIG = {
 /* Icône partagée selon des mots du nom du dépôt : [mots requis, fichier dans icons/ sans .png] */
 const ICONRULES = [ [["tournoi", "volley"], "tournoi-volley"] ];
 /* Icônes d'applis présentes dans le dossier icons/ (nom du dépôt en minuscules) */
-const APPICONS = ["tennis-de-table","cycle-volley","volley-eleves","cycle-badminton","badminton-test","cycle-demi-fond","ccf-demi-fond-prof","carnet-numerique-demi-fond","800m-ponctuel","demi-fond-test","demi-fond-test-pro","demi-fond-test-prof","marche-30min","cycle-step","carnet-step-","cross-training-pompidou","crosstraingtest","convocations-ccf-eps","convocations-as-pompidou","brevet2026"];
+const APPICONS = ["tennis-de-table","tennis-de-table-eleves","cycle-volley","volley-eleves","cycle-badminton","badminton-test","cycle-demi-fond","ccf-demi-fond-prof","carnet-numerique-demi-fond","800m-ponctuel","demi-fond-test","demi-fond-test-pro","demi-fond-test-prof","marche-30min","cycle-step","carnet-step-","cross-training-pompidou","crosstraingtest","convocations-ccf-eps","convocations-as-pompidou","brevet2026"];
 
 const $ = id => document.getElementById(id);
 const state = { repos: [], act: "all", q: "" };
