@@ -1,7 +1,7 @@
 /* Hors ligne : l'appli est gardée sur l'appareil à la première ouverture avec internet,
    puis s'ouvre sans connexion. La page est rechargée depuis GitHub dès que le réseau répond (3 s max) ;
    les autres fichiers sont servis depuis l'appareil et mis à jour en arrière-plan. */
-const CACHE='mon-eps-v7';
+const CACHE='mon-eps-v8';
 const SHELL=['./','index.html','manifest.webmanifest','icon-32.png','icon-180.png','icon-192.png','icon-512.png'];
 const FILES=[];
 const CDN=/(^|\.)(cdnjs\.cloudflare\.com|cdn\.jsdelivr\.net|unpkg\.com|cdn\.tailwindcss\.com|fonts\.googleapis\.com|fonts\.gstatic\.com)$/;
