@@ -192,7 +192,7 @@ const CONFIG = {
   parts: [
     { id: "terrain", title: "Sur le terrain", icon: "fa-person-running", color: "#4ade80",
       topic: "terrain",
-      repos: ["cycle-volley", "volley-eleves", "volley-pompidou", "cycle-badminton", "tennis-de-table", "tennis-de-table-eleves", "tennis-de-table-prof",
+      repos: ["cycle-volley", "volley-eleves", "volley-pompidou", "cycle-badminton", "tennis-de-table", "cycle-tennis-de-table", "tennis-de-table-eleves", "tennis-de-table-prof",
               "cycle-demi-fond", "demi-fond-eleves", "demi-fond-prof", "carnet-numerique-demi-fond", "cycle-step", "carnet-step-",
               "cross-training-pompidou"],
       keywords: [["cycle"], ["volley"], ["badminton"], ["tennis"], ["ping"], ["step"], ["training"],
@@ -242,6 +242,7 @@ const CONFIG = {
     "convocations-as-pompidou":   { title: "Convocations AS / UNSS", activity: "examens" },
     "cross-training-pompidou":    { title: "Cross training Pompidou" },
     "tennis-de-table":            { title: "Cycle tennis de table" },
+    "cycle-tennis-de-table":      { title: "Cycle tennis de table" },
     "volley-eleves":              { title: "Volley — app élèves" },
     "tennis-de-table-eleves":     { title: "Tennis de table — app élèves" },
     "tennis-de-table-prof":       { title: "Tennis de table — outil prof" },
@@ -260,7 +261,7 @@ const CONFIG = {
 /* Icône partagée selon des mots du nom du dépôt : [mots requis, fichier dans icons/ sans .png] */
 const ICONRULES = [ [["tournoi", "volley"], "tournoi-volley"] ];
 /* Icônes d'applis présentes dans le dossier icons/ (nom du dépôt en minuscules) */
-const APPICONS = ["tennis-de-table","tennis-de-table-eleves","tennis-de-table-prof","cycle-volley","volley-eleves","cycle-badminton","badminton-test","cycle-demi-fond","demi-fond-eleves","demi-fond-prof","ccf-demi-fond-prof","carnet-numerique-demi-fond","800m-ponctuel","demi-fond-test","demi-fond-test-pro","demi-fond-test-prof","marche-30min","cycle-step","carnet-step-","cross-training-pompidou","crosstraingtest","convocations-ccf-eps","convocations-as-pompidou","brevet2026"];
+const APPICONS = ["tennis-de-table","cycle-tennis-de-table","tennis-de-table-eleves","tennis-de-table-prof","cycle-volley","volley-eleves","cycle-badminton","badminton-test","cycle-demi-fond","demi-fond-eleves","demi-fond-prof","ccf-demi-fond-prof","carnet-numerique-demi-fond","800m-ponctuel","demi-fond-test","demi-fond-test-pro","demi-fond-test-prof","marche-30min","cycle-step","carnet-step-","cross-training-pompidou","crosstraingtest","convocations-ccf-eps","convocations-as-pompidou","brevet2026"];
 
 const $ = id => document.getElementById(id);
 const state = { repos: [], act: "all", q: "" };
