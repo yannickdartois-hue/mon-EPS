@@ -14,6 +14,11 @@
    ses cycles) est calculé par construire.py à partir de activites.json.
    ===================================================================== */
 
+/* ---------- 0. Polices embarquées (dossier polices/ du dépôt : marche hors ligne) ---------- */
+@font-face{font-family:"Archivo";src:url(polices/archivo.woff2) format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap}
+@font-face{font-family:"Atkinson";src:url(polices/atkinson-400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Atkinson";src:url(polices/atkinson-700.woff2) format("woff2");font-weight:700;font-display:swap}
+
 /* ---------- 1. Base commune : thème clair (toujours par défaut) ---------- */
 :root{
   --sol:#f3f5f8;        /* fond de page */
@@ -44,3 +49,15 @@
 /* Les teintes (--niv, --sur-niv) sont posées par le <style> « Charte v1 » de la page. */
 .carte .etiq .nv{background:var(--niv);color:var(--sur-niv)}
 .sc.jour{outline-color:var(--ligne)}
+
+/* ---------- 4. Outils complets et applis élève/prof (noms --bg, --surface, --fg…) ---------- */
+/* Sélecteur renforcé pour passer devant eps-outil.css (:root.outil) sans toucher aux règles
+   de cycle des pages (:root[data-cycle=…]) qui posent --accent : l'accent reste réglé par la page. */
+:root:not(.ch-1):not(.ch-2):not(.ch-3){
+  --bg:#f3f5f8; --surface:#ffffff; --surface-2:#eef1f5; --fg:#1c2128; --muted:#5b6470; --line:#dde2e8;
+  --font-display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --font-body:"Atkinson","Segoe UI",Roboto,Arial,sans-serif;
+}
+:root[data-theme="dark"]:not(.ch-1):not(.ch-2):not(.ch-3){
+  --bg:#0d1117; --surface:#161b22; --surface-2:#1f2630; --fg:#e6edf3; --muted:#8b949e; --line:#2a313b;
+}
