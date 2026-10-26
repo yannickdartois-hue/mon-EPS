@@ -24,10 +24,45 @@ def lire(p):
         return f.read()
 
 
+def _rgb(h):
+    h = h.lstrip('#')
+    return [int(h[i:i + 2], 16) for i in (0, 2, 4)]
+
+
+def _mix(a, b, t):
+    """Mélange la couleur a avec b (t = part de b)."""
+    return '#' + ''.join(f'{round(x * (1 - t) + y * t):02x}' for x, y in zip(_rgb(a), _rgb(b)))
+
+
+def charte(a):
+    """Petit <style> « Charte v1 » propre à l'activité : sa couleur et la teinte de chaque cycle.
+    Règle : 1 cycle = couleur normale ; 2 cycles = le niveau le plus bas en clair, le plus haut en foncé ;
+    un 3e cycle (ex. Autonomie) = couleur normale. Les teintes sont déclarées dans activites.json."""
+    c = a['couleur']
+    v = {'clair': (_mix(c, '#ffffff', .80), '#1c2128'),
+         'normal': (c, '#ffffff'),
+         'fonce': (_mix(c, '#000000', .38), '#ffffff')}
+    vs = {'clair': (_mix(c, '#161b22', .55), '#e6edf3'),        # thème sombre (option)
+          'normal': (_mix(c, '#ffffff', .25), '#0d1117'),
+          'fonce': (_mix(c, '#ffffff', .55), '#0d1117')}
+    l = [f':root{{--act:{c};--act-fonce:{_mix(c, "#000000", .38)};--act-pale:{_mix(c, "#ffffff", .88)};'
+         f'--act-sombre:{_mix(c, "#ffffff", .45)};--act-pale-sombre:{_mix(c, "#161b22", .78)}}}']
+    for k, t in a['teintes'].items():
+        (b, s), (bs, ss) = v[t], vs[t]
+        l.append(f':root{{--c-{k}:{b};--c-{k}-pale:{_mix(c, "#ffffff", .88)}}}')
+        l.append(f'body.niv-{k}{{--niv:{b};--sur-niv:{s};--niv-pale:var(--act-pale)}}')
+        l.append(f':root[data-theme="dark"] body.niv-{k}{{--niv:{bs};--sur-niv:{ss}}}')
+        l.append(f'.cy button[data-cy={k}].on{{background:{b};color:{s}}}')
+        l.append(f':root[data-theme="dark"] .cy button[data-cy={k}].on{{background:{bs};color:{ss}}}')
+        l.append(f'.pc.niv-{k} .sc.jour{{outline-color:var(--ligne)}}')
+        l.append(f'.pc.niv-{k}{{--nivp:{c if t == "clair" else b}}}')  # liseré des cartes de séance : jamais trop pâle sur blanc
+    return '\n'.join(l)
+
+
 def page(cle, a):
     g = lire(os.path.join(ICI, 'gabarit.html'))
     liens = ''.join(f'  <a class="bt clair" href="{u}">{t}</a>\n' for t, u in a['liens'])
-    val = dict(a, liens=liens,
+    val = dict(a, liens=liens, charte=charte(a),
                css=lire(os.path.join(ICI, 'apps', cle + '.css')).strip(),
                config=lire(os.path.join(ICI, 'apps', cle + '.js')))
     def rempl(m):
@@ -43,6 +78,10 @@ def sw_maj(texte, monter):
         texte = texte.replace('"eps-outil.css",', '"eps-outil.css", "ecran.css", "ecran.js",', 1)
         if '"ecran.js"' not in texte:
             raise ValueError('liste hors ligne introuvable dans sw.js')
+    if '"eps-charte-v1.css"' not in texte:
+        texte = texte.replace('"eps-outil.css",', '"eps-outil.css", "eps-charte-v1.css",', 1)
+        if '"eps-charte-v1.css"' not in texte:
+            raise ValueError('liste hors ligne introuvable dans sw.js (charte)')
     if monter:
         texte, n = re.subn(r"(const (?:CACHE|V|C)='[^']*?)(\d+)'", lambda m: f"{m.group(1)}{int(m.group(2)) + 1}'", texte, count=1)
         if not n:
