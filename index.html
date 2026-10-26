@@ -178,7 +178,7 @@ const CONFIG = {
   user: "yannickdartois-hue",
 
   // Dépôts jamais affichés (le portail lui-même, etc.)
-  exclude: ["yannickdartois-hue.github.io", "mon-eps", "carnet-numerique-demi-fond"],   /* l'ancien carnet renvoie vers les applis demi-fond élève et prof */
+  exclude: ["yannickdartois-hue.github.io", "mon-eps", "carnet-numerique-demi-fond", "tennis-de-table"],   /* tennis-de-table = doublon de cycle-tennis-de-table, à archiver ; l'ancien carnet renvoie vers les applis demi-fond élève et prof */
 
   /* Grandes parties, dans l'ORDRE D'AFFICHAGE.
      Un dépôt va dans la première partie dont une règle marche :
@@ -192,7 +192,7 @@ const CONFIG = {
   parts: [
     { id: "terrain", title: "Sur le terrain", icon: "fa-person-running", color: "#4ade80",
       topic: "terrain",
-      repos: ["cycle-volley", "volley-eleves", "volley-pompidou", "cycle-badminton", "tennis-de-table", "cycle-tennis-de-table", "tennis-de-table-eleves", "tennis-de-table-prof",
+      repos: ["cycle-volley", "volley-eleves", "volley-pompidou", "cycle-badminton", "cycle-tennis-de-table", "tennis-de-table-eleves", "tennis-de-table-prof",
               "cycle-demi-fond", "demi-fond-eleves", "demi-fond-prof", "carnet-numerique-demi-fond", "cycle-step", "carnet-step-",
               "cross-training-pompidou"],
       keywords: [["cycle"], ["volley"], ["badminton"], ["tennis"], ["ping"], ["step"], ["training"],
