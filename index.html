@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr" data-theme="dark">
+<html lang="fr" data-theme="light">
 <head>
 <meta charset="utf-8">
 <link rel="manifest" href="manifest.webmanifest">
@@ -10,24 +10,21 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Mon EPS">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0d1117">
+<meta name="theme-color" content="#f3f5f8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mon EPS — Y. Dartois</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<script>try{const t=localStorage.getItem("portail-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<script>try{const t=localStorage.getItem("portail-theme-v2");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 <style>
 :root{
-  --bg:#0d1117; --surface:#161b22; --surface2:#1f252e; --border:#2a313b;
-  --text:#e6edf3; --text-muted:#8b949e;
-  --accent:#f97316; --accent-2:#22d3ee;
-  --radius:16px; --t:.2s cubic-bezier(.4,0,.2,1);
-}
-[data-theme="light"]{
   --bg:#f3f5f8; --surface:#fff; --surface2:#eef1f5; --border:#dde2e8;
   --text:#1c2128; --text-muted:#5b6470;
+  --accent:#c2410c; --accent-2:#0e7490;   /* orange du portail lisible sur fond clair (charte v1) */
+  --radius:16px; --t:.2s cubic-bezier(.4,0,.2,1);
+}
+[data-theme="dark"]{
+  --bg:#0d1117; --surface:#161b22; --surface2:#1f252e; --border:#2a313b;
+  --text:#e6edf3; --text-muted:#8b949e; --accent:#f97316; --accent-2:#22d3ee; color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -139,6 +136,12 @@ footer{position:relative;z-index:1;text-align:center;padding:1.2rem 1rem calc(1.
 }
 @media (prefers-reduced-motion:reduce){.tool{animation:none}}
 </style>
+<style>/* Charte v1 : polices embarquées (hors ligne). Les noms d'origine pointent vers Archivo (titres) et Atkinson Hyperlegible (texte). */
+@font-face{font-family:"Bebas Neue";src:url(polices/archivo.woff2) format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:swap}
+@font-face{font-family:"Nunito";src:url(polices/atkinson-400.woff2) format("woff2");font-weight:100 500;font-display:swap}
+@font-face{font-family:"Nunito";src:url(polices/atkinson-700.woff2) format("woff2");font-weight:600 900;font-display:swap}
+.head h1,.part-head h2{font-weight:800;font-stretch:78%;letter-spacing:.02em}
+</style>
 </head>
 <body>
 
@@ -190,7 +193,7 @@ const CONFIG = {
      Les parties sont testées dans l'ordre de "matchOrder" (coordo avant terrain,
      pour que « ccf-demi-fond-prof » ne parte pas en Terrain).                    */
   parts: [
-    { id: "terrain", title: "Sur le terrain", icon: "fa-person-running", color: "#4ade80",
+    { id: "terrain", title: "Sur le terrain", icon: "fa-person-running", color: "#15803d",
       topic: "terrain",
       repos: ["cycle-volley", "volley-eleves", "volley-pompidou", "cycle-badminton", "cycle-tennis-de-table", "tennis-de-table-eleves", "tennis-de-table-prof",
               "cycle-demi-fond", "demi-fond-eleves", "demi-fond-prof", "carnet-numerique-demi-fond", "cycle-step", "carnet-step-",
@@ -198,11 +201,11 @@ const CONFIG = {
       keywords: [["cycle"], ["volley"], ["badminton"], ["tennis"], ["ping"], ["step"], ["training"],
                  ["carnet"], ["tournoi"], ["demi"], ["course"], ["hand"], ["basket"], ["foot"], ["rugby"],
                  ["acro"], ["danse"], ["escalade"], ["natation"], ["muscu"], ["seance"], ["eleve"]] },
-    { id: "coordo", title: "Coordo & évaluation", icon: "fa-clipboard-check", color: "#f97316",
+    { id: "coordo", title: "Coordo & évaluation", icon: "fa-clipboard-check", color: "#334155",
       topic: "coordo",
       repos: ["ccf-demi-fond-prof", "800m-ponctuel", "marche-30min", "convocations-ccf-eps", "convocations-as-pompidou"],
       keywords: [["marche"], ["800"], ["convoc"], ["ccf"], ["demi", "prof"], ["pronote"], ["service"], ["sst"], ["pv"]] },
-    { id: "autres", title: "Autres", icon: "fa-toolbox", color: "#a78bfa",
+    { id: "autres", title: "Autres", icon: "fa-toolbox", color: "#5b6470",
       topic: "autres", repos: [], keywords: [] },
   ],
   matchOrder: ["coordo", "terrain", "autres"],
@@ -211,19 +214,19 @@ const CONFIG = {
   /* Activités : sous-groupes à l'intérieur de chaque partie, dans cet ordre.
      Premier groupe de mots qui correspond au nom du dépôt.                     */
   activities: [
-    { id: "volley",    label: "Volley-ball",      icon: "fa-volleyball",              color: "#facc15", keywords: [["volley"]] },
-    { id: "badminton", label: "Badminton",        icon: "fa-feather-pointed",             color: "#22d3ee", keywords: [["badminton"]] },
-    { id: "tt",        label: "Tennis de table",  icon: "fa-table-tennis-paddle-ball", color: "#f472b6", keywords: [["tennis"], ["ping"]] },
-    { id: "demifond",  label: "Demi-fond",        icon: "fa-stopwatch",               color: "#fb923c", keywords: [["demi"], ["800"], ["course"]] },
-    { id: "step",      label: "Step",             icon: "fa-music",                   color: "#c084fc", keywords: [["step"]] },
-    { id: "cross",     label: "Cross training",   icon: "fa-dumbbell",                color: "#4ade80", keywords: [["cross"], ["training"], ["muscu"]] },
-    { id: "marche",    label: "Marche",           icon: "fa-person-walking",          color: "#a3e635", keywords: [["marche"]] },
+    { id: "volley",    label: "Volley-ball",      icon: "fa-volleyball",              color: "#1d4ed8", keywords: [["volley"]] },
+    { id: "badminton", label: "Badminton",        icon: "fa-feather-pointed",             color: "#0e7490", keywords: [["badminton"]] },
+    { id: "tt",        label: "Tennis de table",  icon: "fa-table-tennis-paddle-ball", color: "#be185d", keywords: [["tennis"], ["ping"]] },
+    { id: "demifond",  label: "Demi-fond",        icon: "fa-stopwatch",               color: "#b91c1c", keywords: [["demi"], ["800"], ["course"]] },
+    { id: "step",      label: "Step",             icon: "fa-music",                   color: "#6d28d9", keywords: [["step"]] },
+    { id: "cross",     label: "Cross training",   icon: "fa-dumbbell",                color: "#c2410c", keywords: [["cross"], ["training"], ["muscu"]] },
+    { id: "marche",    label: "Marche",           icon: "fa-person-walking",          color: "#334155", keywords: [["marche"]] },
     { id: "basket",    label: "Basket-ball",      icon: "fa-basketball",              color: "#fb7185", keywords: [["basket"]] },
     { id: "hand",      label: "Handball",         icon: "fa-hand",                    color: "#60a5fa", keywords: [["hand"]] },
     { id: "foot",      label: "Football",         icon: "fa-futbol",                  color: "#34d399", keywords: [["foot"]] },
     { id: "danse",     label: "Danse / Acrosport",icon: "fa-person-rays",             color: "#e879f9", keywords: [["danse"], ["acro"]] },
     { id: "secours",   label: "Secourisme",       icon: "fa-kit-medical",             color: "#f87171", keywords: [["sst"], ["pse"], ["secour"]] },
-    { id: "examens",   label: "Examens & convocations", icon: "fa-envelope-open-text", color: "#f97316", keywords: [["convoc"], ["ccf"], ["brevet"], ["bac"]] },
+    { id: "examens",   label: "Examens & convocations", icon: "fa-envelope-open-text", color: "#334155", keywords: [["convoc"], ["ccf"], ["brevet"], ["bac"]] },
   ],
   otherActivity: { id: "divers", label: "Divers", icon: "fa-shapes", color: "#94a3b8" },
 
@@ -278,7 +281,7 @@ function themeIcon(){ $("themeIcon").className = "fa-solid " + (document.documen
 $("themeToggle").addEventListener("click", () => {
   const t = document.documentElement.dataset.theme === "light" ? "dark" : "light";
   document.documentElement.dataset.theme = t;
-  try { localStorage.setItem("portail-theme", t); } catch(e){}
+  try { localStorage.setItem("portail-theme-v2", t); } catch(e){}
   themeIcon();
 });
 themeIcon();
