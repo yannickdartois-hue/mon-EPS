@@ -2,7 +2,7 @@
    Source : mon-eps/atelier/ecran-de-cours/apps/. Le moteur commun est ecran.js. */
 let CUR_A='t';   /* leçons en autonomie : Terminale (at) ou Première (ap) */
 const APP={
-  old:'tennis-de-table-old.html',
+  old:'outils.html',
   cle:'tq',
   niv:{p:{label:'Première',court:'1re',long:'PREMIÈRE',L:P_SESSIONS},t:{label:'Terminale',court:'Tle',long:'TERMINALE',L:T_SESSIONS},a:{label:'Autonomie',court:'Auto',long:'AUTONOMIE',L:A_SESSIONS}},
   defaut:'t',

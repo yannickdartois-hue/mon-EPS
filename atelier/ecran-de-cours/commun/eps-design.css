@@ -23,9 +23,9 @@
   --t-xl:28px;  /* titre de séance */
   --t-xxl:40px; /* minuteurs, chiffres à lire de loin */
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+:root[data-theme="dark"]{
   --bg:#0f1620; --surface:#17212d; --surface-2:#1f2b3a; --fg:#e6edf5; --muted:#9aa8ba; --line:#2d3b4d;
-  --ok:#6fd39f; --ok-bg:#163327; --warn:#f2c46b; --warn-bg:#3a2d12; color-scheme:dark}}
+  --ok:#6fd39f; --ok-bg:#163327; --warn:#f2c46b; --warn-bg:#3a2d12; color-scheme:dark}
 :root[data-theme="dark"]{
   --bg:#0f1620; --surface:#17212d; --surface-2:#1f2b3a; --fg:#e6edf5; --muted:#9aa8ba; --line:#2d3b4d;
   --ok:#6fd39f; --ok-bg:#163327; --warn:#f2c46b; --warn-bg:#3a2d12; color-scheme:dark}
@@ -74,7 +74,7 @@ button.tab:focus-visible,.tb:focus-visible{outline:3px solid var(--sport);outlin
 /* ---------- 4. Séance ---------- */
 .panel h2{font-family:var(--font-display);font-size:clamp(28px,3.6vw,36px)!important;line-height:1.05}
 .lead{font-size:17px;max-width:72ch}
-.status{font-size:13px!important}
+.status{font-size:max(13px,var(--fs-min,15px))!important}
 
 /* Minutage : la durée en gros, le contenu dessous, largeur proportionnelle au temps. */
 .timeline,.tlbar{display:flex!important;flex-wrap:wrap;gap:6px!important;margin-top:14px}
@@ -86,13 +86,13 @@ button.tab:focus-visible,.tb:focus-visible{outline:3px solid var(--sport);outlin
 .tlbar>div span{font-size:var(--t-s)!important;color:var(--fg)}
 .timeline>.tl-b{cursor:pointer}
 .timeline>.tl-b:hover,.timeline>.tl-b:focus-visible{border-color:var(--accent)}
-.timeline>.tl-b i{position:absolute;top:8px;right:10px;font-style:normal;font-size:14px;color:var(--accent)}
+.timeline>.tl-b i{position:absolute;top:8px;right:10px;font-style:normal;font-size:max(14px,var(--fs-min,15px));color:var(--accent)}
 
 /* Fiches d'exercice : mêmes rubriques, même lecture. */
 .ex h3{font-family:var(--font-display);font-size:26px!important;line-height:1.1}
 .dur{font-size:var(--t-s)!important}
-.kind{font-size:13px!important}
-dl.card dt{font-size:13px!important;letter-spacing:.06em}
+.kind{font-size:max(13px,var(--fs-min,15px))!important}
+dl.card dt{font-size:max(13px,var(--fs-min,15px))!important;letter-spacing:.06em}
 dl.card dd{font-size:17px;line-height:1.45}
 figcaption,.legend,.small,.tag,.chip,th,.tm-lab{font-size:var(--t-s)!important}
 .foot{font-size:var(--t-s)}

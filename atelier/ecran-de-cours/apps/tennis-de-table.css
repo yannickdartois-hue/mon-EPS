@@ -1,4 +1,4 @@
-:root{--sol:#ECEFEE; --craie:#FFFFFF; --encre:#172033; --repere:#5A6475; --trait:#D5DBDD;
+:root{--sol:#F3F5F8; --craie:#FFFFFF; --encre:#172033; --repere:#5A6475; --trait:#DDE2E8;
   --ligne:#EA580C; --ligne-fonce:#9A3412; --ligne-pale:#FDEBDD;
   --vert:#1D6B3A; --vert-pale:#E6F3EA; --alerte:#B42318; --alerte-pale:#FDE8E6;
   --facile:#2F6FB0; --facile-pale:#EAF2FB; --dur:#B4441C; --dur-pale:#FCEDE6;
@@ -8,12 +8,12 @@
 body.niv-p{--niv:var(--c-p);--niv-pale:var(--c-p-pale)}
 body.niv-t{--niv:var(--c-t);--niv-pale:var(--c-t-pale)}
 body.niv-a{--niv:var(--c-a);--niv-pale:var(--c-a-pale)}
-@media (prefers-color-scheme:dark){:root{
+:root[data-theme="dark"]{
   --sol:#11161D; --craie:#1B222C; --encre:#E9EEF3; --repere:#9AA5B3; --trait:#323C49; --sur-encre:#11161D; --fait:#5B6573;
   --ligne:#FB923C; --ligne-fonce:#FDBA74; --ligne-pale:#3A1D0E;
   --vert:#6FD39F; --vert-pale:#15301F; --alerte:#FF8A80; --alerte-pale:#3A1A18;
   --facile:#7FB0E8; --facile-pale:#162638; --dur:#F29470; --dur-pale:#3A2018;
-  --c-p:#C39BF0; --c-p-pale:#2C1F3F; --c-t:#8FB4F2; --c-t-pale:#1B2A44; --c-a:#F9A8D4; --c-a-pale:#3B1328; --sur-niv:#11161D; color-scheme:dark}}
+  --c-p:#C39BF0; --c-p-pale:#2C1F3F; --c-t:#8FB4F2; --c-t-pale:#1B2A44; --c-a:#F9A8D4; --c-a-pale:#3B1328; --sur-niv:#11161D; color-scheme:dark}
 .schema,.legende-o{--bg:#f2f4f7; --surface:#ffffff; --surface-2:#e8edf3; --fg:#14202e; --muted:#566476; --line:#ccd5df;
   --court:#2f6f9f; --court-line:#ffffff; --net:#14202e;
   --accent:#1f4fa8; --accent-fg:#ffffff; --ball:#d18a00; --team-b:#c2410c; --team-n:#6b7787;
@@ -23,13 +23,13 @@ body.niv-a{--niv:var(--c-a);--niv-pale:var(--c-a-pale)}
   --font-body:"Source Sans 3","Segoe UI",Roboto,Arial,sans-serif;
 ;--bg:#fff;--surface:#fff;--surface-2:#eef1f5;--fg:#111;--muted:#444;--line:#999;--sport:#1d4ed8}
 .schema{background:#fff;color:#14202e;border-radius:14px;padding:8px;font-family:var(--t)}
-.legende-o{margin:8px 4px 0;font-size:14px;color:var(--repere)}
+.legende-o{margin:8px 4px 0;font-size:max(14px,var(--fs-min,15px));color:var(--repere)}
 .legende-o .legend{display:flex;flex-wrap:wrap;gap:4px 14px}
 .legende-o i{display:inline-block;vertical-align:middle;margin-right:4px}
 .legende-o .dot{width:12px;height:12px;border-radius:50%}
 .legende-o .lineb{width:22px;border-top:2px dashed currentColor}
 .legende-o .liner{width:22px;border-top:2px solid currentColor}
-.schema .legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--muted);margin-top:4px}
+.schema .legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:max(12px,var(--fs-min,15px));color:var(--muted);margin-top:4px}
 .schema .legend i{display:inline-block;vertical-align:middle;margin-right:4px}
 .schema .dot{width:10px;height:10px;border-radius:50%}
 .schema .liner{width:22px;border-top:2px solid var(--fg)}
@@ -37,18 +37,18 @@ body.niv-a{--niv:var(--c-a);--niv-pale:var(--c-a-pale)}
 .schema .c-line{stroke:var(--court-line);stroke-width:2;fill:none}
 .schema .c-net{stroke:var(--net);stroke-width:4}
 .schema .c-zone{fill:var(--accent);fill-opacity:.12;stroke:var(--accent);stroke-opacity:.5;stroke-dasharray:4 4}
-.schema .c-zonet{fill:var(--accent);font:600 11px var(--font-body)}
+.schema .c-zonet{fill:var(--accent);font:600 max(11px,var(--fs-min,15px)) var(--font-body)}
 .schema .c-target{fill:var(--ball);fill-opacity:.25;stroke:var(--ball);stroke-width:1.5}
 .schema .c-pa{fill:var(--accent)}
 .schema .c-pb{fill:var(--team-b)}
 .schema .c-pn{fill:var(--team-n)}
-.schema .c-pt{fill:#ffffff;font:700 12px var(--font-body);text-anchor:middle;dominant-baseline:central}
+.schema .c-pt{fill:#ffffff;font:700 max(12px,var(--fs-min,15px)) var(--font-body);text-anchor:middle;dominant-baseline:central}
 .schema .c-ball{stroke:var(--ball);stroke-width:2;stroke-dasharray:6 4;fill:none}
 .schema .c-run{stroke:var(--fg);stroke-width:2;fill:none}
 .schema .c-head-b{fill:var(--ball)}
 .schema .c-head-r{fill:var(--fg)}
-.schema .c-label{fill:var(--fg);font:600 12px var(--font-body)}
-.schema .c-say{fill:var(--fg);font:italic 600 12px var(--font-body)}
+.schema .c-label{fill:var(--fg);font:600 max(12px,var(--fs-min,15px)) var(--font-body)}
+.schema .c-say{fill:var(--fg);font:italic 600 max(12px,var(--fs-min,15px)) var(--font-body)}
 .schema .teq-sch .c-label,.schema .teq-sch .c-say{font-size:23px;font-weight:700}
 .schema .teq-sch .c-pt{font-size:20px}
 .schema .legend{display:none}
@@ -58,8 +58,8 @@ body.niv-a{--niv:var(--c-a);--niv-pale:var(--c-a-pale)}
 .schema .c-netpost{fill:var(--net)}
 .schema .c-zone{fill:#ffffff;fill-opacity:.16;stroke:#ffd166;stroke-width:1.6;stroke-dasharray:5 3}
 .schema .c-zone.no{fill:#e5484d;fill-opacity:.28;stroke:#e5484d}
-.schema .c-zonet{fill:#ffe9a8;font:700 11px var(--font-body)}
-.schema .c-labt{fill:#ffffff;font:600 12px var(--font-body)}
+.schema .c-zonet{fill:#ffe9a8;font:700 max(11px,var(--fs-min,15px)) var(--font-body)}
+.schema .c-labt{fill:#ffffff;font:600 max(12px,var(--fs-min,15px)) var(--font-body)}
 .schema .c-bounce{fill:var(--ball);stroke:#fff;stroke-width:1.2}
 .schema .c-fold{fill:var(--court);opacity:.95}
 .schema .c-basket{fill:var(--surface);stroke:var(--fg);stroke-width:1.6}
@@ -70,7 +70,7 @@ body.niv-a{--niv:var(--c-a);--niv-pale:var(--c-a-pale)}
 .schema .c-head-g{fill:var(--ok)}
 .schema .c-down{stroke:var(--team-b);stroke-width:2.2;fill:none}
 .schema .c-head-o{fill:var(--team-b)}
-.schema .c-tnum{fill:var(--fg);font:700 13px var(--font-display)}
+.schema .c-tnum{fill:var(--fg);font:700 max(13px,var(--fs-min,15px)) var(--font-display)}
 .schema .lineo{width:22px;border-top:2px dashed var(--ball)}
 .cy button[data-cy=p].on{background:var(--c-p);color:var(--sur-niv)}
 .pc.niv-p .sc.jour{outline-color:var(--c-p)}
@@ -78,3 +78,5 @@ body.niv-a{--niv:var(--c-a);--niv-pale:var(--c-a-pale)}
 .cy button[data-cy=a].on{background:var(--c-a);color:var(--sur-niv)}
 .pc.niv-a .sc.jour{outline-color:var(--c-a)}
 .pc.niv-a{--nivp:var(--c-a)}
+/* Téléphone : frise sans libellés tronqués (le nom de l'étape est dans la carte), barre du bas tenue dans l'écran */
+@media (max-width:560px){.blocs span{display:none}.blocs b{font-size:max(14px,var(--fs-min,15px))}.pouce{gap:6px;padding-left:10px;padding-right:10px}.pouce .bt{flex:1 1 0;min-width:0;padding:0 6px;font-size:15px;white-space:normal;line-height:1.1;text-align:center}}

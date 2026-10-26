@@ -23,10 +23,10 @@
   /* step : ses propres noms de couleurs */
   --ink:var(--fg); --chip:var(--surface-2);
 }
-@media (prefers-color-scheme:dark){:root.outil:not([data-theme="light"]):not(.x){
+:root[data-theme="dark"].outil:not(.x){
   --bg:#11161D; --surface:#1B222C; --surface-2:#232C38; --fg:#E9EEF3; --muted:#9AA5B3; --line:#323C49;
   --ok:#6FD39F; --ok-bg:#15301F; --warn:#F2C46B; --warn-bg:#3A2D12; --done:#5B6573; --done-bg:#1F2833;
-  --accent-fg:#11161D; color-scheme:dark}}
+  --accent-fg:#11161D; color-scheme:dark}
 
 /* ---------- 2. Page ---------- */
 html.outil body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.45;-webkit-font-smoothing:antialiased}
@@ -66,7 +66,7 @@ html.outil .tb,html.outil .btn,html.outil .cbtn{font-family:var(--font-body);fon
   border:2px solid var(--fg);background:transparent;color:var(--fg);display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none}
 html.outil .tb.pri,html.outil .btn:not(.ghost){background:var(--fg);border-color:var(--fg);color:var(--bg)}
 html.outil .tb.danger{background:#B42318;border-color:#B42318;color:#fff}
-html.outil .tb.mini{min-height:36px;padding:0 12px;font-size:14px;border-width:1.5px}
+html.outil .tb.mini{min-height:36px;padding:0 12px;font-size:max(14px,var(--fs-min,15px));border-width:1.5px}
 html.outil .tb.big{min-height:56px;font-size:19px;padding:0 22px}
 html.outil .tb:disabled{opacity:.35}
 html.outil button.tab{border:2px solid var(--line);background:var(--surface);border-radius:12px;min-height:50px}
