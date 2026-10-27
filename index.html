@@ -196,7 +196,7 @@ const CONFIG = {
     { id: "terrain", title: "Sur le terrain", icon: "fa-person-running", color: "#15803d",
       topic: "terrain",
       repos: ["cycle-volley", "volley-eleves", "volley-pompidou", "cycle-badminton", "badminton-eleves", "badminton-prof", "cycle-tennis-de-table", "tennis-de-table-eleves", "tennis-de-table-prof",
-              "cycle-demi-fond", "demi-fond-eleves", "demi-fond-prof", "carnet-numerique-demi-fond", "cycle-step", "carnet-step-",
+              "cycle-demi-fond", "demi-fond-eleves", "demi-fond-prof", "carnet-numerique-demi-fond", "cycle-step", "carnet-step-", "cycle-danse",
               "cross-training-pompidou"],
       keywords: [["cycle"], ["volley"], ["badminton"], ["tennis"], ["ping"], ["step"], ["training"],
                  ["carnet"], ["tournoi"], ["demi"], ["course"], ["hand"], ["basket"], ["foot"], ["rugby"],
@@ -224,7 +224,7 @@ const CONFIG = {
     { id: "basket",    label: "Basket-ball",      icon: "fa-basketball",              color: "#fb7185", keywords: [["basket"]] },
     { id: "hand",      label: "Handball",         icon: "fa-hand",                    color: "#60a5fa", keywords: [["hand"]] },
     { id: "foot",      label: "Football",         icon: "fa-futbol",                  color: "#34d399", keywords: [["foot"]] },
-    { id: "danse",     label: "Danse / Acrosport",icon: "fa-person-rays",             color: "#e879f9", keywords: [["danse"], ["acro"]] },
+    { id: "danse",     label: "Danse / Acrosport",icon: "fa-person-rays",             color: "#a21caf", keywords: [["danse"], ["acro"]] },
     { id: "secours",   label: "Secourisme",       icon: "fa-kit-medical",             color: "#f87171", keywords: [["sst"], ["pse"], ["secour"]] },
     { id: "examens",   label: "Examens & convocations", icon: "fa-envelope-open-text", color: "#334155", keywords: [["convoc"], ["ccf"], ["brevet"], ["bac"]] },
   ],
@@ -240,6 +240,7 @@ const CONFIG = {
     "demi-fond-prof":             { title: "Demi-fond — outil prof", activity: "demifond" },
     "carnet-step-":               { title: "Carnet step" },
     "cycle-step":                 { title: "Cycle step" },
+    "cycle-danse":                { title: "Cycle danse" },
     "marche-30min":               { title: "Marche 30 min" },
     "convocations-ccf-eps":       { title: "Convocations CCF EPS", activity: "examens" },
     "convocations-as-pompidou":   { title: "Convocations AS / UNSS", activity: "examens" },
@@ -266,7 +267,7 @@ const CONFIG = {
 /* Icône partagée selon des mots du nom du dépôt : [mots requis, fichier dans icons/ sans .png] */
 const ICONRULES = [ [["tournoi", "volley"], "tournoi-volley"] ];
 /* Icônes d'applis présentes dans le dossier icons/ (nom du dépôt en minuscules) */
-const APPICONS = ["tennis-de-table","cycle-tennis-de-table","tennis-de-table-eleves","tennis-de-table-prof","cycle-volley","volley-eleves","cycle-badminton","badminton-eleves","badminton-prof","badminton-test","cycle-demi-fond","demi-fond-eleves","demi-fond-prof","ccf-demi-fond-prof","carnet-numerique-demi-fond","800m-ponctuel","demi-fond-test","demi-fond-test-pro","demi-fond-test-prof","marche-30min","cycle-step","carnet-step-","cross-training-pompidou","crosstraingtest","convocations-ccf-eps","convocations-as-pompidou","brevet2026"];
+const APPICONS = ["cycle-danse","tennis-de-table","cycle-tennis-de-table","tennis-de-table-eleves","tennis-de-table-prof","cycle-volley","volley-eleves","cycle-badminton","badminton-eleves","badminton-prof","badminton-test","cycle-demi-fond","demi-fond-eleves","demi-fond-prof","ccf-demi-fond-prof","carnet-numerique-demi-fond","800m-ponctuel","demi-fond-test","demi-fond-test-pro","demi-fond-test-prof","marche-30min","cycle-step","carnet-step-","cross-training-pompidou","crosstraingtest","convocations-ccf-eps","convocations-as-pompidou","brevet2026"];
 
 const $ = id => document.getElementById(id);
 const state = { repos: [], act: "all", q: "" };
