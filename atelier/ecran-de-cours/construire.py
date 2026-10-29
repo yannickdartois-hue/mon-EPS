@@ -82,6 +82,9 @@ def sw_maj(texte, monter):
         texte = texte.replace('"eps-outil.css",', '"eps-outil.css", "eps-charte-v1.css",', 1)
         if '"eps-charte-v1.css"' not in texte:
             raise ValueError('liste hors ligne introuvable dans sw.js (charte)')
+    for f in ('eps-aide.js', 'aide-ecran.js', 'polices/atkinson-400.woff2', 'polices/atkinson-700.woff2'):
+        if f'"{f}"' not in texte:
+            texte = texte.replace('"ecran.js",', f'"ecran.js", "{f}",', 1)
     if monter:
         texte, n = re.subn(r"(const (?:CACHE|V|C)='[^']*?)(\d+)'", lambda m: f"{m.group(1)}{int(m.group(2)) + 1}'", texte, count=1)
         if not n:

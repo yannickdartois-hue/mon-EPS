@@ -12,7 +12,7 @@ Les écrans de cours (badminton, tennis de table, demi-fond, volley-ball, step, 
 | `apps/activites.json` | Nom, couleur, fichier de données et outil complet de chaque activité. |
 | `apps/<activité>.js` | Ce qui est propre à l'activité : niveaux, séance du jour, liste des outils, raccourcis, schémas. |
 | `apps/<activité>.css` | Couleurs de l'activité et de ses niveaux, dessin des schémas. |
-| `commun/` | `eps-design.css`, `eps-outil.css`, `eps-commun.js`, recopiés tels quels. |
+| `commun/` | `eps-design.css`, `eps-outil.css`, `eps-commun.js`, `eps-aide.js` (bouton « ? », police lisible) et `aide-ecran.js` (le mode d’emploi de l’écran), recopiés tels quels. |
 | `construire.py` | Fabrique et recopie le tout dans les 5 dépôts. |
 | `commun/eps-charte-v1.css` | Charte visuelle commune v1 (thème clair, couleurs de base). La couleur de chaque activité (`couleur`) et la teinte de chaque cycle (`teintes` : clair / normal / foncé) sont dans `apps/activites.json` ; `construire.py` en déduit le petit style « Charte v1 » de chaque page. Une v2 sera un autre fichier. |
 

@@ -216,3 +216,7 @@ body.sous-outil{overflow:hidden}
 .racc .bt{min-height:44px}
 .ptete{display:flex;align-items:center;gap:12px;padding:14px 20px;padding-top:max(14px,env(safe-area-inset-top));background:var(--craie)}
 .ptete h2{margin:0;flex:1;font:800 30px/1 var(--d);font-stretch:72%}
+
+/* bouton « ? » : mode d’emploi (eps-aide.js) */
+.barre .baide{flex:none;width:46px;min-width:46px;height:46px;padding:0;border-radius:50%;font-weight:900;font-size:20px;line-height:1;display:grid;place-items:center}
+@media print{.barre .baide{display:none}}
