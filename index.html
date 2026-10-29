@@ -238,7 +238,8 @@ const CONFIG = {
     "cycle-demi-fond":            { title: "Cycle demi-fond" },
     "demi-fond-eleves":           { title: "Demi-fond — app élèves", activity: "demifond" },
     "demi-fond-prof":             { title: "Demi-fond — outil prof", activity: "demifond" },
-    "carnet-step-":               { title: "Carnet step" },
+    "carnet-step-":               { title: "Carnet step — app élèves" },
+    "carnet-step-prof":           { title: "Carnet step — outil prof", activity: "step" },
     "cycle-step":                 { title: "Cycle step" },
     "cycle-danse":                { title: "Cycle danse" },
     "marche-30min":               { title: "Marche 30 min" },
@@ -258,6 +259,13 @@ const CONFIG = {
     // "mon-depot": { section: "coordo" },
   },
 
+  /* Applis sans dépôt à elles (sous-dossier d'un autre dépôt) : ajoutées à la liste comme un dépôt. */
+  extras: [
+    { name: "carnet-step-prof", description: "Recevoir les séances des binômes (QR, Nuage), suivre la classe, préparer la note.",
+      homepage: "https://yannickdartois-hue.github.io/Carnet-Step-/prof/", html_url: "https://github.com/yannickdartois-hue/Carnet-Step-/tree/main/prof",
+      has_pages: true, updated_at: "2026-10-29T12:00:00Z", fork: false, archived: false, topics: [] }
+  ],
+
   // Sigles remis en majuscules dans les titres automatiques
   acronyms: ["ccf", "eps", "as", "unss", "sst", "pse", "cap", "bac", "pv", "qr"],
   cacheMinutes: 30
@@ -267,7 +275,7 @@ const CONFIG = {
 /* Icône partagée selon des mots du nom du dépôt : [mots requis, fichier dans icons/ sans .png] */
 const ICONRULES = [ [["tournoi", "volley"], "tournoi-volley"] ];
 /* Icônes d'applis présentes dans le dossier icons/ (nom du dépôt en minuscules) */
-const APPICONS = ["cycle-danse","tennis-de-table","cycle-tennis-de-table","tennis-de-table-eleves","tennis-de-table-prof","cycle-volley","volley-eleves","cycle-badminton","badminton-eleves","badminton-prof","badminton-test","cycle-demi-fond","demi-fond-eleves","demi-fond-prof","ccf-demi-fond-prof","carnet-numerique-demi-fond","800m-ponctuel","demi-fond-test","demi-fond-test-pro","demi-fond-test-prof","marche-30min","cycle-step","carnet-step-","cross-training-pompidou","crosstraingtest","convocations-ccf-eps","convocations-as-pompidou","brevet2026"];
+const APPICONS = ["cycle-danse","tennis-de-table","cycle-tennis-de-table","tennis-de-table-eleves","tennis-de-table-prof","cycle-volley","volley-eleves","cycle-badminton","badminton-eleves","badminton-prof","badminton-test","cycle-demi-fond","demi-fond-eleves","demi-fond-prof","ccf-demi-fond-prof","carnet-numerique-demi-fond","800m-ponctuel","demi-fond-test","demi-fond-test-pro","demi-fond-test-prof","marche-30min","cycle-step","carnet-step-","carnet-step-prof","cross-training-pompidou","crosstraingtest","convocations-ccf-eps","convocations-as-pompidou","brevet2026"];
 
 const $ = id => document.getElementById(id);
 const state = { repos: [], act: "all", q: "" };
@@ -475,7 +483,7 @@ new IntersectionObserver(([e]) => $("bar").classList.toggle("stuck", !e.isInters
   .observe(document.querySelector("header"));
 
 fetchRepos().then(({ list, from, err, generated }) => {
-  state.repos = prepare(list);
+  state.repos = prepare(list.concat(CONFIG.extras || []));
   render();
   $("foot").textContent =
     from === "stale" ? `GitHub indisponible (${err.message}) — liste affichée depuis l'appareil.`
