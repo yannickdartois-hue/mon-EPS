@@ -220,3 +220,12 @@ body.sous-outil{overflow:hidden}
 /* bouton « ? » : mode d’emploi (eps-aide.js) */
 .barre .baide{flex:none;width:46px;min-width:46px;height:46px;padding:0;border-radius:50%;font-weight:900;font-size:20px;line-height:1;display:grid;place-items:center}
 @media print{.barre .baide{display:none}}
+
+/* Téléphone : la barre du haut passe sur deux lignes (titre de la séance en dessous) au lieu de déborder */
+@media (max-width:640px){
+  .barre{flex-wrap:wrap;row-gap:8px}
+  .barre .titre{order:9;flex:1 1 100%;padding-left:0;white-space:normal}
+  .barre .bt.clair{padding-left:10px;padding-right:10px}
+  .deroule{overflow-x:auto} /* séance à nombreux blocs (step) : la frise défile au lieu d'élargir la page */
+  .pouce{flex-wrap:wrap}
+}
