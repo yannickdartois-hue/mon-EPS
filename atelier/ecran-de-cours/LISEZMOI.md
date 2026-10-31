@@ -1,6 +1,6 @@
-# Écran de cours : la source commune des 6 cycles
+# Écran de cours : la source commune des 7 cycles
 
-Les écrans de cours (badminton, tennis de table, demi-fond, volley-ball, step, danse) sont fabriqués à partir de ce dossier. Une correction faite ici vaut pour les 6 cycles.
+Les écrans de cours (badminton, tennis de table, demi-fond, volley-ball, step, danse, cross training) sont fabriqués à partir de ce dossier. Une correction faite ici vaut pour les 7 cycles.
 
 ## Ce qu'il y a ici
 
