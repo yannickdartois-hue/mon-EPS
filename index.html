@@ -416,10 +416,19 @@ function tool(r, i, showAct){
   </div>`;
 }
 
+/* Ordre dans une activité : le cycle, puis l'appli élève, puis l'outil prof, puis le reste. */
+function roleRank(r){
+  const t = (r.title + " " + r.name).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  if (/\bcycle\b/.test(t)) return 0;
+  if (/\belev/.test(t)) return 1;
+  if (/\bprof\b/.test(t)) return 2;
+  return 3;
+}
+const byRole = (x,y) => roleRank(x) - roleRank(y) || x.title.localeCompare(y.title, "fr");
+
 function byActivity(items){
   const order = CONFIG.activities.map(a => a.id).concat(CONFIG.otherActivity.id);
-  return order.map(id => [ACT[id], items.filter(r => r.act === id)
-      .sort((x,y) => x.title.localeCompare(y.title, "fr"))])
+  return order.map(id => [ACT[id], items.filter(r => r.act === id).sort(byRole)])
     .filter(([, l]) => l.length);
 }
 
