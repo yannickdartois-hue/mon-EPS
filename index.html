@@ -181,6 +181,8 @@ const CONFIG = {
   user: "yannickdartois-hue",
 
   // Dépôts jamais affichés (le portail lui-même, etc.)
+  /* Dépôts hors EPS à ne pas afficher : tout dépôt dont le nom contient un de ces mots (accents et majuscules ignorés). */
+  excludeWords: ["gharda", "alger", "taux", "dinar"],
   exclude: ["yannickdartois-hue.github.io", "mon-eps", "carnet-numerique-demi-fond", "tennis-de-table"],   /* tennis-de-table = doublon de cycle-tennis-de-table, à archiver ; l'ancien carnet renvoie vers les applis demi-fond élève et prof */
 
   /* Grandes parties, dans l'ORDRE D'AFFICHAGE.
@@ -377,7 +379,8 @@ async function fetchRepos(){
 function prepare(list){
   const ex = CONFIG.exclude.map(norm);
   return list
-    .filter(r => !r.fork && !r.archived && !ex.includes(norm(r.name)))
+    .filter(r => !r.fork && !r.archived && !ex.includes(norm(r.name))
+              && !(CONFIG.excludeWords || []).some(w => norm(r.name).includes(norm(w))))
     .map(r => {
       const o = ovr(r);
       const test = isTest(r) && !o.part;
