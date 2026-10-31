@@ -16,10 +16,10 @@ const APP={
   lienOld:(c,id)=>'outils.html#seance-'+c+'-'+String(id||'s1').toUpperCase(),
   lireCur(){const o={};for(const k of Object.keys(PARCOURS)){const j=lire('ct_jour_'+k,-1),L=APP.niv[k].L;o[k]=j>=0&&L[j]?L[j].id:''}return o},
   marquerJour(c,id){const j=APP.niv[c].L.findIndex(s=>s.id===id);if(j<0)return;ecrire('ct_jour_'+c,j);CUR[c]=id},
-  outils:[{"titre":"Pendant le cours","items":[["mouvements","Mouvements","photos, critères, − et +"],["formats","Formats","Tabata, EMOM, AMRAP…"],["chrono","Chrono élève","l’appli des élèves"],["echauff","Échauffements","guidé et autonome"]]},
+  outils:[{"titre":"Pendant le cours","items":[["mouvements","Mouvements","photos, critères, − et +"],["formats","Formats","Tabata, EMOM, AMRAP…"],["chrono","Appli élève","carnet et chrono"],["echauff","Échauffements","guidé et autonome"]]},
           {"titre":"Adapter","items":[["mobiles","Mobiles et FC","les 2 mobiles de l’épreuve"],["banque","Banque","situations de rechange"],["diff","Différenciation","douleurs, débutants, experts"],["gareeps","GAREEPS","étoile, SCE, SRP, STOM"]]},
           {"titre":"Évaluer","items":[["eval","Épreuve","référentiel, jour J, barèmes"],["carnet","Carnet","à imprimer"],["sources","Sources","pour préparer"]]}],
-  urlOutil:id=>id==='chrono'?LIEN_CHRONO:APP.old+'#tab-'+id,
+  urlOutil:id=>id==='chrono'?'https://yannickdartois-hue.github.io/cross-training-eleves/':APP.old+'#tab-'+id,
   racc:[[/TABATA|Tabata|EMOM|AMRAP|for time/,'formats','Les formats'],[/mobile|FC visée|fourchette/i,'mobiles','Mobiles et FC'],[/étoile|SCE|SRP|STOM/,'gareeps','Démarche GAREEPS'],[/^ech$/,'echauff','Échauffements'],[/kettlebell|barre|box|swing|thruster/i,'mouvements','Mouvements']],
   schemaDe:e=>{if(!e||!e.spec)return '';return schema(e.spec)},
   plan(c,id){
