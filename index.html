@@ -199,10 +199,10 @@ const CONFIG = {
       topic: "terrain",
       repos: ["cycle-volley", "volley-eleves", "volley-pompidou", "cycle-badminton", "badminton-eleves", "badminton-prof", "cycle-tennis-de-table", "tennis-de-table-eleves", "tennis-de-table-prof",
               "cycle-demi-fond", "demi-fond-eleves", "demi-fond-prof", "carnet-numerique-demi-fond", "cycle-step", "carnet-step-", "cycle-danse",
-              "cycle-cross-training", "cross-training-eleves", "cross-training-prof", "cross-training-pompidou"],
+              "cycle-cross-training", "cross-training-eleves", "cross-training-prof", "cross-training-pompidou", "gym-eleves", "gym-prof"],
       keywords: [["cycle"], ["volley"], ["badminton"], ["tennis"], ["ping"], ["step"], ["training"],
                  ["carnet"], ["tournoi"], ["demi"], ["course"], ["hand"], ["basket"], ["foot"], ["rugby"],
-                 ["acro"], ["danse"], ["escalade"], ["natation"], ["muscu"], ["seance"], ["eleve"]] },
+                 ["acro"], ["danse"], ["gym"], ["escalade"], ["natation"], ["muscu"], ["seance"], ["eleve"]] },
     { id: "coordo", title: "Coordo & évaluation", icon: "fa-clipboard-check", color: "#334155",
       topic: "coordo",
       repos: ["ccf-demi-fond-prof", "800m-ponctuel", "marche-30min", "convocations-ccf-eps", "convocations-as-pompidou"],
@@ -222,6 +222,7 @@ const CONFIG = {
     { id: "demifond",  label: "Demi-fond",        icon: "fa-stopwatch",               color: "#b91c1c", keywords: [["demi"], ["800"], ["course"]] },
     { id: "step",      label: "Step",             icon: "fa-music",                   color: "#6d28d9", keywords: [["step"]] },
     { id: "cross",     label: "Cross training",   icon: "fa-dumbbell",                color: "#c2410c", keywords: [["cross"], ["training"], ["muscu"]] },
+    { id: "gym",       label: "Gymnastique",      icon: "fa-child-reaching",          color: "#0f766e", keywords: [["gym"]] },
     { id: "marche",    label: "Marche",           icon: "fa-person-walking",          color: "#334155", keywords: [["marche"]] },
     { id: "basket",    label: "Basket-ball",      icon: "fa-basketball",              color: "#fb7185", keywords: [["basket"]] },
     { id: "hand",      label: "Handball",         icon: "fa-hand",                    color: "#60a5fa", keywords: [["hand"]] },
@@ -257,6 +258,8 @@ const CONFIG = {
     "tennis-de-table-eleves":     { title: "Tennis de table — app élèves" },
     "tennis-de-table-prof":       { title: "Tennis de table — outil prof" },
     "badminton-eleves":           { title: "Badminton — app élèves" },
+    "gym-eleves":                 { title: "Gymnastique — app élèves", activity: "gym" },
+    "gym-prof":                   { title: "Gymnastique — outil prof", activity: "gym" },
     "badminton-prof":             { title: "Badminton — outil prof" },
     "cycle-volley":               { title: "Cycle volley-ball" },
     "brevet2026":                 { title: "Brevet 2026" },
@@ -280,7 +283,7 @@ const CONFIG = {
 /* Icône partagée selon des mots du nom du dépôt : [mots requis, fichier dans icons/ sans .png] */
 const ICONRULES = [ [["tournoi", "volley"], "tournoi-volley"] ];
 /* Icônes d'applis présentes dans le dossier icons/ (nom du dépôt en minuscules) */
-const APPICONS = ["cycle-danse","tennis-de-table","cycle-tennis-de-table","tennis-de-table-eleves","tennis-de-table-prof","cycle-volley","volley-eleves","cycle-badminton","badminton-eleves","badminton-prof","badminton-test","cycle-demi-fond","demi-fond-eleves","demi-fond-prof","ccf-demi-fond-prof","carnet-numerique-demi-fond","800m-ponctuel","demi-fond-test","demi-fond-test-pro","demi-fond-test-prof","marche-30min","cycle-step","carnet-step-","carnet-step-prof","cycle-cross-training","cross-training-eleves","cross-training-prof","cross-training-pompidou","crosstraingtest","convocations-ccf-eps","convocations-as-pompidou","brevet2026"];
+const APPICONS = ["cycle-danse","tennis-de-table","cycle-tennis-de-table","tennis-de-table-eleves","tennis-de-table-prof","cycle-volley","volley-eleves","cycle-badminton","badminton-eleves","badminton-prof","badminton-test","cycle-demi-fond","demi-fond-eleves","demi-fond-prof","ccf-demi-fond-prof","carnet-numerique-demi-fond","800m-ponctuel","demi-fond-test","demi-fond-test-pro","demi-fond-test-prof","marche-30min","cycle-step","carnet-step-","carnet-step-prof","cycle-cross-training","cross-training-eleves","cross-training-prof","cross-training-pompidou","crosstraingtest","gym-eleves","gym-prof","convocations-ccf-eps","convocations-as-pompidou","brevet2026"];
 
 const $ = id => document.getElementById(id);
 const state = { repos: [], act: "all", q: "" };
