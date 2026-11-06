@@ -4,8 +4,8 @@ let CUR_A='t';   /* leçons en autonomie : Terminale (at) ou Première (ap) */
 const APP={
   old:'outils.html',
   cle:'tq',
-  niv:{p:{label:'Première',court:'1re',long:'PREMIÈRE',L:P_SESSIONS},t:{label:'Terminale',court:'Tle',long:'TERMINALE',L:T_SESSIONS},a:{label:'Autonomie',court:'Auto',long:'AUTONOMIE',L:A_SESSIONS}},
-  defaut:'t',
+  niv:{a:{label:'Autonomie (1re et Tle)',court:'Auto',long:'AUTONOMIE · 1re ET Tle',L:A_SESSIONS},p:{label:'Première',court:'1re',long:'PREMIÈRE',L:P_SESSIONS},t:{label:'Terminale',court:'Tle',long:'TERMINALE',L:T_SESSIONS}},
+  defaut:'a',
   lienOld:(c,id)=>c==='a'?APP.old+'#a-'+CUR_A+'-'+id:APP.old+'#g-'+c+'-'+id,
   lireCur(){const o=lire('tt-cur',{})||{},c=o.cur||{};CUR_A=c.ap&&!c.at?'p':'t';return Object.assign({},c,{a:c.at||c.ap||''})},
   marquerJour(c,id){const o=lire('tt-cur',{})||{},cur=Object.assign({t:'',p:'',at:'',ap:''},o.cur||{});cur[c==='a'?'a'+CUR_A:c]=id;const up=Date.now();
