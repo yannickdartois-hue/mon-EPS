@@ -54,3 +54,12 @@
 .pictos figcaption{font-size:max(14px,var(--fs-min,15px));line-height:1.3;color:#1c2128}
 .L{display:inline-block;min-width:1.6em;border-radius:6px;padding:0 4px;font-weight:800;text-align:center}
 .LA{background:#ff0000;color:#fff}.LB{background:#ec7c30;color:#000}.LC{background:#ffc000;color:#000}.LD{background:#ffff00;color:#000}.LE{background:#92d050;color:#000}.LF{background:#00af50;color:#000}
+/* Exercices illustrés (EvoluGym) et photos des fiches Access Gym (FFG) */
+.exos{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.exo{margin:0;background:#fff;border:1px solid #dde2e8;border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:6px;color:#1c2128}
+.exo img{width:100%;height:130px;object-fit:contain;background:#fff}
+.exo figcaption{font-size:max(14px,var(--fs-min,15px));line-height:1.35}.exo figcaption b{display:block;font-size:max(16px,var(--fs-min,15px))}
+.photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px;margin-bottom:10px}
+.photos figure{margin:0;background:#fff;border:1px solid #dde2e8;border-radius:12px;overflow:hidden}
+.photos img{width:100%;display:block}.photos figcaption{padding:6px 10px;font-size:max(14px,var(--fs-min,15px));color:#1c2128}
+@media print{.exo img{height:90px}}
