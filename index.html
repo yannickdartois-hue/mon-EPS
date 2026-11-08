@@ -205,7 +205,7 @@ const CONFIG = {
                  ["acro"], ["danse"], ["gym"], ["escalade"], ["natation"], ["muscu"], ["seance"], ["eleve"]] },
     { id: "coordo", title: "Coordo & évaluation", icon: "fa-clipboard-check", color: "#334155",
       topic: "coordo",
-      repos: ["ccf-demi-fond-prof", "800m-ponctuel", "marche-30min", "convocations-ccf-eps", "convocations-as-pompidou"],
+      repos: ["mes-classes", "ccf-demi-fond-prof", "800m-ponctuel", "marche-30min", "convocations-ccf-eps", "convocations-as-pompidou"],
       keywords: [["marche"], ["800"], ["convoc"], ["ccf"], ["demi", "prof"], ["pronote"], ["service"], ["sst"], ["pv"]] },
     { id: "autres", title: "Autres", icon: "fa-toolbox", color: "#5b6470",
       topic: "autres", repos: [], keywords: [] },
@@ -235,6 +235,7 @@ const CONFIG = {
 
   // Surcharges facultatives : title, description, part, activity, icon
   overrides: {
+    "mes-classes":                { title: "Mes classes (Pronote)", part: "coordo" },
     "ccf-demi-fond-prof":         { title: "CCF demi-fond — prof", activity: "demifond" },
     "800m-ponctuel":              { title: "800 m ponctuel" },
     "carnet-numerique-demi-fond": { title: "Carnet numérique demi-fond" },
@@ -270,6 +271,9 @@ const CONFIG = {
 
   /* Applis sans dépôt à elles (sous-dossier d'un autre dépôt) : ajoutées à la liste comme un dépôt. */
   extras: [
+    { name: "mes-classes", description: "Lire les exports Pronote une fois par an : un seul fichier de classes, que toutes les applis prof savent importer.",
+      homepage: "https://yannickdartois-hue.github.io/mon-EPS/mes-classes/", html_url: "https://github.com/yannickdartois-hue/mon-EPS/tree/main/mes-classes",
+      has_pages: true, updated_at: "2026-11-08T12:00:00Z", fork: false, archived: false, topics: [] },
     { name: "carnet-step-prof", description: "Recevoir les séances des binômes (QR, Nuage), suivre la classe, préparer la note.",
       homepage: "https://yannickdartois-hue.github.io/Carnet-Step-/prof/", html_url: "https://github.com/yannickdartois-hue/Carnet-Step-/tree/main/prof",
       has_pages: true, updated_at: "2026-10-29T12:00:00Z", fork: false, archived: false, topics: [] }

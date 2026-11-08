@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#334155">
+<link rel="icon" href="../icon-32.png">
+<link rel="apple-touch-icon" href="../icon-180.png">
+<title>Mes classes</title>
+<style>
+:root{--fond:#f4f6f9;--carte:#fff;--texte:#14181f;--gris:#5b6472;--ligne:#dde2ea;--acc:#334155;--ok:#e7f6ec;--okb:#15803d;--av:#fff4d6;--avb:#b7791f;--err:#b91c1c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fond);color:var(--texte);font:17px/1.45 -apple-system,"Segoe UI",Roboto,Arial,sans-serif;padding:16px;padding-top:max(16px,env(safe-area-inset-top))}
+main{max-width:860px;margin:0 auto}
+h1{margin:4px 0 2px;font-size:32px}
+h2{margin:0 0 8px;font-size:21px}
+.carte{background:var(--carte);border-radius:16px;padding:16px;margin:14px 0;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.petit{font-size:15px;color:var(--gris)}
+.bt{display:inline-flex;align-items:center;gap:6px;min-height:48px;padding:0 18px;border-radius:12px;border:0;background:#e5e9f0;color:var(--texte);font:inherit;font-weight:700;cursor:pointer;margin:4px 6px 4px 0}
+.bt.pri{background:var(--acc);color:#fff}.bt.danger{background:#fde8e8;color:var(--err)}.bt:disabled{opacity:.45;cursor:default}
+textarea,input[type=text]{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--ligne);border-radius:10px;background:#fff}
+label.ch{display:block;font-weight:700;font-size:15px;margin:10px 0 4px}
+.grille{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:620px){.grille{grid-template-columns:1fr}}
+.cl{border:1px solid var(--ligne);border-radius:12px;padding:10px 12px;margin:8px 0}
+.cl h3{margin:0;font-size:18px;display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.cl ol{margin:8px 0 0;padding-left:26px;font-size:15px;columns:2}@media(max-width:620px){.cl ol{columns:1}}
+.badge{display:inline-block;font-size:13px;font-weight:700;padding:2px 8px;border-radius:999px;background:#eef1f5;color:var(--gris);margin-left:4px}
+.note{border-left:4px solid var(--avb);background:var(--av);padding:10px 12px;border-radius:10px;font-size:15px}
+.okm{border-left:4px solid var(--okb);background:var(--ok);padding:10px 12px;border-radius:10px;font-size:15px}
+a{color:var(--acc);font-weight:700}
+</style>
+</head>
+<body>
+<main>
+<p class="petit"><a href="../">← Portail mon-EPS</a></p>
+<h1>Mes classes</h1>
+<p class="petit">Un seul import Pronote par an, puis un fichier que toutes tes applis prof savent lire.</p>
+
+<section class="carte">
+  <h2>1 · Lire les exports Pronote</h2>
+  <p class="petit">Pronote : liste des élèves de la classe → Exporter (xlsx, xls ou csv). Tu peux choisir plusieurs fichiers d’un coup ; avec une colonne « Classe », un seul fichier suffit pour toutes tes classes.</p>
+  <div class="grille">
+    <div><label class="ch" for="classe">Classe (si le fichier ne la donne pas)</label><input id="classe" type="text" placeholder="1G3" autocomplete="off"></div>
+    <div><label class="ch">Fichiers Pronote</label><label class="bt pri" for="fic">Choisir les fichiers</label><input id="fic" type="file" accept=".xlsx,.xls,.csv,.ods,.txt" multiple hidden></div>
+  </div>
+  <label class="ch" for="txt">Ou coller une liste (un élève par ligne : « NOM Prénom », éventuellement suivi de F ou G)</label>
+  <textarea id="txt" rows="3" placeholder="DUPONT Marie&#9;F&#10;MARTIN Léo&#9;G"></textarea>
+  <button class="bt" type="button" id="coller">Ajouter la liste collée</button>
+  <p id="msg" class="petit" role="status"></p>
+</section>
+
+<section class="carte" id="res" hidden>
+  <h2>2 · Vérifier</h2>
+  <div id="liste"></div>
+</section>
+
+<section class="carte" id="exp" hidden>
+  <h2>3 · Enregistrer le fichier</h2>
+  <p>Le fichier ne garde que <b>la classe, le nom, le prénom et le sexe</b>. Rien d’autre de l’export Pronote (date de naissance, numéro, adresse, régime…) n’est conservé.</p>
+  <button class="bt pri" type="button" id="dl">Télécharger « Mes classes »</button>
+  <div class="note" style="margin-top:10px"><b>Ce fichier contient des noms d’élèves.</b> Range-le uniquement dans ton Nuage apps.education : pas en pièce jointe d’un mail personnel, pas dans un Drive ou une clé personnels. Supprime-le en fin d’année, une fois les notes reportées dans Pronote.</div>
+  <h2 style="margin-top:16px">4 · L’importer dans chaque appli prof</h2>
+  <p class="petit">Dans chaque appli prof (tennis de table, badminton, gymnastique, demi-fond, cross training) : onglet <b>Classes</b> → « Choisir le fichier Pronote » → ce fichier. Toutes les classes arrivent d’un coup. À faire une fois par appli et par an.</p>
+</section>
+
+<section class="carte">
+  <h2>Confidentialité</h2>
+  <p class="petit">Cette page ne garde rien et n’envoie rien sur internet : les fichiers sont lus sur ton appareil, et tout disparaît quand tu fermes la page. Elle fonctionne aussi sans connexion après une première ouverture.</p>
+</section>
+</main>
+<script>
+'use strict';
+/* ---- Lecture des listes : même logique que les applis prof (« Prénom NOM », particules, colonnes Pronote) ---- */
+const norm=s=>String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function partsNom(t){
+  const w=String(t||'').replace(/\s+/g,' ').trim().split(' ').filter(Boolean);
+  const maj=x=>x===x.toUpperCase()&&/[A-ZÀ-Ý]/.test(x),part=x=>/^(de|du|des|d'|d’|le|la|van|von|der|den|di|da|del|dos)$/.test(x);
+  const dans=w.map(maj);
+  for(let i=w.length-2;i>=0;i--)if(!dans[i]&&part(w[i])&&dans[i+1])dans[i]=true;
+  return {nom:w.filter((x,i)=>dans[i]).join(' '),pre:w.filter((x,i)=>!dans[i]).join(' ')};
+}
+function sexeDe(v){const n=norm(v);if(!n)return '';if(/^(f|fille|feminin|femme)/.test(n))return 'F';if(/^(g|m|garcon|masculin|homme)/.test(n))return 'G';return ''}
+const CLASSES={};   // classe → Map(clé → {nom,pre,sexe})
+function ajouter(classe,nom,pre,sexe){
+  nom=String(nom||'').replace(/\s+/g,' ').trim();pre=String(pre||'').replace(/\s+/g,' ').trim();
+  if(!nom&&!pre)return false;if(/^(total|effectif)/i.test(nom+pre))return false;
+  classe=String(classe||'').trim();if(!classe)return false;
+  const M=CLASSES[classe]=CLASSES[classe]||new Map(),k=norm(nom)+'|'+norm(pre),old=M.get(k);
+  M.set(k,{nom,pre,sexe:sexe||(old&&old.sexe)||''});return true;
+}
+function lireLignes(rows,classeDefaut){
+  rows=rows.map(r=>(r||[]).map(c=>c==null?'':String(c).trim()));
+  const hi=rows.findIndex(r=>r.some(c=>/^(é|e)l(è|e)ve|^nom\b|^nom$|pr(é|e)nom/i.test(c)));
+  const H=hi>=0?rows[hi].map(c=>norm(c)):[];
+  const col=re=>H.findIndex(h=>re.test(h));
+  const iNom=col(/^nom( de famille)?$/),iPre=col(/^prenom/),iEl=col(/^eleve|^nom prenom|^nom et prenom|^identite/),iCl=col(/^classe/),iSx=col(/^sexe|^genre/);
+  let n=0;
+  rows.slice(hi+1).forEach(r=>{
+    let nom='',pre='';
+    if(iNom>=0&&iPre>=0&&r[iNom]){nom=r[iNom].toUpperCase();pre=r[iPre]}
+    else{const t=iEl>=0?r[iEl]:(hi<0?r[0]:'');if(!t)return;const p=partsNom(t);nom=p.nom||t;pre=p.pre}
+    const c=(iCl>=0&&r[iCl])||classeDefaut;
+    if(ajouter(c,nom,pre,iSx>=0?sexeDe(r[iSx]):(hi<0?sexeDe(r[1]):'')))n++;
+  });
+  return n;
+}
+function chargerScript(src){return new Promise((ok,ko)=>{if(window.XLSX)return ok();const e=document.createElement('script');e.src=src;e.onload=()=>ok();e.onerror=()=>ko(new Error('Impossible de charger '+src));document.head.appendChild(e)})}
+async function lireFichiers(files){
+  const cd=document.getElementById('classe').value.trim(),msg=[];let total=0;
+  if(files.length&&!window.XLSX)await chargerScript('xlsx.js');
+  for(const f of files){
+    const buf=await f.arrayBuffer();let wb;
+    if(/\.(csv|txt)$/i.test(f.name)||/text|csv/.test(f.type)){
+      let t;try{t=new TextDecoder('utf-8',{fatal:true}).decode(buf)}catch(e){t=new TextDecoder('windows-1252').decode(buf)}
+      t=t.replace(/^﻿/,'');const l0=t.split(/\r?\n/)[0];const sep=(l0.match(/;/g)||[]).length>=(l0.match(/,/g)||[]).length?';':',';
+      wb=XLSX.read(t,{type:'string',FS:sep});
+    }else wb=XLSX.read(buf,{type:'array'});
+    let n=0;wb.SheetNames.forEach(sn=>{n+=lireLignes(XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,raw:false,defval:''}),cd)});
+    total+=n;msg.push(f.name+' : '+(n?n+' élève'+(n>1?'s':''):'aucun élève lu (colonne « Classe » absente ? écris la classe puis recommence)'));
+  }
+  return {total,msg};
+}
+function afficher(){
+  const C=Object.keys(CLASSES).filter(c=>CLASSES[c].size).sort((a,b)=>a.localeCompare(b,'fr',{numeric:true}));
+  document.getElementById('res').hidden=document.getElementById('exp').hidden=!C.length;
+  document.getElementById('liste').innerHTML=C.map(c=>{const L=[...CLASSES[c].values()].sort((a,b)=>(a.nom+' '+a.pre).localeCompare(b.nom+' '+b.pre,'fr'));
+    const f=L.filter(x=>x.sexe==='F').length,g=L.filter(x=>x.sexe==='G').length,sans=L.length-f-g;
+    return `<div class="cl"><h3><span>${esc(c)} <span class="badge">${L.length} élèves</span>${f||g?`<span class="badge">${f} F · ${g} G</span>`:''}${sans&&(f||g)?`<span class="badge">${sans} sans sexe</span>`:''}</span><button class="bt danger" type="button" data-suppr="${esc(c)}">Retirer</button></h3>
+      <details><summary class="petit">Voir la liste</summary><ol>${L.map(x=>`<li>${esc(x.nom)} ${esc(x.pre)}${x.sexe?' <span class="petit">· '+x.sexe+'</span>':''}</li>`).join('')}</ol></details></div>`}).join('')+
+    (C.length?`<p class="petit">${C.length} classe${C.length>1?'s':''}, ${C.reduce((s,c)=>s+CLASSES[c].size,0)} élèves. Sans colonne « Sexe » dans l’export, le sexe reste vide : seule l’appli de demi-fond s’en sert (barèmes), et l’élève peut le donner dans son appli.</p>`:'');
+}
+function anneeScolaire(){const d=new Date(),y=d.getFullYear()-(d.getMonth()<7?1:0);return y+'-'+(y+1)}
+function telecharger(){
+  /* Colonne « Élève » au format Pronote (« NOM Prénom ») : les applis prof la lisent exactement comme un export Pronote. */
+  const lignes=[['Classe','Élève','Sexe']];
+  Object.keys(CLASSES).sort((a,b)=>a.localeCompare(b,'fr',{numeric:true})).forEach(c=>[...CLASSES[c].values()].sort((a,b)=>(a.nom+' '+a.pre).localeCompare(b.nom+' '+b.pre,'fr')).forEach(x=>lignes.push([c,(x.nom+' '+x.pre).trim(),x.sexe])));
+  const csv='﻿'+lignes.map(l=>l.map(v=>/[;"\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v).join(';')).join('\r\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='mes-classes-'+anneeScolaire()+'.csv';
+  document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);
+}
+const m=document.getElementById('msg');
+document.getElementById('fic').onchange=async e=>{const files=[...e.target.files];e.target.value='';if(!files.length)return;
+  m.textContent='Lecture…';try{const r=await lireFichiers(files);m.innerHTML=r.msg.map(esc).join('<br>')}catch(err){m.textContent='Fichier illisible : '+err.message}afficher()};
+document.getElementById('coller').onclick=()=>{const t=document.getElementById('txt').value.trim(),cd=document.getElementById('classe').value.trim();
+  if(!t)return;if(!cd){m.textContent='Écris d’abord le nom de la classe.';return}
+  const n=lireLignes(t.split(/\r?\n/).map(l=>l.split(/\t|;/)),cd);m.textContent=n+' élève'+(n>1?'s':'')+' ajouté'+(n>1?'s':'')+' en '+cd+'.';document.getElementById('txt').value='';afficher()};
+document.getElementById('liste').onclick=e=>{const b=e.target.closest('[data-suppr]');if(!b)return;delete CLASSES[b.dataset.suppr];afficher()};
+document.getElementById('dl').onclick=telecharger;
+</script>
+</body>
+</html>
