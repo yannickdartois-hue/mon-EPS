@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#334155">
+<link rel="icon" href="../icon-32.png">
+<link rel="apple-touch-icon" href="../icon-180.png">
+<title>Relevé de notes</title>
+<style>
+:root{--fond:#f4f6f9;--carte:#fff;--texte:#14181f;--gris:#5b6472;--ligne:#dde2ea;--acc:#334155;--av:#fff4d6;--avb:#b7791f;--err:#b91c1c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fond);color:var(--texte);font:17px/1.45 -apple-system,"Segoe UI",Roboto,Arial,sans-serif;padding:16px;padding-top:max(16px,env(safe-area-inset-top))}
+main{max-width:1100px;margin:0 auto}
+h1{margin:4px 0 2px;font-size:32px}h2{margin:0 0 8px;font-size:21px}h3{margin:14px 0 6px;font-size:19px}
+.carte{background:var(--carte);border-radius:16px;padding:16px;margin:14px 0;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.petit{font-size:15px;color:var(--gris)}
+.bt{display:inline-flex;align-items:center;gap:6px;min-height:48px;padding:0 18px;border-radius:12px;border:0;background:#e5e9f0;color:var(--texte);font:inherit;font-weight:700;cursor:pointer;margin:4px 6px 4px 0}
+.bt.pri{background:var(--acc);color:#fff}.bt.danger{background:#fde8e8;color:var(--err)}
+input[type=text]{font:inherit;padding:8px 10px;border:1px solid var(--ligne);border-radius:10px;width:100%}
+.fic{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:center;border:1px solid var(--ligne);border-radius:12px;padding:10px 12px;margin:8px 0}
+@media(max-width:700px){.fic{grid-template-columns:1fr}}
+.note{border-left:4px solid var(--avb);background:var(--av);padding:10px 12px;border-radius:10px;font-size:15px;margin:8px 0}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:15px;background:#fff}
+th,td{border:1px solid var(--ligne);padding:6px 8px;text-align:left;white-space:nowrap}
+th{background:#eef1f5;position:sticky;top:0}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+tr.hors td{background:#fff4d6}
+td.vide{background:#fafbfc}
+a{color:var(--acc);font-weight:700}
+@media print{body{background:#fff;padding:0}.noprint{display:none!important}.carte{box-shadow:none;padding:0;margin:0 0 12px}h3{page-break-before:auto}.classe{page-break-after:always}}
+</style>
+</head>
+<body>
+<main>
+<p class="petit noprint"><a href="../">← Portail mon-EPS</a></p>
+<h1>Relevé de notes</h1>
+<p class="petit">Les fichiers de notes de tes applis prof, réunis en un tableau par classe, prêt à reporter dans Pronote.</p>
+
+<section class="carte noprint">
+  <h2>1 · Les fichiers</h2>
+  <p class="petit">Dans chaque appli prof, exporte les notes de la classe (bouton « Exporter les notes » ou « Notes (CSV) » ; en demi-fond, le fichier « bilan » ; en gymnastique, l’export des niveaux). Puis choisis tous les fichiers ici, d’un coup ou en plusieurs fois.</p>
+  <p class="petit">Facultatif : ajoute aussi ton fichier <a href="../mes-classes/">« Mes classes »</a>. Tous les élèves apparaissent alors, même ceux sans note, dans l’ordre de Pronote.</p>
+  <label class="bt pri" for="fic">Choisir les fichiers (.csv)</label><input id="fic" type="file" accept=".csv,.txt" multiple hidden>
+  <div id="fichiers"></div>
+  <p id="msg" class="petit" role="status"></p>
+</section>
+
+<section class="carte" id="res" hidden>
+  <div class="noprint"><h2>2 · Le relevé</h2>
+  <p class="petit">Une colonne par activité (note sur 20). La moyenne est indicative : elle ne tient compte que des notes présentes. Les lignes jaunes sont des élèves absents de « Mes classes » (orthographe différente, élève arrivé en cours d’année…).</p>
+  <button class="bt pri" type="button" id="dl">Télécharger le relevé (.csv)</button><button class="bt" type="button" onclick="print()">Imprimer</button></div>
+  <div id="tables"></div>
+</section>
+
+<section class="carte noprint">
+  <h2>Confidentialité</h2>
+  <p class="petit">Cette page ne garde rien et n’envoie rien : les fichiers sont lus sur ton appareil et tout disparaît à la fermeture. Le relevé téléchargé contient des noms et des notes : range-le dans ton Nuage apps.education et supprime-le une fois les notes reportées.</p>
+</section>
+</main>
+<script>
+'use strict';
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm=s=>String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+/* même élève quel que soit l'ordre « Prénom NOM » / « NOM Prénom », les accents ou les tirets */
+const cleNom=s=>norm(s).split(' ').filter(Boolean).sort().join(' ');
+const cle=(c,n)=>norm(c)+'|'+cleNom(n);
+function partsNom(t){
+  const w=String(t||'').replace(/\s+/g,' ').trim().split(' ').filter(Boolean);
+  const maj=x=>x===x.toUpperCase()&&/[A-ZÀ-Ý]/.test(x),part=x=>/^(de|du|des|d'|d’|le|la|van|von|der|den|di|da|del|dos)$/.test(x);
+  const dans=w.map(maj);for(let i=w.length-2;i>=0;i--)if(!dans[i]&&part(w[i])&&dans[i+1])dans[i]=true;
+  return {nom:w.filter((x,i)=>dans[i]).join(' '),pre:w.filter((x,i)=>!dans[i]).join(' ')};
+}
+const affiche=t=>{const p=partsNom(t);return p.nom&&p.pre?p.nom+' '+p.pre:String(t||'').trim()};   // « NOM Prénom », comme Pronote
+function lireCSV(t){
+  t=t.replace(/^﻿/,'');const l0=t.split(/\r?\n/)[0],sep=(l0.match(/;/g)||[]).length>=(l0.match(/,/g)||[]).length?';':',';
+  const rows=[];let r=[],v='',q=false;
+  for(let i=0;i<t.length;i++){const c=t[i];
+    if(q){if(c==='"'){if(t[i+1]==='"'){v+='"';i++}else q=false}else v+=c}
+    else if(c==='"')q=true;else if(c===sep){r.push(v);v=''}
+    else if(c==='\n'||c==='\r'){if(c==='\r'&&t[i+1]==='\n')i++;r.push(v);rows.push(r);r=[];v=''}
+    else v+=c}
+  if(v||r.length){r.push(v);rows.push(r)}
+  return rows.filter(x=>x.some(y=>String(y).trim()));
+}
+const ACT=[[/(^|[^a-z])tt_/i,'Tennis de table'],[/(^|[^a-z])bad_/i,'Badminton'],[/(^|[^a-z])gym/i,'Gymnastique'],[/(^|[^a-z])df_/i,'Demi-fond'],[/(^|[^a-z])ct_/i,'Cross training'],[/step/i,'Step'],[/volley/i,'Volley-ball'],[/danse/i,'Danse']];
+const ROSTER=new Map();        // clé → {classe, nom affiché}
+const FICHIERS=[];             // {nom, act, lignes:[{classe, eleve, note}]}
+function analyser(nomFichier,t){
+  const rows=lireCSV(t);if(!rows.length)return {err:'fichier vide'};
+  const H=rows[0].map(norm),col=re=>H.findIndex(h=>re.test(h));
+  const iCl=col(/^classe$/),iEl=col(/^eleve$/),iNom=col(/^nom$/),iPre=col(/^prenom$/);
+  let iN=col(/^total 20$/);if(iN<0)iN=col(/^note 20$/);if(iN<0)iN=H.findIndex(h=>/20$/.test(h)&&/(total|note)/.test(h)&&!/arrondi/.test(h));
+  if(iCl<0||(iEl<0&&iNom<0))return {err:'pas de colonnes « Classe » et « Élève »'};
+  const ident=r=>iEl>=0?r[iEl]:(iPre>=0?(r[iPre]+' '+r[iNom]):r[iNom]);
+  if(iN<0){ // fichier « Mes classes » : la liste de référence
+    if(H.length<=4&&(iEl>=0||iNom>=0)){let n=0;rows.slice(1).forEach(r=>{const e=String(ident(r)||'').trim(),c=String(r[iCl]||'').trim();if(!e||!c)return;ROSTER.set(cle(c,e),{classe:c,nom:affiche(e)});n++});return {roster:n}}
+    return {err:'pas de colonne « Total /20 » ou « Note /20 » (ce n’est pas un fichier de notes)'};
+  }
+  const lignes=rows.slice(1).map(r=>({classe:String(r[iCl]||'').trim(),eleve:String(ident(r)||'').trim(),note:String(r[iN]==null?'':r[iN]).trim()})).filter(x=>x.classe&&x.eleve);
+  const a=ACT.find(([re])=>re.test(nomFichier));
+  return {f:{nom:nomFichier,act:a?a[1]:nomFichier.replace(/\.(csv|txt)$/i,''),lignes}};
+}
+const num=v=>{const x=parseFloat(String(v).replace(',','.'));return isNaN(x)?null:x};
+const fr=x=>x==null?'':(Math.round(x*100)/100).toString().replace('.',',');
+function construire(){
+  const acts=[...new Set(FICHIERS.map(f=>f.act.trim()||'Activité'))];
+  const parClasse=new Map();   // classe → Map(clé → {nom, hors, notes:{act:val}})
+  const ligne=(c,k,nom,hors)=>{if(!parClasse.has(c))parClasse.set(c,new Map());const M=parClasse.get(c);if(!M.has(k))M.set(k,{nom,hors,notes:{}});return M.get(k)};
+  ROSTER.forEach((v,k)=>ligne(v.classe,k,v.nom,false));
+  FICHIERS.forEach(f=>{const act=f.act.trim()||'Activité';f.lignes.forEach(x=>{const k=cle(x.classe,x.eleve),R=ROSTER.get(k);
+    const L=ligne(R?R.classe:x.classe,k,R?R.nom:affiche(x.eleve),ROSTER.size>0&&!R);L.notes[act]=x.note})});
+  return {acts,parClasse};
+}
+function afficher(){
+  document.getElementById('fichiers').innerHTML=FICHIERS.map((f,i)=>`<div class="fic"><div><b>${esc(f.nom)}</b><div class="petit">${f.lignes.length} élève${f.lignes.length>1?'s':''} · ${esc([...new Set(f.lignes.map(x=>x.classe))].join(', '))}</div></div>
+    <div><label class="petit" for="a${i}">Colonne du relevé</label><input type="text" id="a${i}" data-act="${i}" value="${esc(f.act)}"></div><button class="bt danger" type="button" data-suppr="${i}">Retirer</button></div>`).join('')+
+    (ROSTER.size?`<div class="fic"><div><b>Mes classes</b><div class="petit">${ROSTER.size} élèves de référence</div></div><div></div><button class="bt danger" type="button" data-roster="1">Retirer</button></div>`:'');
+  const {acts,parClasse}=construire();
+  document.getElementById('res').hidden=!FICHIERS.length;
+  const C=[...parClasse.keys()].sort((a,b)=>a.localeCompare(b,'fr',{numeric:true}));
+  document.getElementById('tables').innerHTML=C.map(c=>{const L=[...parClasse.get(c).values()].sort((a,b)=>a.nom.localeCompare(b.nom,'fr'));
+    return `<div class="classe"><h3>${esc(c)} <span class="petit">· ${L.length} élèves</span></h3><div class="tw"><table><thead><tr><th>Élève</th>${acts.map(a=>`<th>${esc(a)}</th>`).join('')}<th>Moyenne</th></tr></thead><tbody>${
+      L.map(x=>{const v=acts.map(a=>x.notes[a]),ns=v.map(num).filter(n=>n!=null);
+        return `<tr class="${x.hors?'hors':''}"><td>${esc(x.nom)}</td>${v.map(n=>`<td class="n${n==null||n===''?' vide':''}">${esc(n==null?'':n)}</td>`).join('')}<td class="n"><b>${ns.length?fr(ns.reduce((s,n)=>s+n,0)/ns.length):''}</b></td></tr>`}).join('')}</tbody></table></div></div>`}).join('');
+}
+function telecharger(){
+  const {acts,parClasse}=construire(),rows=[['Classe','Élève',...acts,'Moyenne indicative']];
+  [...parClasse.keys()].sort((a,b)=>a.localeCompare(b,'fr',{numeric:true})).forEach(c=>[...parClasse.get(c).values()].sort((a,b)=>a.nom.localeCompare(b.nom,'fr')).forEach(x=>{
+    const v=acts.map(a=>x.notes[a]==null?'':x.notes[a]),ns=v.map(num).filter(n=>n!=null);rows.push([c,x.nom,...v,ns.length?fr(ns.reduce((s,n)=>s+n,0)/ns.length):''])}));
+  const csv='﻿'+rows.map(l=>l.map(v=>/[;"\n]/.test(String(v))?'"'+String(v).replace(/"/g,'""')+'"':v).join(';')).join('\r\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='releve-notes-'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000);
+}
+const m=document.getElementById('msg');
+document.getElementById('fic').onchange=async e=>{const files=[...e.target.files];e.target.value='';const msgs=[];
+  for(const f of files){let t;const buf=await f.arrayBuffer();try{t=new TextDecoder('utf-8',{fatal:true}).decode(buf)}catch(x){t=new TextDecoder('windows-1252').decode(buf)}
+    const r=analyser(f.name,t);
+    if(r.err)msgs.push(f.name+' : ignoré, '+r.err+'.');
+    else if(r.roster!=null)msgs.push(f.name+' : liste de référence, '+r.roster+' élèves.');
+    else{const i=FICHIERS.findIndex(x=>x.nom===f.name);if(i>=0)FICHIERS[i]=r.f;else FICHIERS.push(r.f);msgs.push(f.name+' : '+r.f.lignes.length+' notes ('+r.f.act+').')}}
+  m.innerHTML=msgs.map(esc).join('<br>');afficher()};
+document.getElementById('fichiers').addEventListener('change',e=>{const i=e.target.dataset.act;if(i==null)return;FICHIERS[+i].act=e.target.value;afficher()});
+document.getElementById('fichiers').addEventListener('click',e=>{const b=e.target.closest('[data-suppr],[data-roster]');if(!b)return;if(b.dataset.roster)ROSTER.clear();else FICHIERS.splice(+b.dataset.suppr,1);afficher()});
+document.getElementById('dl').onclick=telecharger;
+</script>
+</body>
+</html>
