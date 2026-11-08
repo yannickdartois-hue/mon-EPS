@@ -75,7 +75,7 @@ function partsNom(t){
 }
 const affiche=t=>{const p=partsNom(t);return p.nom&&p.pre?p.nom+' '+p.pre:String(t||'').trim()};   // « NOM Prénom », comme Pronote
 function lireCSV(t){
-  t=t.replace(/^﻿/,'');const l0=t.split(/\r?\n/)[0],sep=(l0.match(/;/g)||[]).length>=(l0.match(/,/g)||[]).length?';':',';
+  t=t.replace(/^﻿/,'');const l0=t.split(/\r?\n/)[0],sep=['\t',';',','].map(c=>[c,l0.split(c).length]).sort((a,b)=>b[1]-a[1])[0][0];
   const rows=[];let r=[],v='',q=false;
   for(let i=0;i<t.length;i++){const c=t[i];
     if(q){if(c==='"'){if(t[i+1]==='"'){v+='"';i++}else q=false}else v+=c}

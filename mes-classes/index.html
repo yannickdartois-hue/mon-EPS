@@ -56,10 +56,10 @@ details.mode>summary{cursor:pointer;font-weight:800;font-size:19px;list-style:no
 <div class="me">
 <h3 class="me-t"><span class="me-n">A</span> En début d’année : une seule fois</h3>
 <ol class="me-etapes">
-  <li><b>Dans Pronote</b> (sur ordinateur de préférence) : affiche la liste des élèves de tes classes, puis exporte-la en <b>xlsx, xls ou csv</b>.
-    <span class="me-p">Avec une colonne « Classe », un seul export suffit pour toutes tes classes. Sinon, un export par classe.</span></li>
+  <li><b>Dans Pronote : Ressources → Élèves</b>, puis choisis la classe (ex. 2de 8). Copie la liste et colle-la dans Excel, puis enregistre-la en <b>.xlsx</b> (ex. <code>Seconde_8.xlsx</code>). Recommence pour chaque classe.
+    <span class="me-p">Ce chemin donne la colonne <b>Sexe</b>, indispensable pour les barèmes filles/garçons, et la colonne <b>Classe</b> : le nom de la classe dans les applis est celui de Pronote (ex. 2GT08), pas le nom du fichier. Si un « prénom d’usage » est rempli, c’est lui qui est gardé. Autre possibilité : un seul classeur Excel avec un onglet par classe.</span></li>
   <li><b>Portail mon-EPS → Coordo &amp; évaluation → Classes et notes → « Mes classes »</b>.
-    <span class="me-p">« Choisir les fichiers » : tu peux en prendre plusieurs d’un coup. Si un fichier n’a pas de colonne « Classe », écris d’abord le nom de la classe (ex. 1G3). Vérifie le tableau.</span></li>
+    <span class="me-p">« Choisir les fichiers » : <b>sélectionne tes 8 fichiers d’un coup</b> (un par classe). Vérifie le tableau : chaque classe, son nombre d’élèves, filles et garçons.</span></li>
   <li><b>« Télécharger « Mes classes » »</b> : tu obtiens <code>mes-classes-2026-2027.csv</code>.
     <span class="me-p">Il ne garde que la classe, le nom, le prénom et le sexe.</span></li>
   <li><b>Range ce fichier dans ton Nuage apps.education</b>, et nulle part ailleurs : pas de mail perso, pas de Drive ni de clé perso.
@@ -78,10 +78,10 @@ details.mode>summary{cursor:pointer;font-weight:800;font-size:19px;list-style:no
 
 <h3 class="me-t me-saut"><span class="me-n">B</span> Un élève arrive en cours d’année</h3>
 <ol class="me-etapes">
-  <li>Dans l’appli prof, onglet <b>Classes</b> (gym : <b>Réglages</b>) : écris le nom de la classe <b>exactement comme dans l’appli</b> (ex. 1G3).</li>
+  <li>Dans l’appli prof, onglet <b>Classes</b> (gym : <b>Réglages</b>) : écris le nom de la classe <b>exactement comme dans l’appli</b> (ex. 2GT08).</li>
   <li>Dans « Ou coller la liste », écris l’élève : <b>NOM Prénom</b> (ex. <code>DUPONT Marie</code>). Plusieurs élèves : un par ligne.</li>
   <li>« Importer la liste collée » → l’appli voit que la classe existe déjà → touche <b>« Ajouter ces élèves »</b>.
-    <span class="me-p">Un message confirme : « 1G3 : +1 (Marie DUPONT) → 33 élèves ».</span></li>
+    <span class="me-p">Un message confirme : « 2GT08 : +1 (Marie DUPONT) → 36 élèves ».</span></li>
   <li><b>Refais scanner le QR de démarrage</b> de cette classe aux groupes, sinon le nouvel élève n’apparaît pas sur les tablettes.</li>
   <li>Recommence dans <b>chaque appli</b> qui suit cette classe.</li>
 </ol>
@@ -97,7 +97,7 @@ details.mode>summary{cursor:pointer;font-weight:800;font-size:19px;list-style:no
 <h3 class="me-t"><span class="me-n">!</span> Les pièges</h3>
 <ul class="me-pieges">
   <li><b>Ne touche jamais « Remplacer la liste » après avoir collé un seul nom</b> : la classe ne contiendrait plus que cet élève. Pour un ajout : toujours « Ajouter ces élèves ».</li>
-  <li><b>Le nom de la classe doit être identique</b> : « 1G3 » et « 1 G3 » font deux classes différentes.</li>
+  <li><b>Le nom de la classe doit être identique</b> : « 2GT08 » et « 2GT8 » font deux classes différentes.</li>
   <li><b>« Annuler »</b> ne change rien : en cas de doute, annule.</li>
 </ul>
 
@@ -167,11 +167,12 @@ function lireLignes(rows,classeDefaut){
   const hi=rows.findIndex(r=>r.some(c=>/^(é|e)l(è|e)ve|^nom\b|^nom$|pr(é|e)nom/i.test(c)));
   const H=hi>=0?rows[hi].map(c=>norm(c)):[];
   const col=re=>H.findIndex(h=>re.test(h));
-  const iNom=col(/^nom( de famille)?$/),iPre=col(/^prenom/),iEl=col(/^eleve|^nom prenom|^nom et prenom|^identite/),iCl=col(/^classe/),iSx=col(/^sexe|^genre/);
+  const iNom=col(/^nom( de famille)?$/),iPre=col(/^prenom/),iEl=col(/^eleve|^nom prenom|^nom et prenom|^identite/),iCl=col(/^classe/),iSx=col(/^sexe|^genre/),iUs=col(/^prenom d\s?usage/);
   let n=0;
   rows.slice(hi+1).forEach(r=>{
     let nom='',pre='';
-    if(iNom>=0&&iPre>=0&&r[iNom]){nom=r[iNom].toUpperCase();pre=r[iPre]}
+    if(hi>=0&&r.map(norm).join('|')===H.join('|'))return; /* en-tête répété (classes collées à la suite) */
+    if(iNom>=0&&iPre>=0&&r[iNom]){nom=r[iNom].toUpperCase();pre=(iUs>=0&&r[iUs])||r[iPre]}
     else{const t=iEl>=0?r[iEl]:(hi<0?r[0]:'');if(!t)return;const p=partsNom(t);nom=p.nom||t;pre=p.pre}
     const c=(iCl>=0&&r[iCl])||classeDefaut;
     if(ajouter(c,nom,pre,iSx>=0?sexeDe(r[iSx]):(hi<0?sexeDe(r[1]):'')))n++;
@@ -186,7 +187,7 @@ async function lireFichiers(files){
     const buf=await f.arrayBuffer();let wb;
     if(/\.(csv|txt)$/i.test(f.name)||/text|csv/.test(f.type)){
       let t;try{t=new TextDecoder('utf-8',{fatal:true}).decode(buf)}catch(e){t=new TextDecoder('windows-1252').decode(buf)}
-      t=t.replace(/^﻿/,'');const l0=t.split(/\r?\n/)[0];const sep=(l0.match(/;/g)||[]).length>=(l0.match(/,/g)||[]).length?';':',';
+      t=t.replace(/^﻿/,'');const l0=t.split(/\r?\n/)[0];const sep=['\t',';',','].map(c=>[c,l0.split(c).length]).sort((a,b)=>b[1]-a[1])[0][0];
       wb=XLSX.read(t,{type:'string',FS:sep});
     }else wb=XLSX.read(buf,{type:'array'});
     let n=0;wb.SheetNames.forEach(sn=>{n+=lireLignes(XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,raw:false,defval:''}),cd)});
