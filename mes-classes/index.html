@@ -25,6 +25,7 @@ label.ch{display:block;font-weight:700;font-size:15px;margin:10px 0 4px}
 .cl{border:1px solid var(--ligne);border-radius:12px;padding:10px 12px;margin:8px 0}
 .cl h3{margin:0;font-size:18px;display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
 .cl ol{margin:8px 0 0;padding-left:26px;font-size:15px;columns:2}@media(max-width:620px){.cl ol{columns:1}}
+.grp{margin:8px 0 2px;display:flex;flex-direction:column;gap:6px}.grp .rangee{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.grp .nvnom{width:auto;flex:1 1 140px;min-height:44px}.grp .bt{margin:0}
 .badge{display:inline-block;font-size:13px;font-weight:700;padding:2px 8px;border-radius:999px;background:#eef1f5;color:var(--gris);margin-left:4px}
 .note{border-left:4px solid var(--avb);background:var(--av);padding:10px 12px;border-radius:10px;font-size:15px}
 .okm{border-left:4px solid var(--okb);background:var(--ok);padding:10px 12px;border-radius:10px;font-size:15px}
@@ -59,7 +60,9 @@ details.mode>summary{cursor:pointer;font-weight:800;font-size:19px;list-style:no
   <li><b>Dans Pronote : Ressources → Élèves</b>, puis choisis la classe (ex. 2de 8). Copie la liste et colle-la dans Excel, puis enregistre-la en <b>.xlsx</b> (ex. <code>Seconde_8.xlsx</code>). Recommence pour chaque classe.
     <span class="me-p">Ce chemin donne la colonne <b>Sexe</b>, indispensable pour les barèmes filles/garçons, et la colonne <b>Classe</b> : le nom de la classe dans les applis est celui de Pronote (ex. 2GT08), pas le nom du fichier. Si un « prénom d’usage » est rempli, c’est lui qui est gardé. Autre possibilité : un seul classeur Excel avec un onglet par classe.</span></li>
   <li><b>Portail mon-EPS → Coordo &amp; évaluation → Classes et notes → « Mes classes »</b>.
-    <span class="me-p">« Choisir les fichiers » : <b>sélectionne tes 8 fichiers d’un coup</b> (un par classe). Vérifie le tableau : chaque classe, son nombre d’élèves, filles et garçons.</span></li>
+    <span class="me-p">« Choisir les fichiers » : <b>sélectionne tous tes fichiers d’un coup</b> (un par classe ou par groupe). Vérifie le tableau : chaque classe, son nombre d’élèves, filles et garçons.</span></li>
+  <li><b>Groupes de Terminale</b> (élèves venant de plusieurs classes) : un fichier par groupe, nommé comme tu veux voir le groupe (ex. <code>Term15h.xlsx</code>). Le fichier contient plusieurs classes Pronote : la page en fait <b>un seul groupe « Term15h »</b>.
+    <span class="me-p">Dans « Vérifier », le groupe affiche les classes d’origine (ex. TG04, TG05, TG06, TSTMG3). « Renommer » change son nom ; « Séparer par classe Pronote » annule le regroupement. Commence le nom par T (Term…) : le demi-fond et le cross training règlent alors le niveau Terminale tout seuls.</span></li>
   <li><b>« Télécharger « Mes classes » »</b> : tu obtiens <code>mes-classes-2026-2027.csv</code>.
     <span class="me-p">Il ne garde que la classe, le nom, le prénom et le sexe.</span></li>
   <li><b>Range ce fichier dans ton Nuage apps.education</b>, et nulle part ailleurs : pas de mail perso, pas de Drive ni de clé perso.
@@ -78,7 +81,7 @@ details.mode>summary{cursor:pointer;font-weight:800;font-size:19px;list-style:no
 
 <h3 class="me-t me-saut"><span class="me-n">B</span> Un élève arrive en cours d’année</h3>
 <ol class="me-etapes">
-  <li>Dans l’appli prof, onglet <b>Classes</b> (gym : <b>Réglages</b>) : écris le nom de la classe <b>exactement comme dans l’appli</b> (ex. 2GT08).</li>
+  <li>Dans l’appli prof, onglet <b>Classes</b> (gym : <b>Réglages</b>) : écris le nom de la classe ou du groupe <b>exactement comme dans l’appli</b> (ex. 2GT08 ou Term15h).</li>
   <li>Dans « Ou coller la liste », écris l’élève : <b>NOM Prénom</b> (ex. <code>DUPONT Marie</code>). Plusieurs élèves : un par ligne.</li>
   <li>« Importer la liste collée » → l’appli voit que la classe existe déjà → touche <b>« Ajouter ces élèves »</b>.
     <span class="me-p">Un message confirme : « 2GT08 : +1 (Marie DUPONT) → 36 élèves ».</span></li>
@@ -97,7 +100,7 @@ details.mode>summary{cursor:pointer;font-weight:800;font-size:19px;list-style:no
 <h3 class="me-t"><span class="me-n">!</span> Les pièges</h3>
 <ul class="me-pieges">
   <li><b>Ne touche jamais « Remplacer la liste » après avoir collé un seul nom</b> : la classe ne contiendrait plus que cet élève. Pour un ajout : toujours « Ajouter ces élèves ».</li>
-  <li><b>Le nom de la classe doit être identique</b> : « 2GT08 » et « 2GT8 » font deux classes différentes.</li>
+  <li><b>Le nom de la classe doit être identique</b> : « 2GT08 » et « 2GT8 », ou « Term15h » et « Term 15h », font deux classes différentes.</li>
   <li><b>« Annuler »</b> ne change rien : en cas de doute, annule.</li>
 </ul>
 
@@ -111,9 +114,10 @@ details.mode>summary{cursor:pointer;font-weight:800;font-size:19px;list-style:no
 
 <section class="carte">
   <h2>1 · Lire les exports Pronote</h2>
-  <p class="petit">Pronote : liste des élèves de la classe → Exporter (xlsx, xls ou csv). Tu peux choisir plusieurs fichiers d’un coup ; avec une colonne « Classe », un seul fichier suffit pour toutes tes classes.</p>
+  <p class="petit">Pronote : Ressources → Élèves → la classe → copier dans Excel → enregistrer en .xlsx. <b>Un fichier par classe ou par groupe</b> ; choisis-les tous d’un coup.</p>
+  <p class="petit"><b>Groupe de Terminale</b> (élèves de plusieurs classes) : un fichier avec plusieurs classes devient automatiquement <b>un seul groupe</b>, nommé comme le fichier (ex. <code>Term15h.xlsx</code> → groupe « Term15h »). Tu peux le renommer, ou le séparer par classe Pronote.</p>
   <div class="grille">
-    <div><label class="ch" for="classe">Classe (si le fichier ne la donne pas)</label><input id="classe" type="text" placeholder="1G3" autocomplete="off"></div>
+    <div><label class="ch" for="classe">Classe ou groupe (facultatif : rempli, il remplace la classe Pronote)</label><input id="classe" type="text" placeholder="à laisser vide en général" autocomplete="off"></div>
     <div><label class="ch">Fichiers Pronote</label><label class="bt pri" for="fic">Choisir les fichiers</label><input id="fic" type="file" accept=".xlsx,.xls,.csv,.ods,.txt" multiple hidden></div>
   </div>
   <label class="ch" for="txt">Ou coller une liste (un élève par ligne : « NOM Prénom », éventuellement suivi de F ou G)</label>
@@ -154,31 +158,32 @@ function partsNom(t){
   return {nom:w.filter((x,i)=>dans[i]).join(' '),pre:w.filter((x,i)=>!dans[i]).join(' ')};
 }
 function sexeDe(v){const n=norm(v);if(!n)return '';if(/^(f|fille|feminin|femme)/.test(n))return 'F';if(/^(g|m|garcon|masculin|homme)/.test(n))return 'G';return ''}
-const CLASSES={};   // classe → Map(clé → {nom,pre,sexe})
-function ajouter(classe,nom,pre,sexe){
+const CLASSES={};   // classe → Map(clé → {nom,pre,sexe,orig})
+const GRP={};       // groupes formés d'élèves de plusieurs classes Pronote (orig = classe Pronote)
+function ajouter(classe,nom,pre,sexe,orig){
   nom=String(nom||'').replace(/\s+/g,' ').trim();pre=String(pre||'').replace(/\s+/g,' ').trim();
   if(!nom&&!pre)return false;if(/^(total|effectif)/i.test(nom+pre))return false;
   classe=String(classe||'').trim();if(!classe)return false;
   const M=CLASSES[classe]=CLASSES[classe]||new Map(),k=norm(nom)+'|'+norm(pre),old=M.get(k);
-  M.set(k,{nom,pre,sexe:sexe||(old&&old.sexe)||''});return true;
+  M.set(k,{nom,pre,sexe:sexe||(old&&old.sexe)||'',orig:orig||(old&&old.orig)||classe});return true;
 }
-function lireLignes(rows,classeDefaut){
+function lireRecs(rows){
+  const out=[];
   rows=rows.map(r=>(r||[]).map(c=>c==null?'':String(c).trim()));
   const hi=rows.findIndex(r=>r.some(c=>/^(é|e)l(è|e)ve|^nom\b|^nom$|pr(é|e)nom/i.test(c)));
   const H=hi>=0?rows[hi].map(c=>norm(c)):[];
   const col=re=>H.findIndex(h=>re.test(h));
   const iNom=col(/^nom( de famille)?$/),iPre=col(/^prenom/),iEl=col(/^eleve|^nom prenom|^nom et prenom|^identite/),iCl=col(/^classe/),iSx=col(/^sexe|^genre/),iUs=col(/^prenom d\s?usage/);
-  let n=0;
   rows.slice(hi+1).forEach(r=>{
     let nom='',pre='';
     if(hi>=0&&r.map(norm).join('|')===H.join('|'))return; /* en-tête répété (classes collées à la suite) */
     if(iNom>=0&&iPre>=0&&r[iNom]){nom=r[iNom].toUpperCase();pre=(iUs>=0&&r[iUs])||r[iPre]}
     else{const t=iEl>=0?r[iEl]:(hi<0?r[0]:'');if(!t)return;const p=partsNom(t);nom=p.nom||t;pre=p.pre}
-    const c=(iCl>=0&&r[iCl])||classeDefaut;
-    if(ajouter(c,nom,pre,iSx>=0?sexeDe(r[iSx]):(hi<0?sexeDe(r[1]):'')))n++;
+    out.push({c:(iCl>=0&&String(r[iCl]).trim())||'',nom,pre,sexe:iSx>=0?sexeDe(r[iSx]):(hi<0?sexeDe(r[1]):'')});
   });
-  return n;
+  return out;
 }
+function lireLignes(rows,classeDefaut){let n=0;lireRecs(rows).forEach(x=>{if(ajouter(classeDefaut||x.c,x.nom,x.pre,x.sexe,x.c))n++});return n}
 function chargerScript(src){return new Promise((ok,ko)=>{if(window.XLSX)return ok();const e=document.createElement('script');e.src=src;e.onload=()=>ok();e.onerror=()=>ko(new Error('Impossible de charger '+src));document.head.appendChild(e)})}
 async function lireFichiers(files){
   const cd=document.getElementById('classe').value.trim(),msg=[];let total=0;
@@ -190,8 +195,14 @@ async function lireFichiers(files){
       t=t.replace(/^﻿/,'');const l0=t.split(/\r?\n/)[0];const sep=['\t',';',','].map(c=>[c,l0.split(c).length]).sort((a,b)=>b[1]-a[1])[0][0];
       wb=XLSX.read(t,{type:'string',FS:sep});
     }else wb=XLSX.read(buf,{type:'array'});
-    let n=0;wb.SheetNames.forEach(sn=>{n+=lireLignes(XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,raw:false,defval:''}),cd)});
-    total+=n;msg.push(f.name+' : '+(n?n+' élève'+(n>1?'s':''):'aucun élève lu (colonne « Classe » absente ? écris la classe puis recommence)'));
+    const recs=[];wb.SheetNames.forEach(sn=>recs.push(...lireRecs(XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,raw:false,defval:''}))));
+    const origs=[...new Set(recs.map(x=>x.c).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'fr',{numeric:true}));
+    /* Plusieurs classes Pronote dans un même fichier = un groupe (Terminale) : nommé comme le fichier, sauf nom écrit */
+    const groupe=cd||(origs.length>1?f.name.replace(/\.[^.]+$/,'').replace(/_+/g,' ').trim():'');
+    let n=0;recs.forEach(x=>{if(ajouter(groupe||x.c,x.nom,x.pre,x.sexe,x.c))n++});
+    if(groupe&&origs.length>1)GRP[groupe]=true;
+    total+=n;msg.push(f.name+' : '+(!n?'aucun élève lu (colonne « Classe » absente ? écris la classe puis recommence)':
+      n+' élève'+(n>1?'s':'')+(groupe&&origs.length>1?' de '+origs.length+' classes ('+origs.join(', ')+') → groupe « '+groupe+' »':groupe?' → « '+groupe+' »':'')));
   }
   return {total,msg};
 }
@@ -200,9 +211,12 @@ function afficher(){
   document.getElementById('res').hidden=document.getElementById('exp').hidden=!C.length;
   document.getElementById('liste').innerHTML=C.map(c=>{const L=[...CLASSES[c].values()].sort((a,b)=>(a.nom+' '+a.pre).localeCompare(b.nom+' '+b.pre,'fr'));
     const f=L.filter(x=>x.sexe==='F').length,g=L.filter(x=>x.sexe==='G').length,sans=L.length-f-g;
+    const og=[...new Set(L.map(x=>x.orig).filter(o=>o&&o!==c))].sort((a,b)=>a.localeCompare(b,'fr',{numeric:true}));
+    const grp=og.length?`<div class="grp"><span class="petit">Groupe : élèves de <b>${og.map(esc).join(', ')}</b></span>
+      <span class="rangee"><input type="text" class="nvnom" value="${esc(c)}" aria-label="Nom du groupe"><button class="bt" type="button" data-renom="${esc(c)}">Renommer</button><button class="bt" type="button" data-separer="${esc(c)}">Séparer par classe Pronote</button></span></div>`:'';
     return `<div class="cl"><h3><span>${esc(c)} <span class="badge">${L.length} élèves</span>${f||g?`<span class="badge">${f} F · ${g} G</span>`:''}${sans&&(f||g)?`<span class="badge">${sans} sans sexe</span>`:''}</span><button class="bt danger" type="button" data-suppr="${esc(c)}">Retirer</button></h3>
-      <details><summary class="petit">Voir la liste</summary><ol>${L.map(x=>`<li>${esc(x.nom)} ${esc(x.pre)}${x.sexe?' <span class="petit">· '+x.sexe+'</span>':''}</li>`).join('')}</ol></details></div>`}).join('')+
-    (C.length?`<p class="petit">${C.length} classe${C.length>1?'s':''}, ${C.reduce((s,c)=>s+CLASSES[c].size,0)} élèves. Sans colonne « Sexe » dans l’export, le sexe reste vide : seule l’appli de demi-fond s’en sert (barèmes), et l’élève peut le donner dans son appli.</p>`:'');
+      ${grp}<details><summary class="petit">Voir la liste</summary><ol>${L.map(x=>`<li>${esc(x.nom)} ${esc(x.pre)}${x.sexe?' <span class="petit">· '+x.sexe+'</span>':''}${og.length&&x.orig?' <span class="petit">· '+esc(x.orig)+'</span>':''}</li>`).join('')}</ol></details></div>`}).join('')+
+    (C.length?`<p class="petit">${C.length} classe${C.length>1?'s':''} ou groupe${C.length>1?'s':''}, ${C.reduce((s,c)=>s+CLASSES[c].size,0)} élèves. Sans colonne « Sexe » dans l’export, le sexe reste vide : seule l’appli de demi-fond s’en sert (barèmes), et l’élève peut le donner dans son appli.</p>`:'');
 }
 function anneeScolaire(){const d=new Date(),y=d.getFullYear()-(d.getMonth()<7?1:0);return y+'-'+(y+1)}
 function telecharger(){
@@ -219,7 +233,13 @@ document.getElementById('fic').onchange=async e=>{const files=[...e.target.files
 document.getElementById('coller').onclick=()=>{const t=document.getElementById('txt').value.trim(),cd=document.getElementById('classe').value.trim();
   if(!t)return;if(!cd){m.textContent='Écris d’abord le nom de la classe.';return}
   const n=lireLignes(t.split(/\r?\n/).map(l=>l.split(/\t|;/)),cd);m.textContent=n+' élève'+(n>1?'s':'')+' ajouté'+(n>1?'s':'')+' en '+cd+'.';document.getElementById('txt').value='';afficher()};
-document.getElementById('liste').onclick=e=>{const b=e.target.closest('[data-suppr]');if(!b)return;delete CLASSES[b.dataset.suppr];afficher()};
+document.getElementById('liste').onclick=e=>{
+  const b=e.target.closest('[data-suppr],[data-renom],[data-separer]');if(!b)return;
+  if(b.dataset.suppr!=null){delete CLASSES[b.dataset.suppr];delete GRP[b.dataset.suppr]}
+  else if(b.dataset.renom!=null){const c=b.dataset.renom,nv=b.closest('.grp').querySelector('.nvnom').value.trim();
+    if(!nv||nv===c)return;const M=CLASSES[c];delete CLASSES[c];delete GRP[c];M.forEach(x=>ajouter(nv,x.nom,x.pre,x.sexe,x.orig));GRP[nv]=true;m.textContent='Groupe « '+c+' » renommé « '+nv+' ».'}
+  else{const c=b.dataset.separer,M=CLASSES[c];delete CLASSES[c];delete GRP[c];M.forEach(x=>ajouter(x.orig||c,x.nom,x.pre,x.sexe,x.orig));m.textContent='Groupe « '+c+' » séparé par classe Pronote.'}
+  afficher()};
 document.getElementById('dl').onclick=telecharger;
 </script>
 </body>
