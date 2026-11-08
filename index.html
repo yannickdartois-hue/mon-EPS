@@ -229,14 +229,15 @@ const CONFIG = {
     { id: "foot",      label: "Football",         icon: "fa-futbol",                  color: "#34d399", keywords: [["foot"]] },
     { id: "danse",     label: "Danse / Acrosport",icon: "fa-person-rays",             color: "#a21caf", keywords: [["danse"], ["acro"]] },
     { id: "secours",   label: "Secourisme",       icon: "fa-kit-medical",             color: "#f87171", keywords: [["sst"], ["pse"], ["secour"]] },
+    { id: "classes",   label: "Classes et notes", icon: "fa-users",                    color: "#334155", keywords: [["classes"], ["releve"], ["notes"]] },
     { id: "examens",   label: "Examens & convocations", icon: "fa-envelope-open-text", color: "#334155", keywords: [["convoc"], ["ccf"], ["brevet"], ["bac"]] },
   ],
   otherActivity: { id: "divers", label: "Divers", icon: "fa-shapes", color: "#94a3b8" },
 
   // Surcharges facultatives : title, description, part, activity, icon
   overrides: {
-    "mes-classes":                { title: "Mes classes (Pronote)", part: "coordo" },
-    "releve-notes":               { title: "Relevé de notes", part: "coordo" },
+    "mes-classes":                { title: "Mes classes (Pronote)", part: "coordo", activity: "classes" },
+    "releve-notes":               { title: "Relevé de notes", part: "coordo", activity: "classes" },
     "ccf-demi-fond-prof":         { title: "CCF demi-fond — prof", activity: "demifond" },
     "800m-ponctuel":              { title: "800 m ponctuel" },
     "carnet-numerique-demi-fond": { title: "Carnet numérique demi-fond" },
