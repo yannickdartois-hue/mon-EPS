@@ -29,6 +29,20 @@ label.ch{display:block;font-weight:700;font-size:15px;margin:10px 0 4px}
 .note{border-left:4px solid var(--avb);background:var(--av);padding:10px 12px;border-radius:10px;font-size:15px}
 .okm{border-left:4px solid var(--okb);background:var(--ok);padding:10px 12px;border-radius:10px;font-size:15px}
 a{color:var(--acc);font-weight:700}
+.me{font-size:16px;line-height:1.45}
+.me-t{display:flex;align-items:center;gap:10px;font-size:20px;margin:22px 0 8px;color:#14181f}
+.me-t:first-child{margin-top:4px}
+.me-n{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background:#334155;color:#fff;font-size:17px;flex:none}
+.me-etapes{margin:0;padding-left:26px}.me-etapes>li{margin:7px 0;padding-left:4px}
+.me-etapes>li::marker{font-weight:800;color:#334155}
+.me-p{display:block;color:#5b6472;font-size:14.5px;margin-top:2px}
+.me-tab{border-collapse:collapse;margin:8px 0 2px;font-size:14.5px;width:100%}
+.me-tab th,.me-tab td{border:1px solid #dde2ea;padding:6px 8px;text-align:left;vertical-align:top}.me-tab th{background:#eef1f5}
+.me-att,.me-info{border-radius:10px;padding:10px 12px;margin:10px 0;font-size:14.5px}
+.me-att{border-left:4px solid #b7791f;background:#fff4d6}.me-info{border-left:4px solid #3b4fc4;background:#eaf0ff}
+.me-pieges{margin:0;padding-left:22px}.me-pieges li{margin:6px 0}
+.me code{background:#eef1f5;padding:1px 5px;border-radius:5px;font-size:.92em}
+details.mode>summary{cursor:pointer;font-weight:800;font-size:19px;list-style:none;display:flex;align-items:center;gap:8px;min-height:44px}details.mode>summary::-webkit-details-marker{display:none}details.mode>summary::after{content:"▾";margin-left:auto;color:var(--gris)}details.mode[open]>summary::after{content:"▴"}
 </style>
 </head>
 <body>
@@ -36,6 +50,64 @@ a{color:var(--acc);font-weight:700}
 <p class="petit"><a href="../">← Portail mon-EPS</a></p>
 <h1 style="display:flex;align-items:center;gap:12px"><img src="icon-192.png" alt="" width="44" height="44" style="border-radius:11px;box-shadow:0 1px 3px rgba(0,0,0,.25)">Mes classes</h1>
 <p class="petit">Un seul import Pronote par an, puis un fichier que toutes tes applis prof savent lire.</p>
+
+<section class="carte"><details class="mode" id="mode"><summary>📖 Mode d’emploi : début d’année, élève qui arrive, élève qui part</summary>
+<p style="margin:6px 0 4px"><a class="bt" href="mode-emploi-listes-de-classes.pdf" download>⬇︎ Télécharger le mode d’emploi (PDF)</a></p>
+<div class="me">
+<h3 class="me-t"><span class="me-n">A</span> En début d’année : une seule fois</h3>
+<ol class="me-etapes">
+  <li><b>Dans Pronote</b> (sur ordinateur de préférence) : affiche la liste des élèves de tes classes, puis exporte-la en <b>xlsx, xls ou csv</b>.
+    <span class="me-p">Avec une colonne « Classe », un seul export suffit pour toutes tes classes. Sinon, un export par classe.</span></li>
+  <li><b>Portail mon-EPS → Coordo &amp; évaluation → Classes et notes → « Mes classes »</b>.
+    <span class="me-p">« Choisir les fichiers » : tu peux en prendre plusieurs d’un coup. Si un fichier n’a pas de colonne « Classe », écris d’abord le nom de la classe (ex. 1G3). Vérifie le tableau.</span></li>
+  <li><b>« Télécharger « Mes classes » »</b> : tu obtiens <code>mes-classes-2026-2027.csv</code>.
+    <span class="me-p">Il ne garde que la classe, le nom, le prénom et le sexe.</span></li>
+  <li><b>Range ce fichier dans ton Nuage apps.education</b>, et nulle part ailleurs : pas de mail perso, pas de Drive ni de clé perso.
+    <span class="me-p">Sur l’iPad, il doit être accessible depuis l’app Fichiers (app Nuage ou « Sur mon iPad »).</span></li>
+  <li><b>Dans chaque appli prof</b> : « Choisir le fichier Pronote » → ce fichier. Toutes les classes arrivent d’un coup.
+    <table class="me-tab">
+      <tr><th>Appli</th><th>Où</th></tr>
+      <tr><td>Tennis de table · Badminton · Cross training</td><td>onglet <b>Classes</b></td></tr>
+      <tr><td>Demi-fond</td><td>onglet <b>Classes</b> · vérifie le cycle (Seconde ou Terminale ; par défaut, une classe « T… » est en Terminale)</td></tr>
+      <tr><td>Gymnastique</td><td>onglet <b>Réglages</b></td></tr>
+    </table></li>
+  <li><b>Pour chaque classe : « QR de démarrage »</b> (gym : « QR de la classe »), à faire scanner par les groupes sur les tablettes élèves.</li>
+</ol>
+<div class="me-att"><b>⚠️ Sur l’iPad, chaque icône de l’écran d’accueil a sa propre mémoire.</b> Fais l’import dans l’appli telle que tu l’ouvres en cours (l’icône), pas dans Safari : une liste importée dans Safari n’apparaît pas dans l’icône, et inversement.</div>
+<div class="me-info"><b>Nouvelle année ?</b> Si l’appli affiche « Archiver l’année et repartir à zéro », fais-le <b>avant</b> d’importer les nouvelles classes : la sauvegarde est téléchargée (protège-la par un mot de passe), puis l’appli est vidée.</div>
+
+<h3 class="me-t me-saut"><span class="me-n">B</span> Un élève arrive en cours d’année</h3>
+<ol class="me-etapes">
+  <li>Dans l’appli prof, onglet <b>Classes</b> (gym : <b>Réglages</b>) : écris le nom de la classe <b>exactement comme dans l’appli</b> (ex. 1G3).</li>
+  <li>Dans « Ou coller la liste », écris l’élève : <b>NOM Prénom</b> (ex. <code>DUPONT Marie</code>). Plusieurs élèves : un par ligne.</li>
+  <li>« Importer la liste collée » → l’appli voit que la classe existe déjà → touche <b>« Ajouter ces élèves »</b>.
+    <span class="me-p">Un message confirme : « 1G3 : +1 (Marie DUPONT) → 33 élèves ».</span></li>
+  <li><b>Refais scanner le QR de démarrage</b> de cette classe aux groupes, sinon le nouvel élève n’apparaît pas sur les tablettes.</li>
+  <li>Recommence dans <b>chaque appli</b> qui suit cette classe.</li>
+</ol>
+
+<h3 class="me-t"><span class="me-n">C</span> Un élève quitte la classe, ou beaucoup de changements</h3>
+<ol class="me-etapes">
+  <li>Réexporte la classe <b>complète</b> depuis Pronote.</li>
+  <li>Importe ce fichier dans l’appli → <b>« Remplacer la liste »</b>.
+    <span class="me-p">Un élève absent du nouveau fichier garde ses résultats, mais apparaît « Hors liste ».</span></li>
+  <li>Refais scanner le QR de démarrage.</li>
+</ol>
+
+<h3 class="me-t"><span class="me-n">!</span> Les pièges</h3>
+<ul class="me-pieges">
+  <li><b>Ne touche jamais « Remplacer la liste » après avoir collé un seul nom</b> : la classe ne contiendrait plus que cet élève. Pour un ajout : toujours « Ajouter ces élèves ».</li>
+  <li><b>Le nom de la classe doit être identique</b> : « 1G3 » et « 1 G3 » font deux classes différentes.</li>
+  <li><b>« Annuler »</b> ne change rien : en cas de doute, annule.</li>
+</ul>
+
+<h3 class="me-t"><span class="me-n">✓</span> En fin d’année</h3>
+<ul class="me-pieges">
+  <li>Notes : portail → « Relevé de notes » → reporte-les dans Pronote.</li>
+  <li>Puis <b>supprime le fichier « Mes classes »</b> de ton Nuage.</li>
+</ul>
+</div>
+</details></section>
 
 <section class="carte">
   <h2>1 · Lire les exports Pronote</h2>
@@ -61,7 +133,7 @@ a{color:var(--acc);font-weight:700}
   <button class="bt pri" type="button" id="dl">Télécharger « Mes classes »</button>
   <div class="note" style="margin-top:10px"><b>Ce fichier contient des noms d’élèves.</b> Range-le uniquement dans ton Nuage apps.education : pas en pièce jointe d’un mail personnel, pas dans un Drive ou une clé personnels. Supprime-le en fin d’année, une fois les notes reportées dans Pronote.</div>
   <h2 style="margin-top:16px">4 · L’importer dans chaque appli prof</h2>
-  <p class="petit">Dans chaque appli prof (tennis de table, badminton, gymnastique, demi-fond, cross training) : onglet <b>Classes</b> → « Choisir le fichier Pronote » → ce fichier. Toutes les classes arrivent d’un coup. À faire une fois par appli et par an.</p>
+  <p class="petit">Dans chaque appli prof : onglet <b>Classes</b> (gymnastique : onglet <b>Réglages</b>) → « Choisir le fichier Pronote » → ce fichier. Toutes les classes arrivent d’un coup. À faire une fois par appli et par an. Élève arrivé en cours d’année : voir le <a href="#mode" onclick="document.getElementById('mode').open=true">mode d’emploi</a>, partie B.</p>
 </section>
 
 <section class="carte">
