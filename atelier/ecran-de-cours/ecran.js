@@ -58,13 +58,18 @@ if(J.son===undefined)J.son=true;
 /* ================== Temps ================== */
 const hm=ms=>{const d=new Date(ms);return d.getHours()+' h '+String(d.getMinutes()).padStart(2,'0')};
 const mmss=s=>{const a=Math.abs(Math.round(s));return Math.floor(a/60)+':'+String(a%60).padStart(2,'0')};
+/* Heure de début prévue (avant « Démarrer ») : saisie, sinon maintenant arrondi aux 5 minutes */
+const arr5=t=>{const d=new Date(t);d.setSeconds(0,0);d.setMinutes(Math.ceil(d.getMinutes()/5)*5);return d.getTime()};
+const debutPrevu=()=>J.debPrevu||arr5(Date.now());
+const hhmm=t=>{const d=new Date(t);return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')};
+const lireH=v=>{const m=/^(\d{1,2})[:h ]?(\d{2})$/.exec(String(v||'').trim());if(!m)return null;const d=new Date();d.setHours(+m[1],+m[2],0,0);return d.getTime()};
 function horaires(){
-  const now=Date.now(),out=[];let t=null;
+  const now=Date.now(),out=[];let t=J.started?null:debutPrevu();
   J.blocks.forEach((b,i)=>{
     if(b.st==='zap'){out.push(null);return}
     if(b.st==='done'){out.push({s:b.s,e:b.e});t=b.e;return}
     if(i===J.cur&&J.bt){const p=J.pauseMs+(J.pausedAt?now-J.pausedAt:0);const e=J.bt+b.dur*60000+p;out.push({s:J.bt,e});t=Math.max(e,now);return}
-    const s=Math.max(t||now,now);const e=s+b.dur*60000;out.push({s,e});t=e;
+    const s=J.started?Math.max(t||now,now):t;const e=s+b.dur*60000;out.push({s,e});t=e;
   });
   return out;
 }
@@ -115,7 +120,7 @@ function rendreDeroule(){
     const w=b.st==='zap'?3:b.dur;
     l+=`<button type="button" style="flex:${w}" class="${cls}${i===vu?' vu':''}" data-voir="${i}" aria-label="${esc(b.label)}"></button>`;
     const d=b.dur-b.orig,mod=b.st!=='zap'&&d?`<span class="modif${d<0?' moins':''}" style="display:inline-block">${d>0?'+':'−'}${Math.abs(d)}</span>`:'';
-    const heure=b.st==='zap'?'zappé':(J.started&&h[i]?hm(h[i].s):b.dur+' min');
+    const heure=b.st==='zap'?'zappé':(h[i]?hm(h[i].s):b.dur+' min');
     t+=`<button type="button" style="flex:${w}" class="${cls}" data-voir="${i}"><b>${heure}${mod}</b><span>${esc(b.court||b.label)}</span></button>`;
   });
   let cur='';
@@ -171,16 +176,17 @@ function rendreZone(){
     if(e.cons&&e.cons.length)cote+=`<div class="boite"><h2>Consignes de réalisation</h2><ul>${e.cons.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`}
   if(APP.cote)cote+=APP.cote(b,s,i)||'';
   const k=suivantDe(apercu?J.cur:i);
-  if(!apercu&&k>=0){const nb=J.blocks[k];cote+=`<div class="ensuite"><div><small>Ensuite${J.started&&horaires()[k]?', vers '+hm(horaires()[k].s):''}</small><b>${esc(nb.label)}</b> <span class="cap">${nb.dur} min</span></div><button class="bt clair" type="button" data-act="voir" data-i="${k}">Voir</button><button class="bt clair" type="button" data-act="zap" data-i="${k}">Zapper</button></div>`}
+  if(!apercu&&k>=0){const nb=J.blocks[k];cote+=`<div class="ensuite"><div><small>Ensuite${horaires()[k]?', vers '+hm(horaires()[k].s):''}</small><b>${esc(nb.label)}</b> <span class="cap">${nb.dur} min</span></div><button class="bt clair" type="button" data-act="voir" data-i="${k}">Voir</button><button class="bt clair" type="button" data-act="zap" data-i="${k}">Zapper</button></div>`}
   z.innerHTML=carte+`<aside class="cote">${cote}</aside>`;
   tic();
 }
+function depasse(f){if(!J.finCours||!f)return '';const d=Math.round((f-J.finCours)/60000);return d>0?` <b class="retard">⚠️ dépasse la fin du cours de ${d} min</b>`:` <span class="okh">✓ tient dans le créneau</span>`}
 function rendreInfo(){
   const f=finPrevue(),r=retardMin();
   let txt;
   if(J.fin)txt=`Séance terminée à <b>${hm(J.fin)}</b>`;
-  else if(!J.started)txt=`Séance de <b>${J.cible} min</b> de pratique. Touche « Démarrer » au coup de sifflet.`;
-  else txt=`Fin prévue <b class="${r>0?'retard':''}">${hm(f)}</b>${r>0?` · ${r} min de plus que prévu`:r<0?` · ${-r} min d’avance`:''}`;
+  else if(!J.started)txt=`<label class="hdeb">Début prévu <input type="time" id="hDeb" value="${hhmm(debutPrevu())}"></label> · fin prévue <b>${hm(f)}</b> · <label class="hdeb">fin du cours <input type="time" id="hFin" value="${J.finCours?hhmm(J.finCours):''}"></label>${depasse(f)}<br><small>Touche « Démarrer » au coup de sifflet.</small>`;
+  else txt=`Commencé à <b>${hm(J.started)}</b> <button type="button" class="lienh" data-act="corrdeb">corriger</button> · Fin prévue <b class="${r>0?'retard':''}">${hm(f)}</b>${r>0?` · ${r} min de plus que prévu`:r<0?` · ${-r} min d’avance`:''} · <button type="button" class="lienh" data-act="finc">${J.finCours?'fin du cours '+hm(J.finCours):'fin du cours ?'}</button>${depasse(f)}`;
   $('info').innerHTML=txt;
 }
 let bipFait=false;
@@ -223,10 +229,15 @@ function suivant(){
 function zapper(i){const b=J.blocks[i];if(!b||b.st==='done')return;
   if(b.st==='zap'){b.st='todo'}else{if(i===J.cur&&J.bt)return toast('Termine d’abord le bloc en cours, ou passe au suivant.');b.st='zap';if(i===J.cur){const k=suivantDe(i);if(k>=0)J.cur=k}}
   if(J.vu===i)J.vu=null;sauver();rendre();if(panneauOuvert==='ajuster')ouvrirAjuster()}
+document.addEventListener('change',ev=>{const t=ev.target;if(t.id==='hDeb'){J.debPrevu=lireH(t.value);sauver();rendreDeroule();rendreInfo();if(typeof rendreZone==='function')rendreZone()}
+  else if(t.id==='hFin'){J.finCours=t.value?lireH(t.value):null;sauver();rendreInfo()}});
 document.addEventListener('click',ev=>{
   const v=ev.target.closest('[data-voir]');if(v){const i=+v.dataset.voir;J.vu=(i===J.cur)?null:i;rendreDeroule();rendreZone();return}
   const a=ev.target.closest('[data-act]');if(!a)return;
   const act=a.dataset.act,i=+a.dataset.i;
+  if(act==='corrdeb'){const v=prompt('Heure réelle du début de la séance (ex. 10:05) :',hhmm(J.started));const t=lireH(v);if(t==null)return;if(t>Date.now())return toast('Cette heure n’est pas encore passée.');
+    const d=t-J.started;J.started=t;if(J.bt)J.bt+=d;J.blocks.forEach(b=>{if(b.st==='done'){b.s+=d;b.e+=d}});sauver();rendre();toast('Début corrigé : '+hm(t));return}
+  if(act==='finc'){const v=prompt('Heure de fin du cours (ex. 11:00), vide pour effacer :',J.finCours?hhmm(J.finCours):'');if(v===null)return;J.finCours=v.trim()?lireH(v):null;sauver();rendre();return}
   if(act==='go')lancer();
   else if(act==='suivant')suivant();
   else if(act==='plus'){J.blocks[J.cur].dur+=+a.dataset.v;bipFait=restant()<0;sauver();rendre();toast(`Rallongé de ${a.dataset.v} min`)}

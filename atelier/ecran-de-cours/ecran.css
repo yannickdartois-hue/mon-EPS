@@ -229,3 +229,8 @@ body.sous-outil{overflow:hidden}
   .deroule{overflow-x:auto} /* séance à nombreux blocs (step) : la frise défile au lieu d'élargir la page */
   .pouce{flex-wrap:wrap}
 }
+
+/* heure de début / fin du cours */
+.hdeb input{font:inherit;font-weight:700;border:2px solid currentColor;border-radius:8px;padding:2px 6px;background:transparent;color:inherit}
+.lienh{font:inherit;background:none;border:0;color:inherit;text-decoration:underline;cursor:pointer;padding:0 2px}
+.okh{opacity:.8}
