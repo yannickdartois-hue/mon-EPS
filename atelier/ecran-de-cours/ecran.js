@@ -6,7 +6,8 @@
    Ce qui change d'une activité à l'autre est dans l'objet APP, déclaré
    dans l'index.html de l'activité (source : apps/<activité>.js) :
      old, cle, niv, defaut, lienOld, lireCur, marquerJour, outils, urlOutil,
-     racc, schemaDe ; facultatifs : plan, etapesEchauff, blocInfo, bascule.
+     racc, schemaDe ; facultatifs : plan, etapesEchauff, blocInfo, bascule,
+     cote (b,s,i) → HTML ajouté à la colonne de droite de chaque bloc.
    ===================================================================== */
 'use strict';
 globalThis.COURT_PR=0.42; /* joueurs dessinés plus gros sur l'écran terrain */
@@ -168,6 +169,7 @@ function rendreZone(){
   let cote='';
   if(e){cote+=`<div class="boite"><h2>${esc(e.k||'Schéma')}</h2>${schemaDe(e)||'<p class="cap">Pas de schéma pour cette situation.</p>'}</div>`;
     if(e.cons&&e.cons.length)cote+=`<div class="boite"><h2>Consignes de réalisation</h2><ul>${e.cons.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`}
+  if(APP.cote)cote+=APP.cote(b,s,i)||'';
   const k=suivantDe(apercu?J.cur:i);
   if(!apercu&&k>=0){const nb=J.blocks[k];cote+=`<div class="ensuite"><div><small>Ensuite${J.started&&horaires()[k]?', vers '+hm(horaires()[k].s):''}</small><b>${esc(nb.label)}</b> <span class="cap">${nb.dur} min</span></div><button class="bt clair" type="button" data-act="voir" data-i="${k}">Voir</button><button class="bt clair" type="button" data-act="zap" data-i="${k}">Zapper</button></div>`}
   z.innerHTML=carte+`<aside class="cote">${cote}</aside>`;
