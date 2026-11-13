@@ -1,9 +1,9 @@
 /* Hors ligne : l'appli est gardée sur l'appareil à la première ouverture avec internet,
    puis s'ouvre sans connexion. La page est rechargée depuis GitHub dès que le réseau répond (3 s max) ;
    les autres fichiers sont servis depuis l'appareil et mis à jour en arrière-plan. */
-const CACHE='mon-eps-v1';
+const CACHE='mon-eps-v1.0';
 // Toutes les applis partagent le même stockage (même adresse github.io) : on n'efface QUE les anciennes versions de CETTE appli.
-const MES_CACHES=/^(?:mon\-eps\-v)\d+$/;
+const MES_CACHES=/^(?:mon\-eps\-v)\d+(?:\.\d+)?$/;
 
 const SHELL=['./','eps-maj.js','index.html','polices/archivo.woff2','polices/atkinson-400.woff2','polices/atkinson-700.woff2','manifest.webmanifest','icon-32.png','icon-180.png','icon-192.png','icon-512.png','icons/mes-classes.png','icons/releve-notes.png','mes-classes/icon-32.png','mes-classes/icon-180.png','mes-classes/icon-192.png','releve-notes/icon-32.png','releve-notes/icon-180.png','releve-notes/icon-192.png','mes-classes/mode-emploi-listes-de-classes.pdf'];
 const FILES=[];
