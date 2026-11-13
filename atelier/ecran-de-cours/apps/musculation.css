@@ -24,7 +24,8 @@
 .ech{display:grid;gap:4px}
 .ech div{display:flex;gap:10px;align-items:center;border-radius:10px;padding:6px 10px;color:#172033;font-size:max(15px,var(--fs-min,15px))}
 .ech div>b{font:800 24px/1 var(--d);min-width:1.4em;text-align:center}
-.ats{margin:0;padding-left:22px;font-size:max(16px,var(--fs-min,15px))}
+.ats{margin:0;padding-left:0;list-style:none;font-size:max(16px,var(--fs-min,15px))}
+.ats .vign{width:52px;height:52px;object-fit:contain;background:#fff;border-radius:8px;vertical-align:middle;margin-right:10px;border:1px solid var(--trait)}
 .ats li{margin:4px 0}.ats li span{color:var(--repere);font-size:max(15px,var(--fs-min,15px))}
 .evt{width:100%;border-collapse:collapse;font-size:max(15px,var(--fs-min,15px))}
 .evt th{text-align:left;padding:6px 8px 6px 0;vertical-align:top}.evt td{padding:6px 0;border-top:1px solid var(--trait)}.evt th{border-top:1px solid var(--trait)}
