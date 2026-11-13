@@ -183,7 +183,7 @@ const CONFIG = {
   // Dépôts jamais affichés (le portail lui-même, etc.)
   /* Dépôts hors EPS à ne pas afficher : tout dépôt dont le nom contient un de ces mots (accents et majuscules ignorés). */
   excludeWords: ["gharda", "alger", "taux", "dinar"],
-  exclude: ["yannickdartois-hue.github.io", "mon-eps", "carnet-numerique-demi-fond", "tennis-de-table"],   /* tennis-de-table = doublon de cycle-tennis-de-table, à archiver ; l'ancien carnet renvoie vers les applis demi-fond élève et prof */
+  exclude: ["yannickdartois-hue.github.io", "mon-eps", "carnet-numerique-demi-fond", "tennis-de-table", "musculation-prof"],   /* musculation-prof : dépôt vide pour l'instant, à retirer d'ici quand l'outil prof sera en ligne ; tennis-de-table = doublon de cycle-tennis-de-table, à archiver ; l'ancien carnet renvoie vers les applis demi-fond élève et prof */
 
   /* Grandes parties, dans l'ORDRE D'AFFICHAGE.
      Un dépôt va dans la première partie dont une règle marche :
@@ -199,7 +199,8 @@ const CONFIG = {
       topic: "terrain",
       repos: ["cycle-volley", "volley-eleves", "volley-pompidou", "cycle-badminton", "badminton-eleves", "badminton-prof", "cycle-tennis-de-table", "tennis-de-table-eleves", "tennis-de-table-prof",
               "cycle-demi-fond", "demi-fond-eleves", "demi-fond-prof", "carnet-numerique-demi-fond", "cycle-step", "carnet-step-", "cycle-danse",
-              "cycle-cross-training", "cross-training-eleves", "cross-training-prof", "cross-training-pompidou", "cycle-gym", "gym-eleves", "gym-prof"],
+              "cycle-cross-training", "cross-training-eleves", "cross-training-prof", "cross-training-pompidou", "cycle-gym", "gym-eleves", "gym-prof",
+              "cycle-musculation", "musculation-eleves"],
       keywords: [["cycle"], ["volley"], ["badminton"], ["tennis"], ["ping"], ["step"], ["training"],
                  ["carnet"], ["tournoi"], ["demi"], ["course"], ["hand"], ["basket"], ["foot"], ["rugby"],
                  ["acro"], ["danse"], ["gym"], ["escalade"], ["natation"], ["muscu"], ["seance"], ["eleve"]] },
@@ -220,11 +221,12 @@ const CONFIG = {
     { id: "m800",      label: "800 m",            icon: "fa-stopwatch",               color: "#9f1239", keywords: [["800"]] },
     { id: "badminton", label: "Badminton",        icon: "fa-feather-pointed",             color: "#0e7490", keywords: [["badminton"]] },
     { id: "basket",    label: "Basket-ball",      icon: "fa-basketball",              color: "#fb7185", keywords: [["basket"]] },
-    { id: "cross",     label: "Cross training",   icon: "fa-dumbbell",                color: "#c2410c", keywords: [["cross"], ["training"], ["muscu"]] },
+    { id: "cross",     label: "Cross training",   icon: "fa-dumbbell",                color: "#c2410c", keywords: [["cross"], ["training"]] },
     { id: "danse",     label: "Danse / Acrosport",icon: "fa-person-rays",             color: "#a21caf", keywords: [["danse"], ["acro"]] },
     { id: "foot",      label: "Football",         icon: "fa-futbol",                  color: "#34d399", keywords: [["foot"]] },
     { id: "gym",       label: "Gymnastique",      icon: "fa-child-reaching",          color: "#0f766e", keywords: [["gym"]] },
     { id: "hand",      label: "Handball",         icon: "fa-hand",                    color: "#60a5fa", keywords: [["hand"]] },
+    { id: "muscu",     label: "Musculation",      icon: "fa-dumbbell",                color: "#4d7c0f", keywords: [["muscu"]] },
     { id: "secours",   label: "Secourisme",       icon: "fa-kit-medical",             color: "#f87171", keywords: [["sst"], ["pse"], ["secour"]] },
     { id: "step",      label: "Step",             icon: "fa-music",                   color: "#6d28d9", keywords: [["step"]] },
     { id: "tt",        label: "Tennis de table",  icon: "fa-table-tennis-paddle-ball", color: "#be185d", keywords: [["tennis"], ["ping"]] },
@@ -264,6 +266,8 @@ const CONFIG = {
     "cycle-gym":                  { title: "Cycle gymnastique", activity: "gym" },
     "gym-eleves":                 { title: "Gymnastique — app élèves", activity: "gym" },
     "gym-prof":                   { title: "Gymnastique — outil prof", activity: "gym" },
+    "cycle-musculation":          { title: "Cycle musculation", activity: "muscu" },
+    "musculation-eleves":         { title: "Musculation — app élèves", activity: "muscu" },
     "badminton-prof":             { title: "Badminton — outil prof" },
     "cycle-volley":               { title: "Cycle volley-ball" },
     "brevet2026":                 { title: "Brevet 2026" },
@@ -293,7 +297,7 @@ const CONFIG = {
 /* Icône partagée selon des mots du nom du dépôt : [mots requis, fichier dans icons/ sans .png] */
 const ICONRULES = [ [["tournoi", "volley"], "tournoi-volley"] ];
 /* Icônes d'applis présentes dans le dossier icons/ (nom du dépôt en minuscules) */
-const APPICONS = ["cycle-danse","tennis-de-table","cycle-tennis-de-table","tennis-de-table-eleves","tennis-de-table-prof","cycle-volley","volley-eleves","cycle-badminton","badminton-eleves","badminton-prof","badminton-test","cycle-demi-fond","demi-fond-eleves","demi-fond-prof","ccf-demi-fond-prof","carnet-numerique-demi-fond","800m-ponctuel","demi-fond-test","demi-fond-test-pro","demi-fond-test-prof","marche-30min","cycle-step","carnet-step-","carnet-step-prof","cycle-cross-training","cross-training-eleves","cross-training-prof","cross-training-pompidou","crosstraingtest","cycle-gym","gym-eleves","gym-prof","convocations-ccf-eps","convocations-as-pompidou","brevet2026","mes-classes","releve-notes"];
+const APPICONS = ["cycle-danse","tennis-de-table","cycle-tennis-de-table","tennis-de-table-eleves","tennis-de-table-prof","cycle-volley","volley-eleves","cycle-badminton","badminton-eleves","badminton-prof","badminton-test","cycle-demi-fond","demi-fond-eleves","demi-fond-prof","ccf-demi-fond-prof","carnet-numerique-demi-fond","800m-ponctuel","demi-fond-test","demi-fond-test-pro","demi-fond-test-prof","marche-30min","cycle-step","carnet-step-","carnet-step-prof","cycle-cross-training","cross-training-eleves","cross-training-prof","cross-training-pompidou","crosstraingtest","cycle-gym","gym-eleves","gym-prof","cycle-musculation","musculation-eleves","convocations-ccf-eps","convocations-as-pompidou","brevet2026","mes-classes","releve-notes"];
 
 const $ = id => document.getElementById(id);
 const state = { repos: [], act: "all", q: "" };

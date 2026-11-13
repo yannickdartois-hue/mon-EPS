@@ -1,0 +1,32 @@
+:root{--sol:#F1F3EE; --craie:#FFFFFF; --encre:#172033; --repere:#5A6475; --trait:#D7DCD2;
+  --ligne:#4D7C0F; --ligne-fonce:#2F4C09; --ligne-pale:#EEF5E3;
+  --vert:#1D6B3A; --vert-pale:#E6F3EA; --alerte:#B42318; --alerte-pale:#FDE8E6;
+  --facile:#2F6FB0; --facile-pale:#EAF2FB; --dur:#B4441C; --dur-pale:#FCEDE6;
+  --d:"Archivo","Arial Narrow",Arial,sans-serif; --t:"Atkinson","Segoe UI",Roboto,Arial,sans-serif;
+  --sur-encre:#FFFFFF; --fait:#9AA3AE;
+  --c-t:#4D7C0F; --c-t-pale:#EEF5E3; --sur-niv:#FFFFFF;}
+:root[data-theme="dark"]{
+  --sol:#11161D; --craie:#1B222C; --encre:#E9EEF3; --repere:#9AA5B3; --trait:#323C49; --sur-encre:#11161D; --fait:#5B6573;
+  --ligne:#A3D468; --ligne-fonce:#CDE8AA; --ligne-pale:#1E2A12;
+  --vert:#6FD39F; --vert-pale:#15301F; --alerte:#FF8A80; --alerte-pale:#3A1A18;
+  --facile:#7FB0E8; --facile-pale:#162638; --dur:#F29470; --dur-pale:#3A2018;
+  --c-t:#A3D468; --c-t-pale:#1E2A12; --sur-niv:#11161D; color-scheme:dark}
+.defi{margin-top:12px;padding:10px 14px;border-radius:14px;background:var(--ligne-pale);font-size:17px}
+.defi b{color:var(--ligne-fonce)}
+/* Fiches mobiles, échelle de ressentis, listes d'ateliers (schémas de muscu-donnees.js) */
+.mob{border:2px solid var(--mc);border-radius:14px;padding:10px 12px;margin:0 0 10px;background:var(--craie)}
+.mob h3{margin:0 0 6px;font:800 22px/1.1 var(--d);color:var(--mc)}
+.mob h3 small{font:700 max(14px,var(--fs-min,15px)) var(--t);color:var(--repere);margin-left:6px}
+.mob table{width:100%;border-collapse:collapse;font-size:max(15px,var(--fs-min,15px))}
+.mob th{text-align:left;vertical-align:top;padding:4px 8px 4px 0;color:var(--repere);font-weight:700;width:42%}
+.mob td{padding:4px 0;border-top:1px solid var(--trait)}
+.mob th{border-top:1px solid var(--trait)}
+.ech{display:grid;gap:4px}
+.ech div{display:flex;gap:10px;align-items:center;border-radius:10px;padding:6px 10px;color:#172033;font-size:max(15px,var(--fs-min,15px))}
+.ech div>b{font:800 24px/1 var(--d);min-width:1.4em;text-align:center}
+.ats{margin:0;padding-left:22px;font-size:max(16px,var(--fs-min,15px))}
+.ats li{margin:4px 0}.ats li span{color:var(--repere);font-size:max(15px,var(--fs-min,15px))}
+.evt{width:100%;border-collapse:collapse;font-size:max(15px,var(--fs-min,15px))}
+.evt th{text-align:left;padding:6px 8px 6px 0;vertical-align:top}.evt td{padding:6px 0;border-top:1px solid var(--trait)}.evt th{border-top:1px solid var(--trait)}
+.evt small{display:block;color:var(--repere)}
+@media print{.mob{break-inside:avoid}}
