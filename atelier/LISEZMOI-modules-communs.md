@@ -21,3 +21,4 @@ Ensuite : tester les applis modifiées, puis un commit par dépôt. La liste des
 | `ecran-de-cours/commun/eps-maj.js` | Bandeau « Nouvelle version » | élèves + profs |
 | `ecran-de-cours/commun/eps-coffre.js` | Sauvegardes protégées par mot de passe | profs |
 | `ecran-de-cours/commun/eps-garde.js` | Rappel de sauvegarde (bandeau rouge) | profs |
+| `ecran-de-cours/commun/eps-demo.js` | Barre violette « 🎭 DÉMO · rien n'est enregistré · Quitter » (remplace le bandeau jaune) | applis avec mode démo (sauf cross training), CCF demi-fond |
