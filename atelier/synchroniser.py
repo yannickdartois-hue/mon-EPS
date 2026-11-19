@@ -39,8 +39,8 @@ MODULES = {
     'ecran-de-cours/commun/eps-maj.js':    [f'{r}/eps-maj.js' for r in ELEVES + PROFS],
     'ecran-de-cours/commun/eps-coffre.js': [f'{r}/eps-coffre.js' for r in PROFS] + ['Carnet-Step-/prof/eps-coffre.js'],
     'ecran-de-cours/commun/eps-garde.js':  [f'{r}/eps-garde.js' for r in PROFS] + ['Carnet-Step-/prof/eps-garde.js'],
-    # barre violette « 🎭 DÉMO » (20/11/2026) — pas cross-training : sa démo crée une vraie classe enregistrée
-    'ecran-de-cours/commun/eps-demo.js':  [f'{r}/eps-demo.js' for r in ELEVES + PROFS if not r.startswith('cross-training')]
+    # barre violette « 🎭 DÉMO » (20/11/2026)
+    'ecran-de-cours/commun/eps-demo.js':  [f'{r}/eps-demo.js' for r in ELEVES + PROFS]
                                           + ['musculation-eleves/eps-demo.js', 'CCF-Demi-Fond-PROF/eps-demo.js'],
 }
 
