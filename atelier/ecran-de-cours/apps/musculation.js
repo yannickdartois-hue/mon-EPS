@@ -30,8 +30,8 @@ const APP={
      .map(x=>(x.orig=x.dur,x.st='todo',x));
   },
   blocInfo(b,s,i){
-    const circ=s.n==='S1'?`<h2 class="rub">Le circuit (5 min par atelier)</h2>${ateliersHTML(CIRCUIT_S1)}`:'';
-    const test=s.n==='S2'?`<h2 class="rub">Les 6 ateliers du test</h2>${ateliersHTML(ATELIERS_TEST)}`:'';
+    const circ=s.n==='S1'?`<h2 class="rub">Le circuit (4 min par atelier)</h2>${ateliersHTML(CIRCUIT_S1)}`:'';
+    const test=(s.n==='S2'||s.n==='S3')?`<h2 class="rub">Les ${ATELIERS_TEST.length} ateliers : 4 à 5 tests par élève aujourd'hui</h2>${ateliersHTML(ATELIERS_TEST)}`:'';
     return `<h2 class="rub">Objectif de la séance</h2><p class="texte">${esc(s.obj)}</p>${s.install?`<h2 class="rub">Installation</h2>${orgHTML(s.install)}`:''}${circ}${test}${s.prepare.length?`<h2 class="rub">Ce que la séance prépare</h2><ul class="org">${s.prepare.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}<h2 class="rub">Sécurité</h2><p class="texte">${esc(SECU.devise)}</p>`},
   bascule:s=>''
 };

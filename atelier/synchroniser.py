@@ -41,7 +41,8 @@ MODULES = {
     'ecran-de-cours/commun/eps-garde.js':  [f'{r}/eps-garde.js' for r in PROFS] + ['Carnet-Step-/prof/eps-garde.js'],
     # barre violette « 🎭 DÉMO » (20/11/2026)
     'ecran-de-cours/commun/eps-demo.js':  [f'{r}/eps-demo.js' for r in ELEVES + PROFS]
-                                          + ['musculation-eleves/eps-demo.js', 'musculation-prof/eps-demo.js', 'CCF-Demi-Fond-PROF/eps-demo.js'],
+                                          + ['musculation-eleves/eps-demo.js', 'musculation-prof/eps-demo.js', 'CCF-Demi-Fond-PROF/eps-demo.js',
+                                             'marche-30min/eps-demo.js', '800m-ponctuel/eps-demo.js'],   # vrai mode démo (20/11/2026)
 }
 # Musculation (20/11/2026) : mêmes modules communs que les autres applis, sauf les avatars (non utilisés)
 for _orig, _copies in {
