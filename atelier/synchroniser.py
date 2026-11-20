@@ -61,6 +61,17 @@ RE_VERSION = re.compile(r"""(const\s+(?:VERSION|CACHE|C)\s*=\s*['"][A-Za-z0-9_.-
 RE_NUMERO = re.compile(r'^v?(\d+\.\d+)$')
 
 
+def date_git(chemin):
+    """Date (secondes) du dernier commit qui a modifié ce fichier dans son dépôt, ou 0."""
+    import subprocess
+    try:
+        r = subprocess.run(['git', '-C', os.path.dirname(chemin), 'log', '-1', '--format=%ct', '--', os.path.basename(chemin)],
+                           capture_output=True, text=True, timeout=20)
+        return int(r.stdout.strip() or 0)
+    except Exception:
+        return 0
+
+
 def empreinte(p):
     with open(p, 'rb') as f:
         return hashlib.sha256(f.read()).hexdigest()
@@ -131,7 +142,7 @@ def main():
     a = ap.parse_args()
     donnees = dict(x.split('=', 1) for x in a.versions.split(',') if '=' in x)
 
-    ecarts, absents, manquants, a_copier = [], [], set(), []
+    ecarts, absents, manquants, a_copier, plus_recentes = [], [], set(), [], []
     for orig, copies in MODULES.items():
         src = os.path.join(ici, orig)
         if not os.path.isfile(src):
@@ -150,6 +161,8 @@ def main():
                 continue
             if empreinte(dst) != h:
                 ecarts.append(c)
+                if date_git(dst) > date_git(src):
+                    plus_recentes.append(c)   # la copie a été modifiée APRÈS l'original : ne pas l'écraser
                 a_copier.append((src, dst, depot))
 
     print('=== Modules communs ===')
@@ -165,6 +178,15 @@ def main():
     print('Copie différente de l’original :')
     for c in ecarts:
         print('  - ' + c)
+    if plus_recentes:
+        print('\n!! ATTENTION : ces copies ont été modifiées APRÈS l’original de l’atelier (évolution faite dans l’appli) :')
+        for c in plus_recentes:
+            print('  - ' + c)
+        print('   Recopier l’original les ferait revenir en arrière. Remonter d’abord la copie dans l’atelier'
+              '\n   (vérifier qu’elle contient bien tout l’original), puis relancer.')
+        if a.appliquer:
+            print('Rien n’est recopié.')
+            return 3
     if not a.appliquer:
         print('\nLancer avec --appliquer pour recopier les originaux (le numéro de version de chaque appli sera demandé).')
         return 1
