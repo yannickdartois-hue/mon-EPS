@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Confidentialité — Mon EPS</title>
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
+<style>
+@font-face{font-family:"Atkinson";src:url("polices/atkinson-400.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Atkinson";src:url("polices/atkinson-700.woff2") format("woff2");font-weight:700;font-display:swap}
+:root{--bg:#f3f5f8;--surface:#fff;--border:#dde2e8;--text:#1c2128;--muted:#5b6470;--accent:#c2410c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.55 "Atkinson","Segoe UI",Roboto,sans-serif}
+main{max-width:760px;margin:0 auto;padding:20px 16px 40px}
+header{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+header img{width:40px;height:40px;border-radius:10px}
+h1{font-size:26px;line-height:1.2;margin:4px 0 2px}
+h2{font-size:19px;margin:26px 0 6px;color:var(--accent)}
+p,li{margin:6px 0}
+ul{padding-left:22px}
+.bref{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 16px;margin:14px 0}
+.muted{color:var(--muted);font-size:15px}
+table{border-collapse:collapse;width:100%;background:var(--surface);border-radius:12px;overflow:hidden;font-size:15px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+th{background:#eef1f5}
+a{color:#0e7490}
+.retour{display:inline-block;margin-top:24px;font-weight:700}
+@media (max-width:560px){table,tbody,tr,td,th{display:block}thead{display:none}tr{border-bottom:1px solid var(--border);padding:6px 0}td{border:0;padding:3px 10px}td:first-child{font-weight:700}}
+</style>
+</head>
+<body>
+<main>
+<header><img src="icon-192.png" alt=""><div><h1>Confidentialité</h1><div class="muted">Applis EPS du lycée Georges Pompidou (Castelnau-le-Lez) — Y. Dartois, professeur d'EPS</div></div></header>
+
+<div class="bref">
+<b>En bref</b>
+<ul>
+<li>Pas de compte élève, pas de mot de passe, pas de publicité, pas de cookies de suivi, pas de mesure d'audience.</li>
+<li>Ce qui est saisi reste <b>sur l'appareil</b> (téléphone, tablette, ordinateur) tant que l'élève ne l'envoie pas à son professeur.</li>
+<li>Quand une donnée doit sortir de l'appareil (résultats d'un tournoi, carnet rendu au professeur), seuls le <b>prénom et l'initiale du nom</b> sont utilisés quand c'est possible.</li>
+</ul>
+<div class="muted">Dernière mise à jour : novembre 2026.</div>
+</div>
+
+<h2>1. Quelles données ?</h2>
+<ul>
+<li>Le nom, le prénom et la classe saisis par l'élève ou importés par le professeur depuis Pronote, pour savoir à qui appartient un carnet.</li>
+<li>Ce que l'élève note pendant les cours : performances, temps, charges, ressentis, choix d'entraînement, observations et conseils du partenaire, résultats de matchs.</li>
+<li>Pour régler l'effort, l'élève peut noter son pouls ou signaler une douleur pendant un exercice. Aucun diagnostic ni motif médical n'est demandé : un élève dispensé ou blessé est seulement noté « absent, blessé ou adapté ».</li>
+</ul>
+
+<h2>2. Où sont-elles ?</h2>
+<p>Dans la mémoire du navigateur de l'appareil utilisé (stockage local). Elles ne sont visibles d'aucun autre appareil. Sur une tablette partagée, chaque élève ou groupe ferme son carnet en fin de séance. Le code du cours (QR code ou 4 chiffres donnés par le professeur) limite les saisies aux heures de cours.</p>
+
+<h2>3. Quand sortent-elles de l'appareil ?</h2>
+<p>Seulement quand l'élève ou le professeur le décide, par l'un de ces moyens :</p>
+<table>
+<thead><tr><th>Moyen</th><th>Ce qui part</th><th>Où</th></tr></thead>
+<tbody>
+<tr><td>QR code</td><td>Le carnet de l'élève ou du binôme</td><td>Lu directement par l'outil du professeur, sans passer par internet.</td></tr>
+<tr><td>Fichier rendu au professeur</td><td>Le carnet de l'élève</td><td>Déposé dans le Nuage apps.education (service de l'Éducation nationale), dans un dossier de dépôt du professeur.</td></tr>
+<tr><td>Tournoi de tennis de table</td><td>Prénom et initiale, résultats des matchs</td><td>Tableur Grist de l'État (grist.numerique.gouv.fr), seulement si le professeur l'a activé pour la classe.</td></tr>
+<tr><td>Outils de cycle du professeur (badminton, tennis de table)</td><td>Initiales et résultats</td><td>Tableur Google du professeur, seulement s'il a activé la synchronisation.</td></tr>
+</tbody>
+</table>
+<p class="muted">Les fichiers exportés par le professeur (tableurs de notes, PDF) sont ensuite sous sa responsabilité.</p>
+
+<h2>4. Contenus chargés depuis d'autres sites</h2>
+<ul>
+<li>Les applis sont hébergées sur GitHub Pages. Comme tout hébergeur, GitHub reçoit l'adresse IP de l'appareil qui ouvre la page (journaux techniques).</li>
+<li>Certaines fiches montrent des vidéos, de la plateforme PeerTube de l'Éducation nationale (apps.education) ou de YouTube en mode sans cookies (youtube-nocookie.com). La vidéo ne se charge que si on la lance.</li>
+<li>Quelques outils du professeur chargent une police ou une bibliothèque depuis Google Fonts ou cdnjs (Cloudflare) : ces services reçoivent l'adresse IP, rien d'autre.</li>
+</ul>
+
+<h2>5. Combien de temps ?</h2>
+<p>Les données restent sur l'appareil tant qu'on ne les efface pas. Elles sont à effacer à la fin de l'année scolaire, de même que les fichiers déposés par les élèves et les tableurs du professeur.</p>
+
+<h2>6. Effacer ou récupérer ses données</h2>
+<ul>
+<li>Chaque appli propose d'envoyer le carnet (QR code ou fichier) et de fermer ou d'effacer le carnet.</li>
+<li>Effacer les données du site dans les réglages du navigateur, ou désinstaller l'appli, supprime tout ce qui est sur l'appareil.</li>
+</ul>
+
+<h2>7. Vos droits</h2>
+<p>Chaque élève et ses responsables légaux peuvent demander à consulter, corriger ou supprimer les données qui le concernent (règlement général sur la protection des données). La demande se fait auprès du professeur d'EPS, par la messagerie de l'ENT ou de Pronote. En cas de difficulté, on peut s'adresser au délégué à la protection des données de l'académie de Montpellier, puis à la CNIL (cnil.fr).</p>
+
+<h2>8. Responsable</h2>
+<p>Ces applis sont conçues par Y. Dartois, professeur d'EPS au lycée Georges Pompidou, pour ses cours. Les données sont traitées dans le cadre des missions d'enseignement et d'évaluation de l'établissement.</p>
+
+<a class="retour" href="./">← Retour au portail Mon EPS</a>
+</main>
+</body>
+</html>

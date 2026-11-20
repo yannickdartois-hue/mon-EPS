@@ -5,7 +5,7 @@ const CACHE='mon-eps-v2.0';
 // Toutes les applis partagent le même stockage (même adresse github.io) : on n'efface QUE les anciennes versions de CETTE appli.
 const MES_CACHES=/^(?:mon\-eps\-v)\d+(?:\.\d+)?$/;
 
-const SHELL=['./','eps-maj.js','index.html','polices/archivo.woff2','polices/atkinson-400.woff2','polices/atkinson-700.woff2','manifest.webmanifest','icon-32.png','icon-180.png','icon-192.png','icon-512.png','icons/mes-classes.png','icons/releve-notes.png','mes-classes/icon-32.png','mes-classes/icon-180.png','mes-classes/icon-192.png','releve-notes/icon-32.png','releve-notes/icon-180.png','releve-notes/icon-192.png','mes-classes/mode-emploi-listes-de-classes.pdf'];
+const SHELL=['./','eps-maj.js','index.html','confidentialite.html','polices/archivo.woff2','polices/atkinson-400.woff2','polices/atkinson-700.woff2','manifest.webmanifest','icon-32.png','icon-180.png','icon-192.png','icon-512.png','icons/mes-classes.png','icons/releve-notes.png','mes-classes/icon-32.png','mes-classes/icon-180.png','mes-classes/icon-192.png','releve-notes/icon-32.png','releve-notes/icon-180.png','releve-notes/icon-192.png','mes-classes/mode-emploi-listes-de-classes.pdf'];
 const FILES=[];
 const CDN=/(^|\.)(cdnjs\.cloudflare\.com|cdn\.jsdelivr\.net|unpkg\.com|cdn\.tailwindcss\.com|fonts\.googleapis\.com|fonts\.gstatic\.com)$/;
 self.addEventListener('install',e=>{e.waitUntil((async()=>{const c=await caches.open(CACHE);
