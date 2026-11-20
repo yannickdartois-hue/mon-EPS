@@ -41,8 +41,19 @@ MODULES = {
     'ecran-de-cours/commun/eps-garde.js':  [f'{r}/eps-garde.js' for r in PROFS] + ['Carnet-Step-/prof/eps-garde.js'],
     # barre violette « 🎭 DÉMO » (20/11/2026)
     'ecran-de-cours/commun/eps-demo.js':  [f'{r}/eps-demo.js' for r in ELEVES + PROFS]
-                                          + ['musculation-eleves/eps-demo.js', 'CCF-Demi-Fond-PROF/eps-demo.js'],
+                                          + ['musculation-eleves/eps-demo.js', 'musculation-prof/eps-demo.js', 'CCF-Demi-Fond-PROF/eps-demo.js'],
 }
+# Musculation (20/11/2026) : mêmes modules communs que les autres applis, sauf les avatars (non utilisés)
+for _orig, _copies in {
+    'applis-eleves/eps-code.js':           ['musculation-eleves/eps-code.js', 'musculation-prof/eps-code.js'],
+    'applis-eleves/eps-rappel.js':         ['musculation-eleves/eps-rappel.js'],
+    'applis-eleves/eps-pouls.js':          ['musculation-eleves/eps-pouls.js'],
+    'ecran-de-cours/commun/eps-aide.js':   ['musculation-eleves/eps-aide.js', 'musculation-prof/eps-aide.js'],
+    'ecran-de-cours/commun/eps-maj.js':    ['musculation-eleves/eps-maj.js', 'musculation-prof/eps-maj.js'],
+    'ecran-de-cours/commun/eps-coffre.js': ['musculation-prof/eps-coffre.js'],
+    'ecran-de-cours/commun/eps-garde.js':  ['musculation-prof/eps-garde.js'],
+}.items():
+    MODULES[_orig] = MODULES[_orig] + _copies
 
 RE_VERSION = re.compile(r"""(const\s+(?:VERSION|CACHE|C)\s*=\s*['"][A-Za-z0-9_-]*?-v)(\d+)(['"])""")
 

@@ -22,3 +22,5 @@ Ensuite : tester les applis modifiées, puis un commit par dépôt. La liste des
 | `ecran-de-cours/commun/eps-coffre.js` | Sauvegardes protégées par mot de passe | profs |
 | `ecran-de-cours/commun/eps-garde.js` | Rappel de sauvegarde (bandeau rouge) | profs |
 | `ecran-de-cours/commun/eps-demo.js` | Barre violette « 🎭 DÉMO · rien n'est enregistré · Quitter » (remplace le bandeau jaune) | applis avec mode démo, CCF demi-fond |
+
+Musculation (élève et prof) reçoit les mêmes modules communs que les autres applis (sauf les avatars, non utilisés) depuis le 20/11/2026.
