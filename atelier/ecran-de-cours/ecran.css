@@ -228,6 +228,13 @@ body.sous-outil{overflow:hidden}
   .barre .bt.clair{padding-left:10px;padding-right:10px}
   .deroule{overflow-x:auto} /* séance à nombreux blocs (step) : la frise défile au lieu d'élargir la page */
   .pouce{flex-wrap:wrap}
+  /* 20/11/2026 · téléphone : puces des séances sur deux lignes (plus de chevauchement), frise réduite aux horaires
+     (cibles au doigt), barre du bas sur une seule ligne */
+  .strip{flex-wrap:wrap;overflow:visible}
+  .ligneT{height:22px}
+  .blocs button{min-height:44px}.blocs span{display:none}
+  .pouce{flex-wrap:nowrap;gap:6px;padding:8px 8px max(10px,env(safe-area-inset-bottom))}
+  .pouce .bt{flex:1 1 auto;padding-left:8px;padding-right:8px;font-size:15px;white-space:nowrap}
 }
 
 /* heure de début / fin du cours */
