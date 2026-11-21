@@ -29,7 +29,13 @@ main{padding:16px}
 .v3 html,.v3 body,html.v3,html.v3 body,html.v4,html.v4 body{height:100%;overflow:hidden}
 html.v3 #zone,html.v4 #zone{height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch}
 #bord{display:none;position:fixed;top:0;left:0;right:0;height:6px;background:#111;z-index:99}
-html.v2 #bord,html.v4 #bord{display:block}
+html.v2 #bord,html.v4 #bord,html.v7 #bord,html.v8 #bord,html.v9 #bord{display:block}
+#badge,#nav{display:none}
+html.v7 #badge,html.v9 #badge{display:block}
+html.v8 #nav,html.v9 #nav{display:flex}
+#badge{position:fixed;top:calc(env(safe-area-inset-top, 0px) + 8px);right:6px;z-index:2147482000;font:700 13px/1.2 system-ui,Arial,sans-serif;color:#1f2937;background:#fff;border:1px solid rgba(31,41,55,.25);border-radius:7px;padding:1px 6px;pointer-events:none}
+#nav{position:fixed;left:0;right:0;bottom:0;height:64px;background:#111;color:#fbbf24;align-items:center;justify-content:space-around;font-weight:700;z-index:5;padding-bottom:env(safe-area-inset-bottom)}
+html.v8 main,html.v9 main{padding-bottom:90px}
 html.v5 header,html.v6 header{padding-top:calc(14px + env(safe-area-inset-top,0px))}
 html.v6 #zone{height:100%;overflow-y:auto}html.v6,html.v6 body{height:100%;overflow:hidden}
 #mesure{position:fixed;top:env(safe-area-inset-top,0px);left:0;width:1px;height:1px;visibility:hidden}
@@ -37,12 +43,13 @@ html.v6 #zone{height:100%;overflow-y:auto}html.v6,html.v6 body{height:100%;overf
 <script>document.documentElement.className='v'+V;</script>
 </head>
 <body>
-<div id="bord"></div><div id="mesure"></div>
+<div id="bord"></div><div id="badge">v9.9</div><nav id="nav"><span>Accueil</span><span>Apprendre</span></nav><div id="mesure"></div>
 <div id="zone">
 <header><b>TEST IPAD</b><span>variante <script>document.write(V)</script></span></header>
 <main>
 <div class="info" id="etat">…</div>
 <p>Touchez une variante, puis regardez si le haut de l'écran (bandeau noir « TEST IPAD ») est <b>net</b> ou <b>flou</b>. Notez le numéro des variantes nettes.</p>
+<p class="info" id="page"></p>
 <div class="v">
 <a href="?v=1">1 · page normale</a>
 <a href="?v=2">2 · + bande opaque</a>
@@ -50,12 +57,16 @@ html.v6 #zone{height:100%;overflow-y:auto}html.v6,html.v6 body{height:100%;overf
 <a href="?v=4">4 · page fixe + bande</a>
 <a href="?v=5">5 · plein écran + marge du haut</a>
 <a href="?v=6">6 · plein écran + marge + page fixe</a>
+<a href="?v=7">7 · bande + badge de version</a>
+<a href="?v=8">8 · bande + onglets en bas</a>
+<a href="?v=9">9 · bande + badge + onglets</a>
 </div>
 <script>document.querySelectorAll('.v a')[+V-1].className='ici';</script>
 <div class="bloc">contenu</div><div class="bloc">contenu</div><div class="bloc">contenu</div><div class="bloc">contenu</div><div class="bloc">contenu</div><div class="bloc">contenu</div><div class="bloc">contenu</div><div class="bloc">contenu</div>
 </main>
 </div>
 <script>
+document.getElementById('page').innerHTML=document.querySelector('link[rel=manifest]')?'Page <b>B</b> : avec fiche d\'installation.':'Page <b>A</b> : sans fiche d\'installation.';
 var st=(navigator.standalone===true)||matchMedia('(display-mode: standalone)').matches;
 document.getElementById('etat').innerHTML='Ouverte depuis l\'écran d\'accueil : <b>'+(st?'oui':'NON — ajoutez cette page à l\'écran d\'accueil')+'</b> · marge système du haut : <b>'+Math.round(document.getElementById('mesure').getBoundingClientRect().top)+' px</b> · iPadOS : '+(navigator.userAgent.match(/OS (\d+[_\d]*)/)||['',''])[1].replace(/_/g,'.')+' · largeur '+innerWidth+' × '+innerHeight;
 </script>
