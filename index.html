@@ -425,7 +425,7 @@ function tool(r, i, showAct, court){
   const nom = court && role ? role : r.title;
   const aide = [r.title, r.desc].filter(Boolean).join(" — ") || r.title;
   /* badge lisible posé sur le petit badge dessiné dans l'icône (ÉLÈVE / PROF, et CYCLE quand l'icône en a un) */
-  const rk = roleRank(r), avecBadge = r.part === "terrain" && /<img/.test(ico) && (rk === 1 || rk === 2 || (rk === 0 && CYCLE_BADGE.includes(r.name.toLowerCase())));
+  const rk = roleRank(r), avecBadge = r.part === "terrain" && /<img/.test(ico) && (rk === 1 || rk === 2 || rk === 0);
   const badge = avecBadge ? `<span class="bdg b${rk}">${["Cycle","Élève","Prof"][rk]}</span>` : "";
   const inner = `<span class="ico">${ico}${badge}</span><strong>${esc(nom)}</strong>` +
     (showAct ? `<em class="tag">${esc(a.label)}</em>` : "") + (r.app ? "" : `<small>Pas encore en ligne</small>`);
