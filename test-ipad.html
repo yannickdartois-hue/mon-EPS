@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<script>
+/* Page de diagnostic du voile flou en haut des applis installées sur iPad (21/11/2026). */
+var V=(location.search.match(/v=(\d)/)||[])[1]||'1';
+document.write('<meta name="viewport" content="width=device-width,initial-scale=1'+(V==='5'||V==='6'?',viewport-fit=cover':'')+'">');
+</script>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Test iPad">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Test iPad</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#f3f5f8;font:18px/1.45 system-ui,-apple-system,sans-serif;color:#1c2128}
+header{background:#111;color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+header b{font-size:24px;letter-spacing:.04em}
+header span{font-size:15px;background:#fff;color:#111;border-radius:8px;padding:2px 8px;font-weight:700}
+main{padding:16px}
+.v{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.v a{display:block;text-align:center;padding:14px 6px;border-radius:12px;background:#fff;border:2px solid #c9ced6;color:#111;text-decoration:none;font-weight:700}
+.v a.ici{background:#0e7490;color:#fff;border-color:#0e7490}
+.info{background:#fff;border-radius:12px;padding:10px 14px;margin:10px 0;font-size:16px}
+.bloc{height:140px;margin:10px 0;border-radius:12px;background:#e2e8f0;display:flex;align-items:center;justify-content:center;color:#5b6470}
+/* variantes */
+.v3 html,.v3 body,html.v3,html.v3 body,html.v4,html.v4 body{height:100%;overflow:hidden}
+html.v3 #zone,html.v4 #zone{height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch}
+#bord{display:none;position:fixed;top:0;left:0;right:0;height:6px;background:#111;z-index:99}
+html.v2 #bord,html.v4 #bord{display:block}
+html.v5 header,html.v6 header{padding-top:calc(14px + env(safe-area-inset-top,0px))}
+html.v6 #zone{height:100%;overflow-y:auto}html.v6,html.v6 body{height:100%;overflow:hidden}
+#mesure{position:fixed;top:env(safe-area-inset-top,0px);left:0;width:1px;height:1px;visibility:hidden}
+</style>
+<script>document.documentElement.className='v'+V;</script>
+</head>
+<body>
+<div id="bord"></div><div id="mesure"></div>
+<div id="zone">
+<header><b>TEST IPAD</b><span>variante <script>document.write(V)</script></span></header>
+<main>
+<div class="info" id="etat">…</div>
+<p>Touchez une variante, puis regardez si le haut de l'écran (bandeau noir « TEST IPAD ») est <b>net</b> ou <b>flou</b>. Notez le numéro des variantes nettes.</p>
+<div class="v">
+<a href="?v=1">1 · page normale</a>
+<a href="?v=2">2 · + bande opaque</a>
+<a href="?v=3">3 · page fixe, contenu qui défile dedans</a>
+<a href="?v=4">4 · page fixe + bande</a>
+<a href="?v=5">5 · plein écran + marge du haut</a>
+<a href="?v=6">6 · plein écran + marge + page fixe</a>
+</div>
+<script>document.querySelectorAll('.v a')[+V-1].className='ici';</script>
+<div class="bloc">contenu</div><div class="bloc">contenu</div><div class="bloc">contenu</div><div class="bloc">contenu</div><div class="bloc">contenu</div><div class="bloc">contenu</div><div class="bloc">contenu</div><div class="bloc">contenu</div>
+</main>
+</div>
+<script>
+var st=(navigator.standalone===true)||matchMedia('(display-mode: standalone)').matches;
+document.getElementById('etat').innerHTML='Ouverte depuis l\'écran d\'accueil : <b>'+(st?'oui':'NON — ajoutez cette page à l\'écran d\'accueil')+'</b> · marge système du haut : <b>'+Math.round(document.getElementById('mesure').getBoundingClientRect().top)+' px</b> · iPadOS : '+(navigator.userAgent.match(/OS (\d+[_\d]*)/)||['',''])[1].replace(/_/g,'.')+' · largeur '+innerWidth+' × '+innerHeight;
+</script>
+</body>
+</html>
