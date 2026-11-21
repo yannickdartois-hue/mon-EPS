@@ -36,9 +36,9 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
 .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 1.25rem}
 
 /* ---------- En-tête compact ---------- */
-header{padding:calc(1.1rem + env(safe-area-inset-top)) 0 .6rem}
-.head{display:flex;align-items:center;gap:.8rem}
-.head img{width:64px;height:64px;border-radius:18px;box-shadow:0 6px 20px rgba(194,65,12,.28),0 0 0 3px #fff;flex:none}
+header{padding:calc(.7rem + env(safe-area-inset-top)) 1.25rem .3rem}
+.head{display:flex;align-items:center;gap:.8rem;padding-right:3.4rem}
+.head img{width:52px;height:52px;border-radius:18px;box-shadow:0 6px 20px rgba(194,65,12,.28),0 0 0 3px #fff;flex:none}
 .head-txt{flex:1;min-width:0}
 .head h1{font-family:"Bebas Neue",sans-serif;font-size:1.9rem;letter-spacing:.06em;line-height:1}
 .head h1 span{background:linear-gradient(135deg,#f97316,#c2410c 60%,#0e7490);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -50,8 +50,8 @@ header{padding:calc(1.1rem + env(safe-area-inset-top)) 0 .6rem}
 .btn-icon:hover{color:var(--text);background:var(--surface2)}
 
 /* ---------- Barre collante : recherche + activités ---------- */
-.bar{position:sticky;top:0;z-index:20;padding:.6rem 0 .5rem;margin-bottom:.2rem;
-  background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+.bar{position:sticky;top:0;z-index:20;padding:0 0 .5rem;margin-bottom:.2rem;
+  background:var(--bg);
   border-bottom:1px solid transparent;transition:border-color var(--t)}
 .bar.stuck{border-bottom-color:var(--border)}
 .search{position:relative}
@@ -144,6 +144,7 @@ footer{position:relative;z-index:1;text-align:center;padding:1.2rem 1rem calc(1.
 </head>
 <body>
 
+<div class="bar" id="bar">
 <header class="wrap">
   <div class="head">
     <img src="icon-192.png" alt="" width="64" height="64">
@@ -154,13 +155,7 @@ footer{position:relative;z-index:1;text-align:center;padding:1.2rem 1rem calc(1.
     <button class="btn-icon" id="themeToggle" aria-label="Changer de thème"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
   </div>
 </header>
-
-<div class="bar" id="bar">
   <div class="wrap">
-    <div class="search">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <input type="search" id="q" placeholder="Rechercher un outil…" autocomplete="off">
-    </div>
     <div class="chips" id="chips"></div>
   </div>
 </div>
@@ -509,11 +504,9 @@ $("chips").addEventListener("click", e => {
   state.act = b.dataset.a; render();
   b.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
 });
-$("q").addEventListener("input", e => { state.q = e.target.value; render(); });
 
 /* Ombre de la barre collante */
-new IntersectionObserver(([e]) => $("bar").classList.toggle("stuck", !e.isIntersecting))
-  .observe(document.querySelector("header"));
+addEventListener("scroll", () => $("bar").classList.toggle("stuck", scrollY > 4), {passive:true});
 
 fetchRepos().then(({ list, from, err, generated }) => {
   state.repos = prepare(list.concat(CONFIG.extras || []));
