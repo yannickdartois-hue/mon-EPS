@@ -37,6 +37,10 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
 
 /* ---------- En-tête compact ---------- */
 header{padding:calc(.7rem + env(safe-area-inset-top)) 1.25rem .3rem}
+/* v2.6 : ouverte depuis l'écran d'accueil (iPad, iPhone), iOS 26 floute le haut de l'écran :
+   on descend le titre sous cette zone floue (la marge reste dans la barre opaque). */
+@media (display-mode: standalone){header{padding-top:calc(env(safe-area-inset-top, 0px) + 3.4rem)}}
+html.ecran-accueil header{padding-top:calc(env(safe-area-inset-top, 0px) + 3.4rem)}
 .head{display:flex;align-items:center;gap:.8rem;padding-right:3.4rem}
 .head img{width:52px;height:52px;border-radius:18px;box-shadow:0 6px 20px rgba(194,65,12,.28),0 0 0 3px #fff;flex:none}
 .head-txt{flex:1;min-width:0}
@@ -143,6 +147,7 @@ footer{position:relative;z-index:1;text-align:center;padding:1.2rem 1rem calc(1.
 </style>
 </head>
 <body>
+<script>if(window.navigator.standalone===true)document.documentElement.classList.add('ecran-accueil')</script>
 
 <div class="bar" id="bar">
 <header class="wrap">
