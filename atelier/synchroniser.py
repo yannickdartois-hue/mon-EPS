@@ -35,6 +35,8 @@ MODULES = {
     'applis-eleves/eps-avatars.js':    [f'{r}/eps-avatars.js' for r in ELEVES + PROFS],
     'applis-eleves/eps-rappel.js':     [f'{r}/eps-rappel.js' for r in ELEVES],
     'applis-eleves/eps-pouls.js':      ['demi-fond-eleves/eps-pouls.js', 'Carnet-Step-/eps-pouls.js'],
+    # sifflet + vibration des chronos élèves (22/11/2026)
+    'applis-eleves/eps-sifflet.js':    [f'{r}/eps-sifflet.js' for r in ['demi-fond-eleves', 'Carnet-Step-', 'cross-training-eleves', 'tennis-de-table-eleves', 'badminton-eleves', 'musculation-eleves']],
     'ecran-de-cours/commun/eps-aide.js':   [f'{r}/eps-aide.js' for r in ELEVES + PROFS],
     'ecran-de-cours/commun/eps-maj.js':    [f'{r}/eps-maj.js' for r in ELEVES + PROFS],
     'ecran-de-cours/commun/eps-coffre.js': [f'{r}/eps-coffre.js' for r in PROFS] + ['Carnet-Step-/prof/eps-coffre.js'],

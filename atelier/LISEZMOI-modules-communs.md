@@ -17,6 +17,7 @@ Ensuite : tester les applis modifiées, puis un commit par dépôt. La liste des
 | `applis-eleves/eps-avatars.js` | Avatars des messages | élèves + profs |
 | `applis-eleves/eps-rappel.js` | Rappels élèves | élèves |
 | `applis-eleves/eps-pouls.js` | Prise de pouls assistée | demi-fond, step |
+| `applis-eleves/eps-sifflet.js` | Coup de sifflet + vibration des chronos (1 coup départ / mi-course / reprise, 3 coups fin), question oui/non au premier chrono | demi-fond, step, cross training, musculation, badminton, tennis de table |
 | `ecran-de-cours/commun/eps-aide.js` | Mode d'emploi, lecture facilitée, partager l'appli | élèves + profs |
 | `ecran-de-cours/commun/eps-maj.js` | Bandeau « Nouvelle version » | élèves + profs |
 | `ecran-de-cours/commun/eps-coffre.js` | Sauvegardes protégées par mot de passe | profs |
