@@ -18,10 +18,11 @@ Ensuite : tester les applis modifiées, puis un commit par dépôt. La liste des
 | `applis-eleves/eps-rappel.js` | Rappels élèves | élèves |
 | `applis-eleves/eps-pouls.js` | Prise de pouls assistée | demi-fond, step |
 | `applis-eleves/eps-sifflet.js` | Coup de sifflet + vibration des chronos (1 coup départ / mi-course / reprise, 3 coups fin), question oui/non au premier chrono | demi-fond, step, cross training, musculation, badminton, tennis de table |
+| `applis-eleves/eps-seances.js` | Sélecteur de séance « piste » : bouton compact avec point jaune placé selon la séance / nombre de séances, grande piste cliquable dans « Changer de séance » | demi-fond élève, Step élève |
 | `ecran-de-cours/commun/eps-aide.js` | Mode d'emploi, lecture facilitée, partager l'appli | élèves + profs |
 | `ecran-de-cours/commun/eps-maj.js` | Bandeau « Nouvelle version » | élèves + profs |
 | `ecran-de-cours/commun/eps-coffre.js` | Sauvegardes protégées par mot de passe | profs |
 | `ecran-de-cours/commun/eps-garde.js` | Rappel de sauvegarde (bandeau rouge) | profs |
-| `ecran-de-cours/commun/eps-demo.js` | Bandeau violet horizontal « 🎭 DÉMO · rien n'est enregistré · Quitter », en haut de la page, dans le flux (26/11/2026 : ne recouvre plus le contenu ; option `data-dans` pour les applis à en-tête fixe : 800 m, Marche 30') | applis avec mode démo, CCF demi-fond |
+| `ecran-de-cours/commun/eps-demo.js` | Bandeau violet horizontal « 🎭 DÉMO · rien n'est enregistré · Quitter », en haut de la page, dans le flux (26/11/2026 : ne recouvre plus le contenu, sans z-index : les fenêtres de l'appli passent au-dessus ; option `data-dans` pour les applis à en-tête fixe : 800 m, Marche 30') | applis avec mode démo, CCF demi-fond |
 
 Musculation (élève et prof) reçoit les mêmes modules communs que les autres applis (sauf les avatars, non utilisés) depuis le 20/11/2026.
