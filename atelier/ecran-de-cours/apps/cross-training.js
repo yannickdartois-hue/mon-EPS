@@ -4,7 +4,7 @@
    La bascule en haut change de niveau ou de démarche ; chaque parcours garde sa séance du jour. */
 const courtCT=t=>String(t||'').split(/\s:\s|\s·\s/)[0];
 const convCT=f=>({t:f.titre,k:f.cat,disp:f.dispo,four:f.roles,deroul:f.deroul||[],cons:f.crit?[f.crit]:[],reus:f.reussite,moins:f.moins,plus:f.plus,spec:f.schema});
-const versEcran=L=>L.map(S=>({id:S.id.toLowerCase(),n:S.id,title:S.titre,short:courtCT(S.titre),obj:S.obj,mat:S.mat,prepare:S.prepare||[],install:S.install,
+const versEcran=L=>L.map(S=>({id:S.id.toLowerCase(),pronote:S.pronote,n:S.id,title:S.titre,short:courtCT(S.titre),obj:S.obj,mat:S.mat,prepare:S.prepare||[],install:S.install,
   tl:S.tl.map(t=>[t[0],String(t[1]),t[2]]),ex:S.fiches.map(convCT),evalPage:false,status:S.status==='eval'?'eval':''}));
 const NIV_CT={p:['Première','1re','PREMIÈRE'],g:['Première','1re','PREMIÈRE'],t:['Terminale','Tle','TERMINALE'],h:['Terminale','Tle','TERMINALE']};
 const DEM_CT={p:'progressive',t:'progressive',g:'GAREEPS',h:'GAREEPS'};

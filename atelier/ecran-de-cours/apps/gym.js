@@ -3,7 +3,7 @@
 /* Le cycle de gymnastique tient en un niveau (Première). Chaque séance garde son déroulé (tl) et ses fiches. */
 const courtG=t=>String(t||'').split(/\s:\s|\s·\s/)[0];
 const convG=f=>({t:f.titre,k:f.cat,disp:f.dispo,four:f.roles,deroul:f.deroul||[],cons:f.crit?[f.crit]:[],reus:f.reussite,moins:f.moins,plus:f.plus,spec:f.schema});
-const GYMC=SEANCES.map(S=>({id:S.id.toLowerCase(),n:S.id,title:S.titre,short:courtG(S.titre),obj:S.obj,prepare:S.prepare||[],install:S.install,bilan:S.bilan,
+const GYMC=SEANCES.map(S=>({id:S.id.toLowerCase(),pronote:S.pronote,n:S.id,title:S.titre,short:courtG(S.titre),obj:S.obj,prepare:S.prepare||[],install:S.install,bilan:S.bilan,
   tl:S.tl.map(t=>[t[0],String(t[1]),t[2]]),ex:S.fiches.map(convG),evalPage:false,status:/validations et bilan/i.test(S.titre)?'eval':''}));
 const APP={
   old:'outils.html',

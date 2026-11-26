@@ -31,3 +31,17 @@
 .evt th{text-align:left;padding:6px 8px 6px 0;vertical-align:top}.evt td{padding:6px 0;border-top:1px solid var(--trait)}.evt th{border-top:1px solid var(--trait)}
 .evt small{display:block;color:var(--repere)}
 @media print{.mob{break-inside:avoid}}
+.mob-tete{display:flex;align-items:center;gap:14px;margin:-10px -12px 10px;padding:10px 12px;border-radius:12px 12px 0 0;background:var(--mg,var(--mc));color:#fff}
+.mob-tete img{height:150px;width:auto;flex:none;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.35)}
+.mob .mob-tete h3{color:#fff;margin:0;font-size:30px}.mob-tete small{font-weight:800;opacity:.9;text-transform:uppercase;letter-spacing:.06em}
+.mob-tete p{margin:8px 0 0;font-weight:700;font-size:15px;opacity:.95}
+@media (max-width:420px){.mob-tete img{height:120px}.mob .mob-tete h3{font-size:24px}}
+/* v3.2 : affiches des mobiles */
+.mob-bandeau{position:relative;border-radius:16px;overflow:hidden;margin:10px 0;box-shadow:0 3px 12px rgba(0,0,0,.25)}
+.mob-bandeau{background:#0f172a;text-align:center}.mob-bandeau img{display:block;margin:0 auto;width:100%;max-width:420px;height:auto}
+.mob-bandeau span{display:block;padding:8px 12px;color:#fff;font-weight:800}
+.mob-choix{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
+.mob-choix button{border:3px solid transparent;border-radius:14px;padding:0;overflow:hidden;background:#111;color:#fff;font:inherit;font-weight:800;font-size:14px;cursor:pointer;text-align:center}
+.mob-choix img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover}
+.mob-choix span{display:block;padding:6px 4px}
+.mob-choix button.ici{border-color:var(--mc);box-shadow:0 0 0 3px var(--mc)}

@@ -389,8 +389,9 @@ function ouvrirOutils(){
   panneauOuvert='outils';
   const G=OUTILS.slice().sort((a,b)=>(b.a&&J.c==='a')-(a.a&&J.c==='a'));
   const html=G.map(g=>`<h3 class="og">${esc(g.titre)}</h3><div class="tuiles">${g.items.map(t=>`<button type="button" data-outil="${t[0]}"${g.a?' data-auto="1"':''}><b>${esc(t[1])}</b><span>${esc(t[2])}</span></button>`).join('')}</div>`).join('');
-  panneau('droite','Outils',html+'<p class="aide">L’outil s’ouvre par-dessus l’écran de cours : le minuteur continue. « Retour au cours » pour revenir.</p>','Fermer');
+  panneau('droite','Outils',`<h3 class="og">Cahier de textes</h3><div class="tuiles"><button type="button" data-pronote="1"><b>📋 Cahier de textes</b><span>résumés à coller dans Pronote · PDF · Word</span></button></div>`+html+'<p class="aide">L’outil s’ouvre par-dessus l’écran de cours : le minuteur continue. « Retour au cours » pour revenir.</p>','Fermer');
   $('couche').querySelectorAll('[data-outil]').forEach(x=>x.onclick=()=>voirOutil(x.dataset.outil,!!x.dataset.auto,x.querySelector('b').textContent));
+  const pn=$('couche').querySelector('[data-pronote]');if(pn)pn.onclick=()=>{pnCy=J.c;ouvrirPronote()};
 }
 let outilTic=null;
 function voirOutil(id,auto,titre){
@@ -405,6 +406,73 @@ function voirOutil(id,auto,titre){
 function fermerOutil(){const v=document.querySelector('.outil-v');if(!v)return;v.remove();document.body.classList.remove('sous-outil');clearInterval(outilTic);relireCur();rendre()}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.querySelector('.outil-v'))fermerOutil()});
 $('btOutils').onclick=ouvrirOutils;
+
+/* ================== Cahier de textes (Pronote) — chantier 14 ==================
+   Pour chaque séance : Bilan, puis le texte à coller dans Pronote (Contenu ; À retenir / Préparation).
+   Texte rédigé dans les données (s.pronote) s'il existe ; sinon composé UNIQUEMENT à partir des données
+   de la séance : objectif ou présentation, déroulé minuté et critère de réussite de chaque situation,
+   question de bilan, point clé, ce que la séance prépare, séance suivante. Copie, PDF et Word (eps-export.js). */
+const pnTxt=t=>String(t||'').replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim();
+const pnPt=t=>{t=pnTxt(t);return !t||/[.!?»…]$/.test(t)?t:t+'.'};
+const pnTitre=t=>pnTxt(t).replace(/^fil rouge \d+\s*·\s*/i,'');
+function pnEx(s,label){const n=norm(label);return (Array.isArray(s.ex)?s.ex:[]).find(e=>{const m=norm(e.t);return m&&(m===n||m.startsWith(n)||n.startsWith(m))})}
+/* situation de chaque ligne du déroulé : par code (demi-fond), par position (fiches : chaque ligne hors « inst » en consomme une ;
+   séances « volley » : 1re ligne = échauffement, puis une situation par ligne), sinon par titre */
+function pnLignes(s){const T=s.tl||[],obj=s.ex&&!Array.isArray(s.ex),fiches=Array.isArray(s.ex)&&T.some(t=>t.length>2);let f=0;
+  return T.map((t,k)=>{let e=null;
+    if(obj)e=s.ex[t[2]]||null;else if(fiches){if(t[2]!=='inst')e=s.ex[f++]||null}else e=k>0?(s.ex||[])[k-1]||null:null;
+    if(!e)e=pnEx(s,t[0])||null;return {t,e}})}
+function pronoteDe(c,s){
+  const L=CYC[c].L,i=L.findIndex(x=>x.id===s.id),suiv=L[i+1];
+  if(s.pronote)return {bilan:s.pronote.bilan,contenu:s.pronote.contenu,retenir:s.pronote.retenir};
+  const bilan=pnPt(s.obj||s.lead||s.title);
+  let cle='',dmax=-1,avant='';
+  const rows=pnLignes(s).map(({t,e})=>{const d=+t[1]||0;let lab=pnTitre(t[0]);
+    if(e&&(e.cons||[]).length&&d>dmax){dmax=d;cle=e.cons[0]}
+    if(e&&/^(exercice|situation)\b/i.test(lab)&&norm(e.t)!==norm(lab))lab+=' · '+pnTitre(e.t);
+    let det=e&&e.reus?'réussite : '+pnTxt(e.reus).replace(/\.$/,''):'';
+    if(det&&det===avant)det='';else if(det)avant=det;   /* pas deux fois le même critère à la suite */
+    return lab+(d?' ('+d+' min)':'')+(det?' : '+det:'')});
+  const contenu='Contenu : '+(rows.length?rows.join('. ')+'.':(s.eval||[]).length?s.eval.map(x=>pnPt(Array.isArray(x)?x[1]:x)).join(' '):pnPt(s.title));
+  const r=['À retenir / Préparation :'];
+  if(s.bilan)r.push('Bilan : '+pnPt(s.bilan));
+  if(cle)r.push('Point clé : '+pnPt(cle));
+  if((s.prepare||[]).length)r.push('Prépare : '+s.prepare.map(pnPt).join(' '));
+  r.push(suiv?'Prochaine séance : '+suiv.n+' — '+pnTxt(suiv.title)+'.':'Fin du cycle.');
+  return {bilan,contenu,retenir:r.join(' ')};
+}
+let pnCy=null;
+function ouvrirPronote(){
+  panneauOuvert='pronote';pnCy=pnCy||J.c;const L=CYC[pnCy].L;
+  const cartes=L.map(s=>{const p=pronoteDe(pnCy,s);return `<article class="pn"><h3><span class="n">${esc(s.n)}</span> ${esc(pnTxt(s.title))}</h3><p><b>Bilan :</b> ${esc(p.bilan)}</p><div class="pn-t"><p>${esc(p.contenu)}</p><p>${esc(p.retenir)}</p></div><button class="bt noir" type="button" data-pnc="${s.id}">📋 Copier pour Pronote</button></article>`}).join('');
+  panneau('droite','Cahier de textes · '+CYC[pnCy].label,`${ORDRE.length>1?`<div class="cy">${ORDRE.map(k=>`<button type="button" data-cy="${k}" class="${pnCy===k?'on':''}">${NIV[k].label}</button>`).join('')}</div>`:''}
+    <p class="aide">Pour chaque séance : le bilan, puis le texte à coller dans le cahier de textes de Pronote (Contenu ; À retenir / Préparation). Fonctionne sans réseau.</p>
+    <div class="pn-act"><button class="bt noir" type="button" data-pnx="pdf">📄 PDF</button><button class="bt noir" type="button" data-pnx="docx">📝 Word</button></div>${cartes}`,'Fermer');
+  const z=$('couche');
+  z.querySelectorAll('[data-cy]').forEach(x=>x.onclick=()=>{pnCy=x.dataset.cy;ouvrirPronote()});
+  z.querySelectorAll('[data-pnc]').forEach(x=>x.onclick=()=>copierPronote(x));
+  z.querySelectorAll('[data-pnx]').forEach(x=>x.onclick=()=>exporterPronote(x));
+}
+async function copierPronote(b){
+  const s=sea(pnCy,b.dataset.pnc),p=pronoteDe(pnCy,s),t=p.contenu+'\n'+p.retenir,avant=b.textContent;
+  try{await navigator.clipboard.writeText(t)}
+  catch(e){const z=document.createElement('textarea');z.value=t;z.setAttribute('readonly','');z.style.position='fixed';z.style.opacity='0';document.body.appendChild(z);z.select();try{document.execCommand('copy')}catch(x){}z.remove()}
+  b.textContent='✓ Copié : colle-le dans Pronote';setTimeout(()=>b.textContent=avant,2500);
+}
+function modelePronote(c){
+  const L=CYC[c].L,nom=document.title||'Cycle',coul=(getComputedStyle(document.documentElement).getPropertyValue('--act')||'#334155').trim();
+  const slug=t=>String(t).normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  return {titre:'Cahier de textes · '+nom,sousTitre:NIV[c].label+' · '+L.length+' séances · Lycée Georges Pompidou',couleur:/^#[0-9a-f]{6}$/i.test(coul)?coul:'#334155',pageGarde:false,sommaire:false,
+    garde:['Pour chaque séance : le bilan, puis le texte à coller dans Pronote (Contenu, À retenir / Préparation).'],
+    pied:'Cahier de textes · '+nom+' · '+NIV[c].label,fichier:'cahier-de-textes-'+slug(nom)+'-'+slug(NIV[c].court),
+    sections:L.map(s=>{const p=pronoteDe(c,s);return {id:s.id,titre:s.n+' — '+pnTxt(s.title),suite:true,blocs:[{t:'p',label:'Bilan :',x:p.bilan},{t:'cadre',titre:'À copier dans Pronote',lignes:[p.contenu,p.retenir]}]}})};
+}
+async function exporterPronote(b){
+  const t=b.textContent;b.disabled=true;b.textContent='⏳ Préparation…';
+  try{const M=modelePronote(pnCy);if(b.dataset.pnx==='pdf')await EPSExport.pdf(M);else EPSExport.docx(M);b.textContent='✓ Fichier enregistré'}
+  catch(e){alert('Export impossible : '+e.message);b.textContent=t}
+  setTimeout(()=>{b.disabled=false;b.textContent=t},2500);
+}
 
 /* ================== Séance du jour ==================
    Même réglage que dans l'outil complet (« Préparer ») : les deux restent d'accord. */

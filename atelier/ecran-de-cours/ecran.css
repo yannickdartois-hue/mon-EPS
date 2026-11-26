@@ -241,3 +241,11 @@ body.sous-outil{overflow:hidden}
 .hdeb input{font:inherit;font-weight:700;border:2px solid currentColor;border-radius:8px;padding:2px 6px;background:transparent;color:inherit}
 .lienh{font:inherit;background:none;border:0;color:inherit;text-decoration:underline;cursor:pointer;padding:0 2px}
 .okh{opacity:.8}
+
+/* Cahier de textes (Pronote) — chantier 14 */
+.pn{border:2px solid var(--trait,#d7dcd2);border-radius:14px;padding:12px 14px;margin:10px 0;background:var(--craie,#fff)}
+.pn h3{margin:0 0 6px;font-size:19px}.pn h3 .n{display:inline-block;min-width:2.2em;padding:2px 8px;border-radius:8px;background:var(--niv,var(--act));color:var(--sur-niv,#fff);font-size:15px;margin-right:6px}
+.pn p{margin:6px 0;font-size:max(15px,var(--fs-min,15px));line-height:1.45}
+.pn-t{background:var(--act-pale,#f1f5f9);border-radius:10px;padding:8px 12px;margin:8px 0;user-select:text}
+.pn .bt{min-height:46px}
+.pn-act{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.pn-act .bt{min-height:48px;flex:1 1 140px}

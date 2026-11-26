@@ -3,7 +3,7 @@
 /* Le cycle de step tient en un niveau (Seconde). Chaque séance garde son déroulé (tl) et ses fiches. */
 const court1=t=>String(t||'').split(/\s:\s|\s·\s/)[0];
 const conv=f=>({t:f.titre,k:f.cat,disp:f.dispo,four:f.roles,deroul:f.deroul||[],cons:f.crit?[f.crit]:[],reus:f.reussite,moins:f.moins,plus:f.plus,spec:f.schema,defi:f.defi});
-const STEP=SEANCES.map(S=>({id:S.id.toLowerCase(),n:S.id,title:S.titre,short:court1(S.titre),obj:S.obj,bpm:S.bpm,pas:S.pas,prepare:S.prepare||[],accueil:S.accueil,install:S.install,
+const STEP=SEANCES.map(S=>({id:S.id.toLowerCase(),pronote:S.pronote,n:S.id,title:S.titre,short:court1(S.titre),obj:S.obj,bpm:S.bpm,pas:S.pas,prepare:S.prepare||[],accueil:S.accueil,install:S.install,
   tl:S.tl.map(t=>[t[0],String(t[1]),t[2]]),ex:S.fiches.map(conv),evalPage:false,status:/^Évaluation/.test(S.titre)?'eval':''}));
 const APP={
   old:'cycle-step-old.html',
