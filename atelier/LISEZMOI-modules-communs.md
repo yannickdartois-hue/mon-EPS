@@ -1,6 +1,6 @@
 # Modules communs des applis EPS (« cœur commun », étape 1)
 
-Les fichiers communs (code du cours, mode d'emploi, mises à jour, sauvegardes protégées, rappel de sauvegarde, avatars, pouls…) ont **un seul original**, ici dans `atelier/`. Chaque appli garde **sa propre copie** : elle reste autonome et portable seule (par activité), et une erreur dans une appli ne touche pas les autres.
+Les fichiers communs (séance du jour par QR, mode d'emploi, mises à jour, sauvegardes protégées, rappel de sauvegarde, avatars, pouls…) ont **un seul original**, ici dans `atelier/`. Chaque appli garde **sa propre copie** : elle reste autonome et portable seule (par activité), et une erreur dans une appli ne touche pas les autres.
 
 **Ne jamais modifier une copie dans une appli.** Modifier l'original ici, puis, depuis le dossier qui contient tous les clones :
 
@@ -13,7 +13,7 @@ Ensuite : tester les applis modifiées, puis un commit par dépôt. La liste des
 
 | Original | Rôle | Applis |
 |---|---|---|
-| `applis-eleves/eps-code.js` | Code du cours, QR du jour | élèves + profs |
+| `applis-eleves/eps-code.js` | Séance du jour par QR (v2 : plus de code tapé) | élèves + profs |
 | `applis-eleves/eps-avatars.js` | Avatars des messages | élèves + profs |
 | `applis-eleves/eps-rappel.js` | Rappels élèves | élèves |
 | `applis-eleves/eps-pouls.js` | Prise de pouls assistée | demi-fond, step |
