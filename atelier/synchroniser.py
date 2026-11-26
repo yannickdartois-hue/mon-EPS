@@ -38,7 +38,7 @@ MODULES = {
     # sifflet + vibration des chronos élèves (22/11/2026)
     'applis-eleves/eps-sifflet.js':    [f'{r}/eps-sifflet.js' for r in ['demi-fond-eleves', 'Carnet-Step-', 'cross-training-eleves', 'tennis-de-table-eleves', 'badminton-eleves', 'musculation-eleves']],
     # sélecteur de séance « piste » (26/11/2026) : carnets à bouton « S4 ▾ »
-    'applis-eleves/eps-seances.js':    ['demi-fond-eleves/eps-seances.js', 'Carnet-Step-/eps-seances.js'],
+    'applis-eleves/eps-seances.js':    [f'{r}/eps-seances.js' for r in ['demi-fond-eleves', 'Carnet-Step-', 'cross-training-eleves', 'badminton-eleves', 'tennis-de-table-eleves', 'musculation-eleves']],
     'ecran-de-cours/commun/eps-aide.js':   [f'{r}/eps-aide.js' for r in ELEVES + PROFS],
     'ecran-de-cours/commun/eps-maj.js':    [f'{r}/eps-maj.js' for r in ELEVES + PROFS],
     'ecran-de-cours/commun/eps-coffre.js': [f'{r}/eps-coffre.js' for r in PROFS] + ['Carnet-Step-/prof/eps-coffre.js'],
