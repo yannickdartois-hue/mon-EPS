@@ -22,6 +22,6 @@ Ensuite : tester les applis modifiées, puis un commit par dépôt. La liste des
 | `ecran-de-cours/commun/eps-maj.js` | Bandeau « Nouvelle version » | élèves + profs |
 | `ecran-de-cours/commun/eps-coffre.js` | Sauvegardes protégées par mot de passe | profs |
 | `ecran-de-cours/commun/eps-garde.js` | Rappel de sauvegarde (bandeau rouge) | profs |
-| `ecran-de-cours/commun/eps-demo.js` | Barre violette « 🎭 DÉMO · rien n'est enregistré · Quitter » (remplace le bandeau jaune) | applis avec mode démo, CCF demi-fond |
+| `ecran-de-cours/commun/eps-demo.js` | Bandeau violet horizontal « 🎭 DÉMO · rien n'est enregistré · Quitter », en haut de la page, dans le flux (26/11/2026 : ne recouvre plus le contenu ; option `data-dans` pour les applis à en-tête fixe : 800 m, Marche 30') | applis avec mode démo, CCF demi-fond |
 
 Musculation (élève et prof) reçoit les mêmes modules communs que les autres applis (sauf les avatars, non utilisés) depuis le 20/11/2026.
