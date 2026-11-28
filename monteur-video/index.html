@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Monteur vidéo · MON EPS</title>
+<meta name="theme-color" content="#334155">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+@font-face{font-family:"Archivo";src:url(../polices/archivo.woff2) format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Atkinson";src:url(../polices/atkinson-400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Atkinson";src:url(../polices/atkinson-700.woff2) format("woff2");font-weight:700;font-display:swap}
+:root{--bg:#f3f5f8;--card:#fff;--bd:#dde2e8;--tx:#1c2128;--tx2:#5b6470;--ac:#334155;--ok:#15803d;--r:16px;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:18px/1.4 Atkinson,system-ui,sans-serif;padding-bottom:110px}
+h1,h2,.ar{font-family:Archivo,system-ui,sans-serif}
+header{background:var(--ac);color:#fff;padding:calc(14px + env(safe-area-inset-top)) 18px 14px;display:flex;gap:12px;align-items:center}
+header a{color:#fff;text-decoration:none;font-size:15px;opacity:.85}
+header h1{margin:0;font-size:24px;flex:1}
+main{max-width:860px;margin:0 auto;padding:14px}
+section.c{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin:0 0 14px}
+section.c>h2{margin:0 0 10px;font-size:21px;display:flex;gap:10px;align-items:center}
+.n{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ac);color:#fff;font-size:16px;flex:none}
+label{display:block;font-size:15px;color:var(--tx2);margin:10px 0 4px}
+input[type=text],textarea,select{width:100%;font:inherit;padding:12px;border:1px solid var(--bd);border-radius:12px;background:#fff;color:var(--tx)}
+textarea{min-height:92px;resize:vertical}
+button,.bt{font:600 18px Atkinson,system-ui,sans-serif;min-height:52px;padding:0 18px;border-radius:12px;border:1px solid var(--bd);background:#fff;color:var(--tx);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+button.p,.bt.p{background:var(--ac);border-color:var(--ac);color:#fff}
+button.g{background:var(--ok);border-color:var(--ok);color:#fff}
+button.s{min-height:44px;padding:0 12px;font-size:16px}
+button:disabled{opacity:.45}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row>*{flex:1 1 auto}
+.aide{font-size:15px;color:var(--tx2);margin:6px 0 0}
+.apps{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.apps button{flex-direction:column;min-height:96px;padding:8px 4px;font-size:15px;font-weight:600;line-height:1.15;gap:4px}
+.apps button img{width:46px;height:46px;border-radius:11px}
+.apps button.on{outline:3px solid var(--ac);background:#eef2f7}
+.ecr{display:grid;grid-template-columns:150px 1fr;gap:12px;border:1px solid var(--bd);border-radius:14px;padding:10px;margin:10px 0;background:#fafbfc}
+.ecr canvas{width:150px;height:267px;border-radius:10px;background:#0d1117;touch-action:manipulation;cursor:crosshair}
+.ecr .t{font:700 17px Archivo,sans-serif;display:flex;justify-content:space-between;align-items:center;gap:6px}
+.ecr input[type=range]{width:100%}
+.mini{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.mini button{min-height:44px;padding:0 10px;font-size:16px}
+.dur{font-size:15px;color:var(--tx2)}
+@media (max-width:520px){.ecr{grid-template-columns:1fr}.ecr canvas{width:100%;max-width:300px;height:auto;aspect-ratio:9/16;margin:0 auto;display:block}}
+.ch{display:flex;gap:8px;flex-wrap:wrap}
+.ch label{margin:0;flex:1 1 140px;display:flex;gap:8px;align-items:center;border:1px solid var(--bd);border-radius:12px;padding:12px;font-size:17px;color:var(--tx);background:#fff}
+.ch label:has(input:checked){outline:3px solid var(--ac);background:#eef2f7}
+.tot{font:700 20px Archivo,sans-serif}
+.tot.trop{color:#b42318}
+#barre{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--bd);padding:10px 14px calc(10px + env(safe-area-inset-bottom));display:flex;gap:10px;z-index:5}
+#barre button{flex:1}
+#scene{position:fixed;inset:0;background:rgba(5,8,12,.94);z-index:20;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px}
+#scene.on{display:flex}
+#scene canvas{max-height:calc(100vh - 150px);max-width:100%;aspect-ratio:9/16;border-radius:12px;background:#000}
+#scene .info{color:#e6edf3;font-size:17px;text-align:center}
+#scene .pr{width:min(420px,90vw);height:10px;border-radius:5px;background:#2a313b;overflow:hidden}
+#scene .pr i{display:block;height:100%;width:0;background:#22c55e}
+#res video{width:100%;max-width:360px;border-radius:12px;background:#000;display:block;margin:8px auto}
+.ok{background:#ecfdf3;border:1px solid #abefc6;border-radius:12px;padding:12px;color:#054f31}
+.att{background:#fffaeb;border:1px solid #fedf89;border-radius:12px;padding:12px;color:#7a2e0e;font-size:16px}
+details{margin-top:8px}summary{cursor:pointer;font-weight:700}
+</style>
+</head>
+<body>
+<header><a href="../" aria-label="Retour au portail">◀ MON EPS</a><h1>🎬 Monteur vidéo</h1></header>
+<main>
+  <section class="c">
+    <h2><span class="n">1</span>Quelle vidéo ?</h2>
+    <div class="row"><select id="projets" aria-label="Mes vidéos"></select><button class="s" id="nouveau">＋ Nouvelle</button><button class="s" id="suppr">🗑</button></div>
+    <label>Appli présentée (son logo fait la page de garde)</label>
+    <div class="apps" id="apps"></div>
+    <div class="row" style="margin-top:8px"><button class="s" id="logoBt">🖼 Mettre mon propre logo</button><input type="file" id="logoFi" accept="image/*" hidden></div>
+    <label for="titre">Titre de la séance</label>
+    <input type="text" id="titre" placeholder="Ex. Séance 2 — Trouver sa charge avec le 10 RM">
+    <label for="sous">Sous-titre (facultatif)</label>
+    <input type="text" id="sous" placeholder="Ex. Musculation · Terminale">
+  </section>
+
+  <section class="c">
+    <h2><span class="n">2</span>Tes captures d’écran</h2>
+    <p class="aide">Une capture = un moment de la vidéo. Tape une ou deux phrases courtes. Mets un mot entre <b>**étoiles**</b> pour l’écrire en jaune. Touche l’aperçu pour choisir la zone à montrer.</p>
+    <details><summary>Comment faire une capture ?</summary><p class="aide">iPhone : bouton du côté + volume haut. iPad : bouton du haut + volume haut. Android / Galaxy Tab : marche + volume bas. Ouvre l’appli en mode démo pour ne montrer aucun nom d’élève.</p></details>
+    <div id="ecrans"></div>
+    <div class="row"><button class="p" id="ajout">＋ Ajouter des captures</button><input type="file" id="ajoutFi" accept="image/*" multiple hidden></div>
+    <label for="fin">Dernier écran</label>
+    <input type="text" id="fin" placeholder="Bonne séance !">
+  </section>
+
+  <section class="c">
+    <h2><span class="n">3</span>Musique</h2>
+    <div class="ch">
+      <label><input type="radio" name="mus" value="sombre"> Sombre (fabriquée ici, libre de droits)</label>
+      <label><input type="radio" name="mus" value="fichier"> Mon fichier son</label>
+      <label><input type="radio" name="mus" value="aucune"> Aucune</label>
+    </div>
+    <div class="row" id="fichRow" style="margin-top:8px"><button class="s" id="musBt">🎵 Choisir un fichier (mp3, m4a)</button><input type="file" id="musFi" accept="audio/*" hidden><span class="dur" id="musNom"></span></div>
+    <label for="vol">Volume de la musique</label>
+    <input type="range" id="vol" min="0" max="100" step="5">
+    <div class="row" style="margin-top:8px"><button class="s" id="ecoute">▶ Écouter 10 s</button></div>
+  </section>
+
+  <section class="c">
+    <h2><span class="n">4</span>Créer la vidéo</h2>
+    <div class="ch">
+      <label><input type="radio" name="q" value="leger"> Légère, pour Pronote (≈ 4 à 6 Mo pour 2 min)</label>
+      <label><input type="radio" name="q" value="bonne"> Bonne qualité (projeter en classe)</label>
+    </div>
+    <p>Durée : <span class="tot" id="tot">0 s</span> <span class="dur">(2 min maximum, calculée selon la longueur des textes)</span></p>
+    <p class="aide">La vidéo s’enregistre en temps réel : garde l’écran allumé et reste sur cette page pendant la création.</p>
+    <div id="res"></div>
+  </section>
+</main>
+
+<div id="barre"><button id="apercu">▶ Aperçu</button><button class="g" id="creer">🎬 Créer la vidéo</button></div>
+<div id="scene"><canvas id="cv"></canvas><div class="pr"><i id="prog"></i></div><div class="info" id="info"></div><button id="stop">■ Arrêter</button></div>
+
+<script src="app.js"></script>
+<script>if('serviceWorker' in navigator&&location.protocol==='https:'){addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})})}</script>
+<script src="eps-maj.js" data-confidentialite="non"></script>
+</body>
+</html>

@@ -204,7 +204,7 @@ const CONFIG = {
                  ["acro"], ["danse"], ["gym"], ["escalade"], ["natation"], ["muscu"], ["seance"], ["eleve"]] },
     { id: "coordo", title: "Coordo & évaluation", icon: "fa-clipboard-check", color: "#334155",
       topic: "coordo",
-      repos: ["mes-classes", "releve-notes", "ccf-demi-fond-prof", "800m-ponctuel", "marche-30min", "convocations-ccf-eps", "convocations-as-pompidou"],
+      repos: ["mes-classes", "releve-notes", "monteur-video", "ccf-demi-fond-prof", "800m-ponctuel", "marche-30min", "convocations-ccf-eps", "convocations-as-pompidou"],
       keywords: [["marche"], ["800"], ["convoc"], ["ccf"], ["demi", "prof"], ["pronote"], ["service"], ["sst"], ["pv"]] },
     { id: "autres", title: "Autres", icon: "fa-toolbox", color: "#5b6470",
       topic: "autres", repos: [], keywords: [] },
@@ -238,6 +238,7 @@ const CONFIG = {
   overrides: {
     "mes-classes":                { title: "Mes classes (Pronote)", part: "coordo", activity: "classes" },
     "releve-notes":               { title: "Relevé de notes", part: "coordo", activity: "classes" },
+    "monteur-video":              { title: "Monteur vidéo", part: "coordo", activity: "classes" },
     "ccf-demi-fond-prof":         { title: "CCF demi-fond — prof", activity: "demifond" },
     "800m-ponctuel":              { title: "800 m ponctuel" },
     "carnet-numerique-demi-fond": { title: "Carnet numérique demi-fond" },
@@ -276,6 +277,9 @@ const CONFIG = {
 
   /* Applis sans dépôt à elles (sous-dossier d'un autre dépôt) : ajoutées à la liste comme un dépôt. */
   extras: [
+    { name: "monteur-video", description: "Monteur vidéo : une vidéo de 2 min max pour présenter une séance (logo de l'appli, tes captures, tes textes, musique sombre), légère pour Pronote.",
+      homepage: "https://yannickdartois-hue.github.io/mon-EPS/monteur-video/", html_url: "https://github.com/yannickdartois-hue/mon-EPS/tree/main/monteur-video",
+      has_pages: true, updated_at: "2026-11-28T12:00:00Z", fork: false, archived: false, topics: [] },
     { name: "mes-classes", description: "Lire les exports Pronote une fois par an : un seul fichier de classes, que toutes les applis prof savent importer.",
       homepage: "https://yannickdartois-hue.github.io/mon-EPS/mes-classes/", html_url: "https://github.com/yannickdartois-hue/mon-EPS/tree/main/mes-classes",
       has_pages: true, updated_at: "2026-11-08T12:00:00Z", fork: false, archived: false, topics: [] },
@@ -296,7 +300,7 @@ const CONFIG = {
 /* Icône partagée selon des mots du nom du dépôt : [mots requis, fichier dans icons/ sans .png] */
 const ICONRULES = [ [["tournoi", "volley"], "tournoi-volley"] ];
 /* Icônes d'applis présentes dans le dossier icons/ (nom du dépôt en minuscules) */
-const APPICONS = ["cycle-danse","tennis-de-table","cycle-tennis-de-table","tennis-de-table-eleves","tennis-de-table-prof","cycle-volley","volley-eleves","cycle-badminton","badminton-eleves","badminton-prof","badminton-test","cycle-demi-fond","demi-fond-eleves","demi-fond-prof","ccf-demi-fond-prof","carnet-numerique-demi-fond","800m-ponctuel","demi-fond-test","demi-fond-test-pro","demi-fond-test-prof","marche-30min","cycle-step","carnet-step-","carnet-step-prof","cycle-cross-training","cross-training-eleves","cross-training-prof","cross-training-pompidou","crosstraingtest","cycle-gym","gym-eleves","gym-prof","cycle-musculation","musculation-eleves","musculation-prof","convocations-ccf-eps","convocations-as-pompidou","brevet2026","mes-classes","releve-notes"];
+const APPICONS = ["monteur-video","cycle-danse","tennis-de-table","cycle-tennis-de-table","tennis-de-table-eleves","tennis-de-table-prof","cycle-volley","volley-eleves","cycle-badminton","badminton-eleves","badminton-prof","badminton-test","cycle-demi-fond","demi-fond-eleves","demi-fond-prof","ccf-demi-fond-prof","carnet-numerique-demi-fond","800m-ponctuel","demi-fond-test","demi-fond-test-pro","demi-fond-test-prof","marche-30min","cycle-step","carnet-step-","carnet-step-prof","cycle-cross-training","cross-training-eleves","cross-training-prof","cross-training-pompidou","crosstraingtest","cycle-gym","gym-eleves","gym-prof","cycle-musculation","musculation-eleves","musculation-prof","convocations-ccf-eps","convocations-as-pompidou","brevet2026","mes-classes","releve-notes"];
 
 const $ = id => document.getElementById(id);
 const state = { repos: [], act: "all", q: "" };
