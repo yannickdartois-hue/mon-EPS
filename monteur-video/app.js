@@ -259,6 +259,17 @@ async function ecouter(){if(ecoute){try{ecoute.close()}catch(e){}ecoute=null;$('
   $('ecoute').textContent='■ Arrêter';await lancerMusique(ac,ac.destination,10);
   setTimeout(()=>{if(ecoute===ac){ac.close();ecoute=null;$('ecoute').textContent='▶ Écouter 10 s'}},10500)}
 
+/* ---------- capture en grand ---------- */
+let GI=0;
+function ouvrirGrand(i){if(i<0||i>=P.scenes.length)return;GI=i;const s=P.scenes[i];
+  $('gNum').textContent='Écran '+(i+1)+' / '+P.scenes.length;$('gPrec').disabled=i===0;$('gSuiv').disabled=i===P.scenes.length-1;
+  const im=imgDe(s.img);$('gImg').src=im?im.src:'';$('gTitre').value=s.titre||'';$('gTexte').value=s.texte||'';
+  $('grand').classList.add('on');document.body.style.overflow='hidden';$('gImgBox').scrollTop=0;
+  $('gImg').onload=placerPt;placerPt()}
+function placerPt(){const s=P.scenes[GI],im=$('gImg'),pt=$('gPt');if(!s||!im.naturalWidth)return;
+  pt.style.left=(im.offsetLeft+(s.fx==null?0.5:s.fx)*im.offsetWidth)+'px';pt.style.top=(im.offsetTop+(s.fy==null?0:s.fy)*im.offsetHeight)+'px'}
+function fermerGrand(){$('grand').classList.remove('on');document.body.style.overflow='';$('gZone').checked=false;$('gImgBox').classList.remove('zone');rendreEcrans()}
+
 /* ---------- interface ---------- */
 const esc=s=>(s||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
 function rendreApps(){
@@ -269,7 +280,7 @@ function rendreApps(){
 function rendreProjets(){$('projets').innerHTML=LISTE.slice().sort((a,b)=>b.maj-a.maj).map(p=>'<option value="'+p.id+'"'+(p.id===P.id?' selected':'')+'>'+esc(p.titre||'Vidéo sans titre')+' · '+esc(appDe(p.app)[1])+'</option>').join('')||'<option>Nouvelle vidéo</option>'}
 function rendreEcrans(){
   const pl=plan();
-  $('ecrans').innerHTML=P.scenes.map((s,i)=>{const it=pl.items[i+1];return '<div class="ecr" data-i="'+i+'"><canvas width="270" height="480" data-cv="'+i+'" aria-label="Aperçu, touche pour choisir la zone"></canvas><div>'+
+  $('ecrans').innerHTML=P.scenes.map((s,i)=>{const it=pl.items[i+1];return '<div class="ecr" data-i="'+i+'"><canvas width="270" height="480" data-cv="'+i+'" aria-label="Aperçu, touche pour ouvrir en grand" role="button"></canvas><div>'+
     '<div class="t"><span>Écran '+(i+1)+'</span><span class="dur">'+(s.duree?'⏱ ':'')+it.d.toFixed(1).replace('.',',')+' s</span></div>'+
     '<label>Titre de l’étape</label><input type="text" data-f="titre" value="'+esc(s.titre)+'" placeholder="Ex. Je règle ma charge">'+
     '<label>Explication (1 ou 2 phrases)</label><textarea data-f="texte" placeholder="Ex. Je fais **10 répétitions** propres, pas une de plus.">'+esc(s.texte)+'</textarea>'+
@@ -306,11 +317,15 @@ function brancher(){
     else if(a==='auto')S[i].duree=null;
     else if(a==='suppr'){if(!confirm('Retirer cet écran ?'))return;S.splice(i,1)}
     sauver();rendreEcrans()});
-  /* toucher l'aperçu = centrer la zone montrée sur ce point */
-  E.addEventListener('pointerup',e=>{const cv=e.target.closest('canvas[data-cv]');if(!cv)return;const L=LAY.get(cv.getContext('2d'));if(!L)return;
-    const r=cv.getBoundingClientRect(),x=(e.clientX-r.left)*cv.width/r.width,y=(e.clientY-r.top)*cv.height/r.height;
-    if(x<L.bx||x>L.bx+L.bw||y<L.by||y>L.by+L.bh)return;const s=P.scenes[+cv.dataset.cv];
-    s.fx=(L.sx+(x-L.bx)*L.sw/L.bw)/L.iw;s.fy=(L.sy+(y-L.by)*L.sh/L.bh)/L.ih;sauver();dessinerMinis()});
+  /* toucher l'aperçu = ouvrir la capture en grand */
+  E.addEventListener('click',e=>{const cv=e.target.closest('canvas[data-cv]');if(cv)ouvrirGrand(+cv.dataset.cv)});
+  $('gFerm').onclick=fermerGrand;$('gPrec').onclick=()=>ouvrirGrand(GI-1);$('gSuiv').onclick=()=>ouvrirGrand(GI+1);
+  $('gZone').onchange=e=>{$('gImgBox').classList.toggle('zone',e.target.checked);placerPt()};
+  $('gTitre').oninput=e=>{P.scenes[GI].titre=e.target.value;sauver()};
+  $('gTexte').oninput=e=>{P.scenes[GI].texte=e.target.value;sauver()};
+  $('gImg').addEventListener('click',e=>{if(!$('gZone').checked)return;const r=e.target.getBoundingClientRect(),s=P.scenes[GI];
+    s.fx=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));s.fy=Math.max(0,Math.min(1,(e.clientY-r.top)/r.height));sauver();placerPt()});
+  addEventListener('keydown',e=>{if(e.key==='Escape'&&$('grand').classList.contains('on'))fermerGrand()});
   document.querySelectorAll('[name=mus]').forEach(r=>r.onchange=()=>{P.mus=r.value;$('fichRow').style.display=P.mus==='fichier'?'':'none';sauver();if(P.mus==='fichier'&&!P.musFi)$('musFi').click()});
   document.querySelectorAll('[name=q]').forEach(r=>r.onchange=()=>{P.q=r.value;sauver()});
   $('vol').oninput=e=>{P.vol=+e.target.value;sauver()};

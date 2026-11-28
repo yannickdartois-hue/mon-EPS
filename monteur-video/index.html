@@ -63,6 +63,19 @@ button:disabled{opacity:.45}
 #res video{width:100%;max-width:360px;border-radius:12px;background:#000;display:block;margin:8px auto}
 .ok{background:#ecfdf3;border:1px solid #abefc6;border-radius:12px;padding:12px;color:#054f31}
 .att{background:#fffaeb;border:1px solid #fedf89;border-radius:12px;padding:12px;color:#7a2e0e;font-size:16px}
+#grand{position:fixed;inset:0;z-index:15;background:#0d1117;display:none;flex-direction:column;height:100dvh}
+#grand.on{display:flex}
+#grand .gh{display:flex;gap:8px;align-items:center;padding:calc(30px + env(safe-area-inset-top)) 10px 8px;color:#fff}
+#grand .gh b{flex:1;text-align:center;font:700 19px Archivo,sans-serif}
+#grand .gh button{min-height:48px}
+#grand .gi{flex:1;overflow:auto;position:relative;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y pinch-zoom}
+#grand .gi img{display:block;width:100%;max-width:900px;margin:0 auto}
+#grand .gi.zone img{cursor:crosshair;outline:3px dashed #facc15;outline-offset:-3px}
+#grand #gPt{position:absolute;width:34px;height:34px;margin:-17px 0 0 -17px;border:4px solid #facc15;border-radius:50%;box-shadow:0 0 0 3px rgba(0,0,0,.5);pointer-events:none;display:none}
+#grand .gi.zone #gPt{display:block}
+#grand .gf{background:#fff;padding:10px 12px calc(10px + env(safe-area-inset-bottom));border-radius:16px 16px 0 0;display:grid;gap:8px}
+#grand .gf textarea{min-height:70px}
+#grand .gz{display:flex;gap:8px;align-items:center;margin:0;font-size:16px;color:#1c2128}
 details{margin-top:8px}summary{cursor:pointer;font-weight:700}
 </style>
 </head>
@@ -83,7 +96,7 @@ details{margin-top:8px}summary{cursor:pointer;font-weight:700}
 
   <section class="c">
     <h2><span class="n">2</span>Tes captures d’écran</h2>
-    <p class="aide">Une capture = un moment de la vidéo. Tape une ou deux phrases courtes. Mets un mot entre <b>**étoiles**</b> pour l’écrire en jaune. Touche l’aperçu pour choisir la zone à montrer.</p>
+    <p class="aide">Une capture = un moment de la vidéo. Tape une ou deux phrases courtes. Mets un mot entre <b>**étoiles**</b> pour l’écrire en jaune. Touche l’aperçu pour ouvrir la capture en grand : tu la lis tranquillement en écrivant ton texte, et tu peux y choisir la zone à montrer.</p>
     <details><summary>Comment faire une capture ?</summary><p class="aide">iPhone : bouton du côté + volume haut. iPad : bouton du haut + volume haut. Android / Galaxy Tab : marche + volume bas. Ouvre l’appli en mode démo pour ne montrer aucun nom d’élève.</p></details>
     <div id="ecrans"></div>
     <div class="row"><button class="p" id="ajout">＋ Ajouter des captures</button><input type="file" id="ajoutFi" accept="image/*" multiple hidden></div>
@@ -119,6 +132,15 @@ details{margin-top:8px}summary{cursor:pointer;font-weight:700}
   </section>
 </main>
 
+<div id="grand" role="dialog" aria-modal="true" aria-label="Capture en grand">
+  <div class="gh"><button id="gPrec" aria-label="Écran précédent">◀</button><b id="gNum"></b><button id="gSuiv" aria-label="Écran suivant">▶</button><button id="gFerm" class="p">✓ Fermer</button></div>
+  <div class="gi" id="gImgBox"><img id="gImg" alt="Capture d’écran"><i id="gPt"></i></div>
+  <div class="gf">
+    <label class="gz"><input type="checkbox" id="gZone"> 🎯 Toucher l’image pour choisir la zone montrée dans la vidéo</label>
+    <input type="text" id="gTitre" placeholder="Titre de l’étape">
+    <textarea id="gTexte" placeholder="Explication (1 ou 2 phrases). **mot** = en jaune"></textarea>
+  </div>
+</div>
 <div id="barre"><button id="apercu">▶ Aperçu</button><button class="g" id="creer">🎬 Créer la vidéo</button></div>
 <div id="scene"><canvas id="cv"></canvas><div class="pr"><i id="prog"></i></div><div class="info" id="info"></div><button id="stop">■ Arrêter</button></div>
 
