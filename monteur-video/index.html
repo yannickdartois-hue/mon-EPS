@@ -35,7 +35,7 @@ button:disabled{opacity:.45}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .row>*{flex:1 1 auto}
 .aide{font-size:15px;color:var(--tx2);margin:6px 0 0}
-.apps{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.apps-x{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
 .apps button{flex-direction:column;min-height:96px;padding:8px 4px;font-size:15px;font-weight:600;line-height:1.15;gap:4px}
 .apps button img{width:46px;height:46px;border-radius:11px}
 .apps button.on{outline:3px solid var(--ac);background:#eef2f7}
@@ -73,7 +73,7 @@ details{margin-top:8px}summary{cursor:pointer;font-weight:700}
     <h2><span class="n">1</span>Quelle vidéo ?</h2>
     <div class="row"><select id="projets" aria-label="Mes vidéos"></select><button class="s" id="nouveau">＋ Nouvelle</button><button class="s" id="suppr">🗑</button></div>
     <label>Appli présentée (son logo fait la page de garde)</label>
-    <div class="apps" id="apps"></div>
+    <div class="row"><img id="logoVu" alt="" width="56" height="56" style="flex:0 0 56px;border-radius:12px;background:#eef2f7"><select id="appSel" style="flex:1 1 200px"></select></div>
     <div class="row" style="margin-top:8px"><button class="s" id="logoBt">🖼 Mettre mon propre logo</button><input type="file" id="logoFi" accept="image/*" hidden></div>
     <label for="titre">Titre de la séance</label>
     <input type="text" id="titre" placeholder="Ex. Séance 2 — Trouver sa charge avec le 10 RM">
@@ -89,6 +89,9 @@ details{margin-top:8px}summary{cursor:pointer;font-weight:700}
     <div class="row"><button class="p" id="ajout">＋ Ajouter des captures</button><input type="file" id="ajoutFi" accept="image/*" multiple hidden></div>
     <label for="fin">Dernier écran</label>
     <input type="text" id="fin" placeholder="Bonne séance !">
+    <label for="sign">Signature (avec le logo et la date du jour)</label>
+    <input type="text" id="sign" placeholder="Yannick Dartois">
+    <input type="text" id="lycee" placeholder="Lycée Georges Pompidou · Castelnau-le-Lez" style="margin-top:8px">
   </section>
 
   <section class="c">

@@ -19,6 +19,7 @@ const APPS=[
  ['volley-eleves','Volley élève','#1d4ed8'],['cycle-volley','Cycle volley','#1d4ed8'],
  ['cycle-danse','Cycle danse','#a21caf'],['mon-eps','MON EPS','#334155']
 ];
+const ACT=[['Musculation','muscu'],['Demi-fond','demi-fond'],['Step','step'],['Cross training','cross'],['Gymnastique','gym'],['Tennis de table','tennis'],['Badminton','badminton'],['Volley-ball','volley'],['Danse','danse'],['Portail','mon-eps']];
 const appDe=id=>APPS.find(a=>a[0]===id)||APPS[0];
 
 /* ---------- stockage (IndexedDB) ---------- */
@@ -32,7 +33,7 @@ let tSauve=0;
 function sauver(){clearTimeout(tSauve);tSauve=setTimeout(()=>{if(!db)return;P.maj=Date.now();try{tx('readwrite').put(P)}catch(e){}},400)}
 function effacer(id){return new Promise(ok=>{if(!db)return ok();const r=tx('readwrite').delete(id);r.onsuccess=r.onerror=()=>ok()})}
 
-const nouveauP=()=>({id:'v'+Date.now(),app:'musculation-eleves',logo:null,titre:'',sous:'',fin:'Bonne séance !',mus:'sombre',vol:55,musFi:null,musNom:'',q:'leger',scenes:[],maj:Date.now()});
+const nouveauP=()=>({id:'v'+Date.now(),app:'musculation-eleves',logo:null,titre:'',sous:'',fin:'Bonne séance !',sign:'Yannick Dartois',lycee:'Lycée Georges Pompidou · Castelnau-le-Lez',mus:'sombre',vol:55,musFi:null,musNom:'',q:'leger',scenes:[],maj:Date.now()});
 let P=nouveauP(), LISTE=[];
 
 /* ---------- images ---------- */
@@ -54,9 +55,9 @@ function reduire(file){return new Promise(ok=>{const im=new Image();im.onload=()
 const mots=s=>(s||'').replace(/\*\*/g,'').trim().split(/\s+/).filter(Boolean).length;
 function plan(){
   const base=P.scenes.map(s=>s.duree||Math.min(15,Math.max(5,3+mots(s.titre)*0.3+mots(s.texte)*0.42)));
-  const fixe=4.5+3.5; let somme=base.reduce((a,b)=>a+b,0), k=1;
+  const fixe=4.5+5; let somme=base.reduce((a,b)=>a+b,0), k=1;
   if(somme+fixe>MAX)k=(MAX-fixe)/somme;
-  const items=[{k:'garde',d:4.5}];P.scenes.forEach((s,i)=>items.push({k:'ecran',i,d:Math.max(3,base[i]*k)}));items.push({k:'fin',d:3.5});
+  const items=[{k:'garde',d:4.5}];P.scenes.forEach((s,i)=>items.push({k:'ecran',i,d:Math.max(3,base[i]*k)}));items.push({k:'fin',d:5});
   let t=0;items.forEach(it=>{it.t=t;t+=it.d});return {items,total:t,serre:k<1,brut:somme+fixe};
 }
 
@@ -90,7 +91,7 @@ function dessiner(c,W,H,t,pl){
   const lt=t-it.t, p=lt/it.d;
   c.save();c.clearRect(0,0,W,H);fond(c,W,H,coul);
   if(it.k==='garde'||it.k==='fin'){
-    const a=ease(lt/0.9), L=(it.k==='garde'?210:150)*s*(0.92+0.08*a), cy=(it.k==='garde'?250:330)*s;
+    const a=ease(lt/0.9), L=(it.k==='garde'?210:170)*s*(0.92+0.08*a), cy=(it.k==='garde'?250:200)*s;
     c.globalAlpha=a;
     // halo
     const hg=c.createRadialGradient(W/2,cy+L/2,10,W/2,cy+L/2,L*1.3);hg.addColorStop(0,teinte(coul,0.1));hg.addColorStop(1,'rgba(0,0,0,0)');
@@ -107,7 +108,14 @@ function dessiner(c,W,H,t,pl){
       c.globalAlpha=a;c.fillStyle=coul;c.fillRect(W/2-40*s,H-118*s,80*s,5*s);
       c.fillStyle='#8b949e';c.font='400 '+(19*s)+'px Atkinson';c.textAlign='center';c.fillText('MON EPS · Lycée Georges Pompidou',W/2,H-80*s);c.textAlign='left';
     }else{
-      texte(c,P.fin||'Bonne séance !',40*s,y,W-80*s,44*s,'#ffffff',{fam:'Archivo',poids:800,centre:true,lh:1.15});
+      y+=texte(c,P.fin||'Bonne séance !',40*s,y,W-80*s,44*s,'#ffffff',{fam:'Archivo',poids:800,centre:true,lh:1.15})+60*s;
+      // signature : filet, nom, lycée, date
+      const b=ease((lt-0.5)/0.8);c.globalAlpha=b;
+      c.fillStyle=coul;c.fillRect(W/2-40*s,y,80*s,5*s);y+=46*s;c.textAlign='center';
+      const sg=P.sign==null?'Yannick Dartois':P.sign, ly=P.lycee==null?'Lycée Georges Pompidou · Castelnau-le-Lez':P.lycee;
+      if(sg){c.fillStyle='#ffffff';c.font='700 '+(30*s)+'px Archivo';c.fillText(sg,W/2,y);y+=38*s}
+      c.textAlign='left';if(ly)y+=texte(c,ly,40*s,y-24*s,W-80*s,22*s,'#cbd5e1',{centre:true})-10*s;c.textAlign='center';
+      c.fillStyle='#8b949e';c.font='400 '+(21*s)+'px Atkinson';c.fillText(new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}),W/2,y+28*s);c.textAlign='left';
     }
   }else{
     const sc=P.scenes[it.i];if(sc){
@@ -253,9 +261,11 @@ async function ecouter(){if(ecoute){try{ecoute.close()}catch(e){}ecoute=null;$('
 
 /* ---------- interface ---------- */
 const esc=s=>(s||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
-let ouvrirApps=false;
-function rendreApps(){const tout=ouvrirApps||!P.titre;
-  $('apps').innerHTML=APPS.filter(a=>tout||(a[0]===P.app&&!P.logo)).map(a=>'<button type="button" data-app="'+a[0]+'" class="'+(a[0]===P.app&&!P.logo?'on':'')+'"><img src="../icons/'+a[0]+'.png" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'">'+esc(a[1])+'</button>').join('')+(tout?'':'<button type="button" data-chg>Changer d’appli</button>')}
+function rendreApps(){
+  const grp=a=>{const i=ACT.findIndex(x=>a[0].includes(x[1])||a[1].toLowerCase().includes(x[0].toLowerCase()));return i<0?ACT.length-1:i};
+  $('appSel').innerHTML=ACT.map((g,gi)=>{const L=APPS.filter(a=>grp(a)===gi);return L.length?'<optgroup label="'+g[0]+'">'+L.map(a=>'<option value="'+a[0]+'"'+(a[0]===P.app?' selected':'')+'>'+esc(a[1])+'</option>').join('')+'</optgroup>':''}).join('');
+  $('logoVu').src=P.logo?URL.createObjectURL(P.logo):'../icons/'+P.app+'.png';
+  $('logoBt').textContent=P.logo?'↺ Reprendre le logo de l’appli':'🖼 Mettre mon propre logo'}
 function rendreProjets(){$('projets').innerHTML=LISTE.slice().sort((a,b)=>b.maj-a.maj).map(p=>'<option value="'+p.id+'"'+(p.id===P.id?' selected':'')+'>'+esc(p.titre||'Vidéo sans titre')+' · '+esc(appDe(p.app)[1])+'</option>').join('')||'<option>Nouvelle vidéo</option>'}
 function rendreEcrans(){
   const pl=plan();
@@ -274,15 +284,15 @@ function majTotal(){const pl=plan();$('tot').textContent=Math.floor(pl.total/60)
   $('tot').classList.toggle('trop',pl.serre);
   $('tot').title=pl.serre?'Textes longs : la vidéo est resserrée à 2 min ('+Math.round(pl.brut)+' s demandées).':'';
   document.querySelectorAll('.ecr').forEach(e=>{const i=+e.dataset.i,s=P.scenes[i],d=pl.items[i+1].d;e.querySelector('.dur').textContent=(s.duree?'⏱ ':'')+d.toFixed(1).replace('.',',')+' s'+(pl.serre?' (resserré)':'')})}
-function rendreTout(){rendreProjets();rendreApps();$('titre').value=P.titre;$('sous').value=P.sous;$('fin').value=P.fin;
+function rendreTout(){rendreProjets();rendreApps();$('titre').value=P.titre;$('sous').value=P.sous;$('fin').value=P.fin;$('sign').value=P.sign==null?'Yannick Dartois':P.sign;$('lycee').value=P.lycee==null?'Lycée Georges Pompidou · Castelnau-le-Lez':P.lycee;
   document.querySelectorAll('[name=mus]').forEach(r=>r.checked=r.value===P.mus);document.querySelectorAll('[name=q]').forEach(r=>r.checked=r.value===P.q);
   $('vol').value=P.vol;$('musNom').textContent=P.musNom||'';$('fichRow').style.display=P.mus==='fichier'?'':'none';$('res').innerHTML='';chargerLogo();rendreEcrans()}
 
 function brancher(){
-  $('apps').addEventListener('click',e=>{if(e.target.closest('[data-chg]')){ouvrirApps=true;return rendreApps()}const b=e.target.closest('[data-app]');if(!b)return;ouvrirApps=false;P.app=b.dataset.app;P.logo=null;sauver();rendreApps();chargerLogo();rendreProjets()});
-  $('logoBt').onclick=()=>$('logoFi').click();
+  $('appSel').onchange=e=>{P.app=e.target.value;P.logo=null;sauver();rendreApps();chargerLogo();rendreProjets()};
+  $('logoBt').onclick=()=>{if(P.logo){P.logo=null;sauver();rendreApps();chargerLogo()}else $('logoFi').click()};
   $('logoFi').onchange=async e=>{const f=e.target.files[0];if(!f)return;P.logo=await reduire(f);sauver();rendreApps();chargerLogo();e.target.value=''};
-  [['titre','titre'],['sous','sous'],['fin','fin']].forEach(([id,k])=>$(id).addEventListener('input',e=>{P[k]=e.target.value;sauver();if(k==='titre')rendreProjets()}));
+  [['titre','titre'],['sous','sous'],['fin','fin'],['sign','sign'],['lycee','lycee']].forEach(([id,k])=>$(id).addEventListener('input',e=>{P[k]=e.target.value;sauver();if(k==='titre')rendreProjets()}));
   $('ajout').onclick=()=>$('ajoutFi').click();
   $('ajoutFi').onchange=async e=>{const fs=[...e.target.files].sort((a,b)=>a.lastModified-b.lastModified||a.name.localeCompare(b.name));e.target.value='';
     for(const f of fs){const b=await reduire(f);if(b)P.scenes.push({img:b,titre:'',texte:'',zoom:50,fx:0.5,fy:0,duree:null})}sauver();rendreEcrans()};
