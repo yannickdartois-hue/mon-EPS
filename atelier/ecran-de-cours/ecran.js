@@ -499,5 +499,7 @@ document.addEventListener('click',ev=>{const a=ev.target.closest('[data-ov]');if
   voirOutil(id,a.dataset.auto?true:(g?!!g.a:J.c==='a'),t?t[1]:a.textContent)});
 
 rendre();
+/* lien direct depuis l'outil prof : …/index.html#cahier ouvre le cahier de textes (Pronote) */
+if(location.hash==='#cahier'){try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}setTimeout(()=>{try{ouvrirPronote()}catch(e){}},50)}
 if(J.started&&!J.fin)eveil();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{})})}
