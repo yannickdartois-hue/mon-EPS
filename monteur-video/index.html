@@ -15,6 +15,7 @@
 @font-face{font-family:"Atkinson";src:url(../polices/atkinson-700.woff2) format("woff2");font-weight:700;font-display:swap}
 :root{--bg:#f3f5f8;--card:#fff;--bd:#dde2e8;--tx:#1c2128;--tx2:#5b6470;--ac:#334155;--ok:#15803d;--r:16px;color-scheme:light}
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 body{margin:0;background:var(--bg);color:var(--tx);font:18px/1.4 Atkinson,system-ui,sans-serif;padding-bottom:110px}
 h1,h2,.ar{font-family:Archivo,system-ui,sans-serif}
 header{background:var(--ac);color:#fff;padding:calc(14px + env(safe-area-inset-top)) 18px 14px;display:flex;gap:12px;align-items:center}
@@ -85,6 +86,13 @@ button:disabled{opacity:.45}
 #gMk.mk-rond{display:block;width:60px;height:60px;margin:-30px 0 0 -30px;border:6px solid #facc15;border-radius:50%;box-shadow:0 0 0 3px rgba(0,0,0,.45)}
 #gMk.mk-fleche{display:block;width:0;height:0;font:900 54px/1 Archivo,sans-serif;color:#facc15;text-shadow:0 0 4px #000}
 #gMk.mk-fleche::before{content:"↖";position:absolute;left:-4px;top:-6px}
+#recad{position:fixed;inset:0;z-index:18;background:#0d1117;display:none;flex-direction:column;height:100dvh}
+#recad.on{display:flex}
+#recad .rh{display:flex;gap:8px;align-items:center;padding:calc(30px + env(safe-area-inset-top)) 10px 8px;color:#fff}
+#recad .rh b{flex:1;text-align:center;font:700 19px Archivo,sans-serif}
+#recad .rz{flex:1;display:grid;place-items:center;padding:12px;min-height:0}
+#recad canvas{max-width:100%;max-height:100%;touch-action:none;display:block}
+#recad .rf{background:#fff;padding:10px 12px calc(10px + env(safe-area-inset-bottom));font-size:15px;color:#5b6470;display:grid;gap:8px}
 details{margin-top:8px}summary{cursor:pointer;font-weight:700}
 </style>
 </head>
@@ -147,11 +155,16 @@ details{margin-top:8px}summary{cursor:pointer;font-weight:700}
   <div class="gh"><button id="gPrec" aria-label="Écran précédent">◀</button><b id="gNum"></b><button id="gSuiv" aria-label="Écran suivant">▶</button><button id="gFerm" class="p">✓ Fermer</button></div>
   <div class="gi" id="gImgBox"><img id="gImg" alt="Capture d’écran"><i id="gPt"></i><i id="gMk"></i></div>
   <div class="gf">
-    <div class="gm"><span>Toucher l’image :</span><button type="button" id="gSansMk" class="s" hidden>✕ Retirer le repère</button></div>
+    <div class="gm"><button type="button" id="gChg" class="s">🖼 Changer</button><button type="button" id="gRec" class="s">✂️ Recadrer</button><input type="file" id="chgFi" accept="image/*" hidden><span>Toucher l’image :</span><button type="button" id="gSansMk" class="s" hidden>✕ Retirer le repère</button></div>
     <div class="gm4"><label><input type="radio" name="gmode" value="lire" checked>👀 Lire</label><label><input type="radio" name="gmode" value="zone">🎯 Zone</label><label><input type="radio" name="gmode" value="rond">⭕ Rond</label><label><input type="radio" name="gmode" value="fleche">➜ Flèche</label></div>
     <input type="text" id="gTitre" placeholder="Titre de l’étape">
     <textarea id="gTexte" placeholder="Explication (1 ou 2 phrases). **mot** = en jaune"></textarea>
   </div>
+</div>
+<div id="recad" role="dialog" aria-modal="true" aria-label="Recadrer la capture">
+  <div class="rh"><button id="rAnn">Annuler</button><b>✂️ Recadrer</b><button id="rOk" class="g">✓ Valider</button></div>
+  <div class="rz"><canvas id="rCv"></canvas></div>
+  <div class="rf"><span>Fais glisser les coins ou le cadre. Touche ailleurs pour tracer un nouveau cadre.</span><div class="row"><button id="rTout" class="s">Toute l’image</button><button id="rOrig" class="s">↺ Image d’origine</button></div></div>
 </div>
 <div id="barre"><button id="apercu">▶ Aperçu</button><button class="g" id="creer">🎬 Créer la vidéo</button></div>
 <div id="scene"><canvas id="cv"></canvas><div class="pr"><i id="prog"></i></div><div class="info" id="info"></div><button id="stop">■ Arrêter</button></div>

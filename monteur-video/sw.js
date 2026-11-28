@@ -1,5 +1,5 @@
 /* Monteur vidéo — hors ligne (modèle du portail mon-eps). */
-const CACHE='monteur-video-v1.3';
+const CACHE='monteur-video-v1.4';
 const MES_CACHES=/^(?:monteur\-video\-v)\d+(?:\.\d+)?$/;
 const SHELL=['./','index.html','app.js','eps-maj.js','manifest.webmanifest','icon-32.png','icon-180.png','icon-192.png','icon-512.png',
  '../polices/archivo.woff2','../polices/atkinson-400.woff2','../polices/atkinson-700.woff2'];

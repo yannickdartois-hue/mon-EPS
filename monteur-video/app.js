@@ -290,7 +290,7 @@ async function ecouter(){if(ecoute){try{ecoute.close()}catch(e){}ecoute=null;$('
   setTimeout(()=>{if(ecoute===ac){ac.close();ecoute=null;$('ecoute').textContent='▶ Écouter 10 s'}},10500)}
 
 /* ---------- capture en grand ---------- */
-let GI=0;
+let GI=0,CHG=-1;
 const capsI=()=>P.scenes.map((s,i)=>s.type==='texte'?-1:i).filter(i=>i>=0);
 function ouvrirGrand(i){const C=capsI(),r=C.indexOf(i);if(r<0)return;GI=i;const s=P.scenes[i];
   $('gNum').textContent='Étape '+(r+1)+' sur '+C.length;$('gPrec').disabled=r===0;$('gSuiv').disabled=r===C.length-1;
@@ -304,6 +304,41 @@ function placerPt(){const s=P.scenes[GI],im=$('gImg'),pt=$('gPt'),mk=$('gMk');if
   mk.className=s.mk&&s.mk.k?'mk-'+s.mk.k:'';if(s.mk){mk.style.left=(im.offsetLeft+s.mk.x*im.offsetWidth)+'px';mk.style.top=(im.offsetTop+s.mk.y*im.offsetHeight)+'px'}
   $('gSansMk').hidden=!(s.mk&&s.mk.k)}
 function fermerGrand(){$('grand').classList.remove('on');document.body.style.overflow='';document.querySelector('[name=gmode][value=lire]').checked=true;$('gImgBox').classList.remove('zone');rendreEcrans()}
+
+/* ---------- recadrage ---------- */
+const RC={i:-1,src:null,im:null,r:null,k:1,drag:null};
+function ouvrirRecad(i){const sc=P.scenes[i];if(!sc||!sc.img)return;RC.i=i;RC.src=sc.img;$('recad').classList.add('on');chargerRecad()}
+function chargerRecad(){const im=new Image();im.onload=()=>{RC.im=im;const cv=$('rCv'),bx=cv.parentElement.getBoundingClientRect();
+    const k=Math.min((bx.width-24)/im.naturalWidth,(bx.height-24)/im.naturalHeight,1);RC.k=k;
+    cv.width=Math.round(im.naturalWidth*k);cv.height=Math.round(im.naturalHeight*k);
+    RC.r={x:0,y:0,w:im.naturalWidth,h:im.naturalHeight};$('rOrig').hidden=!P.scenes[RC.i].orig||RC.src===P.scenes[RC.i].orig;dessinerRecad()};
+  im.src=URL.createObjectURL(RC.src)}
+function dessinerRecad(){const cv=$('rCv'),c=cv.getContext('2d'),k=RC.k,r=RC.r;c.clearRect(0,0,cv.width,cv.height);
+  c.drawImage(RC.im,0,0,cv.width,cv.height);c.fillStyle='rgba(0,0,0,.6)';
+  const x=r.x*k,y=r.y*k,w=r.w*k,h=r.h*k;c.fillRect(0,0,cv.width,y);c.fillRect(0,y+h,cv.width,cv.height-y-h);c.fillRect(0,y,x,h);c.fillRect(x+w,y,cv.width-x-w,h);
+  c.strokeStyle='#facc15';c.lineWidth=3;c.strokeRect(x+1.5,y+1.5,w-3,h-3);
+  c.strokeStyle='rgba(250,204,21,.5)';c.lineWidth=1;c.beginPath();for(let t=1;t<3;t++){c.moveTo(x+w*t/3,y);c.lineTo(x+w*t/3,y+h);c.moveTo(x,y+h*t/3);c.lineTo(x+w,y+h*t/3)}c.stroke();
+  c.fillStyle='#facc15';[[x,y],[x+w,y],[x,y+h],[x+w,y+h]].forEach(([a,b])=>{c.fillRect(a-9,b-9,18,18)})}
+function rPt(e){const cv=$('rCv'),b=cv.getBoundingClientRect();return{x:(e.clientX-b.left)*cv.width/b.width/RC.k,y:(e.clientY-b.top)*cv.height/b.height/RC.k}}
+function rDown(e){if(!RC.im)return;e.preventDefault();$('rCv').setPointerCapture(e.pointerId);const p=rPt(e),r=RC.r,tol=26/RC.k;
+  const coins={nw:[r.x,r.y],ne:[r.x+r.w,r.y],sw:[r.x,r.y+r.h],se:[r.x+r.w,r.y+r.h]};
+  for(const n in coins)if(Math.abs(p.x-coins[n][0])<tol&&Math.abs(p.y-coins[n][1])<tol){RC.drag={m:n,r0:{...r},p0:p};return}
+  if(p.x>r.x&&p.x<r.x+r.w&&p.y>r.y&&p.y<r.y+r.h){RC.drag={m:'move',r0:{...r},p0:p};return}
+  RC.drag={m:'new',p0:p}}
+function rMove(e){const d=RC.drag;if(!d)return;const p=rPt(e),W=RC.im.naturalWidth,H=RC.im.naturalHeight,cl=(v,a,b)=>Math.max(a,Math.min(b,v)),mn=40/RC.k;
+  p.x=cl(p.x,0,W);p.y=cl(p.y,0,H);let r={...(d.r0||RC.r)};
+  if(d.m==='move'){r.x=cl(d.r0.x+p.x-d.p0.x,0,W-r.w);r.y=cl(d.r0.y+p.y-d.p0.y,0,H-r.h)}
+  else if(d.m==='new'){r={x:Math.min(p.x,d.p0.x),y:Math.min(p.y,d.p0.y),w:Math.abs(p.x-d.p0.x),h:Math.abs(p.y-d.p0.y)};if(r.w<mn||r.h<mn)return}
+  else{let x1=r.x,y1=r.y,x2=r.x+r.w,y2=r.y+r.h;if(d.m[1]==='w')x1=Math.min(p.x,x2-mn);else x2=Math.max(p.x,x1+mn);if(d.m[0]==='n')y1=Math.min(p.y,y2-mn);else y2=Math.max(p.y,y1+mn);r={x:x1,y:y1,w:x2-x1,h:y2-y1}}
+  RC.r=r;dessinerRecad()}
+function rUp(){RC.drag=null}
+function validerRecad(){const sc=P.scenes[RC.i],r=RC.r,im=RC.im;if(!sc||!im)return;
+  const plein=r.x<1&&r.y<1&&r.w>im.naturalWidth-2&&r.h>im.naturalHeight-2;
+  const fin=b=>{if(!sc.orig)sc.orig=sc.img;sc.img=b;if(b===sc.orig)sc.orig=null;sc.fx=0.5;sc.fy=0;sc.mk=null;sauver();$('recad').classList.remove('on');
+    if($('grand').classList.contains('on')&&GI===RC.i)ouvrirGrand(RC.i);else rendreEcrans()};
+  if(plein){if(RC.src!==sc.img)fin(RC.src);else $('recad').classList.remove('on');return}
+  const c=document.createElement('canvas');c.width=Math.round(r.w);c.height=Math.round(r.h);c.getContext('2d').drawImage(im,r.x,r.y,r.w,r.h,0,0,c.width,c.height);
+  c.toBlob(b=>{if(b)fin(b)},'image/jpeg',0.92)}
 
 /* ---------- interface ---------- */
 const esc=s=>(s||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
@@ -328,7 +363,7 @@ function rendreEcrans(){
         '<label>Zoom sur la capture</label><input type="range" min="0" max="100" step="5" data-f="zoom" value="'+(s.zoom==null?50:s.zoom)+'">'+
         (s.mk&&s.mk.k?'<p class="dur">'+(s.mk.k==='rond'?'⭕ Rond':'➜ Flèche')+' placé sur la capture</p>':''))+
     '<div class="mini"><button data-a="haut" '+(i?'':'disabled')+' aria-label="Monter">▲</button><button data-a="bas" '+(i<P.scenes.length-1?'':'disabled')+' aria-label="Descendre">▼</button>'+
-    (tx?'':'<button data-a="grand">🔍 En grand</button>')+
+    (tx?'':'<button data-a="grand">🔍 En grand</button><button data-a="chg">🖼 Changer</button><button data-a="rec">✂️ Recadrer</button>')+
     '<button data-a="moins">− 1 s</button><button data-a="plus">+ 1 s</button>'+(s.duree?'<button data-a="auto">Durée auto</button>':'')+'<button data-a="suppr" aria-label="Supprimer">🗑</button></div></div></div>'}).join('');
   dessinerMinis();majTotal();
 }
@@ -359,6 +394,8 @@ function brancher(){
     else if(a==='plus'||a==='moins')S[i].duree=Math.max(3,Math.min(20,Math.round((S[i].duree||pl.items[i+1].d)+(a==='plus'?1:-1))));
     else if(a==='auto')S[i].duree=null;
     else if(a==='grand')return ouvrirGrand(i);
+    else if(a==='chg'){CHG=i;return $('chgFi').click()}
+    else if(a==='rec')return ouvrirRecad(i);
     else if(a==='suppr'){if(!confirm('Retirer cet écran ?'))return;S.splice(i,1)}
     sauver();rendreEcrans()});
   /* toucher l'aperçu = ouvrir la capture en grand */
@@ -367,6 +404,15 @@ function brancher(){
   $('ajSecu').onclick=()=>{P.scenes.push({type:'texte',style:'secu',rub:'Sécurité',titre:'',texte:'',duree:null});sauver();rendreEcrans();$('ecrans').lastElementChild.scrollIntoView({block:'center'})};
   $('gFerm').onclick=fermerGrand;$('gPrec').onclick=()=>{const C=capsI();ouvrirGrand(C[C.indexOf(GI)-1])};$('gSuiv').onclick=()=>{const C=capsI();ouvrirGrand(C[C.indexOf(GI)+1])};
   document.querySelectorAll('[name=gmode]').forEach(r=>r.onchange=()=>{$('gImgBox').classList.toggle('zone',r.value!=='lire'&&r.checked);placerPt()});
+  $('gRec').onclick=()=>ouvrirRecad(GI);
+  $('rAnn').onclick=()=>$('recad').classList.remove('on');$('rOk').onclick=validerRecad;
+  $('rTout').onclick=()=>{RC.r={x:0,y:0,w:RC.im.naturalWidth,h:RC.im.naturalHeight};dessinerRecad()};
+  $('rOrig').onclick=()=>{const sc=P.scenes[RC.i];if(!sc.orig)return;RC.src=sc.orig;chargerRecad()};
+  const rcv=$('rCv');rcv.addEventListener('pointerdown',rDown);rcv.addEventListener('pointermove',rMove);rcv.addEventListener('pointerup',rUp);rcv.addEventListener('pointercancel',rUp);
+  $('gChg').onclick=()=>{CHG=GI;$('chgFi').click()};
+  $('chgFi').onchange=async e=>{const f=e.target.files[0];e.target.value='';const sc=P.scenes[CHG];if(!f||!sc)return;const b=await reduire(f);if(!b)return;
+    sc.img=b;sc.orig=null;sc.fx=0.5;sc.fy=0;sc.mk=null;sauver();
+    if($('grand').classList.contains('on')&&GI===CHG)ouvrirGrand(CHG);else rendreEcrans()};
   $('gSansMk').onclick=()=>{P.scenes[GI].mk=null;sauver();placerPt()};
   $('gTitre').oninput=e=>{P.scenes[GI].titre=e.target.value;sauver()};
   $('gTexte').oninput=e=>{P.scenes[GI].texte=e.target.value;sauver()};
